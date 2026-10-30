@@ -72,5 +72,3 @@ Thêm use case mới: lấy số UC lớn nhất hiện có + 1, rồi đặt v�
 ## Diagram
 
 Vẽ bằng [Mermaid](https://mermaid.js.org) ngay trong file `.md` (flowchart, erDiagram, sequenceDiagram, stateDiagram). GitHub và VS Code render sẵn, và diff được trong Pull Request như text bình thường.
-
-Test CI: [link gãy](design/khong-ton-tai.md)

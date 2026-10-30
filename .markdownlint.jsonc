@@ -1,0 +1,14 @@
+// Cấu hình markdownlint cho docs. Xem docs/design/ci-cd.md.
+{
+  "default": true,
+  // Câu tiếng Việt và bảng thường dài.
+  "MD013": false,
+  // Chỉ là khoảng trắng căn cột bảng, render vẫn đúng.
+  "MD060": false,
+  // Template dùng <slug>, <br> trong bảng có chủ đích.
+  "MD033": false,
+  // Nhãn in đậm (ví dụ **Liên quan**) là style có chủ đích, không phải heading.
+  "MD036": false,
+  // Frontmatter có title trùng với heading cấp 1; chỉ đếm heading trong nội dung.
+  "MD025": { "front_matter_title": "" }
+}

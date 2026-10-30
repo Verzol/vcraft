@@ -120,7 +120,7 @@ Resume: Chọn ảnh khác, lặp lại bước 4.
 | Field | Format | Validation | Required | Ghi chú |
 |---|---|---|---|---|
 | Họ tên chủ hộ | Text; length 100 | Không để trống | Có | Ví dụ: "Nguyễn Văn Bình" |
-| Email | Text; length 100 | Đúng định dạng email; duy nhất trong hệ thống (BR-2) | Có | Chỉ Admin xem. Ví dụ: "binh.maytre@gmail.com" |
+| Email | Text; length 100 | Đúng định dạng email; duy nhất trong hệ thống (BR-2) | Có | Chỉ Admin xem. Ví dụ: `binh.maytre@gmail.com` |
 | Số điện thoại | Text; length 10 | Số di động Việt Nam, 10 chữ số | Có | Chỉ Admin xem. Ví dụ: "0912345678" |
 | Mật khẩu | Text; length 8–64 | Tối thiểu 8 ký tự, có chữ và số | Có | Không hiển thị lại, không ghi log |
 | Tên xưởng | Text; length 150 | Không để trống | Có | Ví dụ: "Xưởng mây tre Bình An" |

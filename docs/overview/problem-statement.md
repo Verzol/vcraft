@@ -15,16 +15,19 @@ vCraft là nền tảng web cho Ban quản lý (BQL) một làng nghề truyền
 ## Vai trò
 
 **Hộ gia đình / Nghệ nhân (Artisan)**
+
 - Quản lý hồ sơ xưởng: lịch sử gia đình, hình ảnh xưởng, chứng nhận chất lượng.
 - Đăng sản phẩm kèm Nhật ký sản xuất (các mốc từ nguyên liệu đến thành phẩm).
 - Nhận và chào giá các Yêu cầu báo giá (Quote Request) từ khách mua sỉ.
 
 **Khách hàng (Buyer / Tourist)**
+
 - Xem danh mục sản phẩm theo hộ gia đình hoặc theo phân loại.
 - Xem bản đồ làng nghề để biết xưởng nào đang mở cửa đón khách tham quan / trải nghiệm.
 - Tạo Yêu cầu báo giá; hệ thống gửi đến các hộ phù hợp để chào giá (bidding).
 
 **Quản trị viên (Admin — Chủ tịch xã / Hội làng nghề)**
+
 - Kiểm duyệt và cấp tài khoản cho hộ gia đình (đúng người trong làng, tránh hàng nhái).
 - Quản lý tin tức cộng đồng: giá nguyên vật liệu, lịch cúp điện, chính sách hỗ trợ.
 

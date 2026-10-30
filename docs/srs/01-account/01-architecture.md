@@ -23,11 +23,13 @@ author: SA
 Người đại diện hộ điền form trên Frontend và gửi kèm ảnh minh chứng, ảnh xưởng trong **một request multipart**. Backend kiểm tra dữ liệu, lưu ảnh vào object storage, rồi trong một transaction tạo `users` (role `ARTISAN`), `workshops` (`approval_status = PENDING_APPROVAL`), `media` và thông báo cho Admin.
 
 **In scope:**
+
 - API đăng ký Artisan kèm upload ảnh.
 - Trang Trạng thái hồ sơ cho Artisan đang chờ duyệt.
 - Thông báo in-app `NT-UC01-01`.
 
 **Out of scope:**
+
 - Admin duyệt / từ chối (UC-02, chưa viết).
 - Đăng nhập, phiên làm việc.
 

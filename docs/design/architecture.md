@@ -39,7 +39,9 @@ flowchart LR
 
 ## Triển khai (Google Cloud)
 
-TBD — dịch vụ chạy app, cơ sở dữ liệu, lưu trữ ảnh, CI/CD.
+TBD — dịch vụ chạy app, cơ sở dữ liệu, lưu trữ ảnh.
+
+CI (kiểm tra chất lượng trên mỗi Pull Request): xem [ci-cd.md](ci-cd.md).
 
 ## Quyết định công nghệ
 
@@ -52,3 +54,4 @@ Mỗi quyết định một dòng. Khi đổi ý, không xóa dòng cũ: ghi "Th
 | 3 | | Database | | | | Đang bàn |
 | 4 | | Thư viện bản đồ (Google Maps / Leaflet) — UC bản đồ | | | | Đang bàn |
 | 5 | | Nơi deploy trên Google Cloud | | | | Đang bàn |
+| 6 | 2026-10-30 | CI/CD | Xem [ci-cd.md](ci-cd.md) | | | Đang bàn |

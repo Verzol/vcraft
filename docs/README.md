@@ -24,7 +24,7 @@ docs/
 │       ├── 01-architecture.md
 │       ├── 02-feature-description.md
 │       └── 03-test-cases.md
-└── design/                            # kiến trúc tổng + quyết định công nghệ, ERD, API, design system
+└── design/                            # kiến trúc tổng + quyết định công nghệ, ERD, API, design system, CI/CD
 ```
 
 ### Quy tắc đặt tên

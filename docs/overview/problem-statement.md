@@ -10,10 +10,7 @@ Nguồn: tài liệu đề bài INT3306 - Phát triển ứng dụng web, Fall 2
 
 ## Tổng quan
 
-vCraft là nền tảng web cho Ban quản lý (BQL) một làng nghề truyền thống. Trọng tâm là một "Triển lãm số" thay vì chỉ bán lẻ:
-
-- Mỗi hộ gia đình / nghệ nhân có không gian riêng để kể câu chuyện làm nghề, trưng bày sản phẩm độc bản và minh bạch quy trình sản xuất (truy xuất nguồn gốc).
-- BQL phân bổ đơn hàng lớn (mua buôn) cho nhiều hộ cùng thực hiện.
+vCraft là nền tảng web cho Ban quản lý (BQL) một làng nghề truyền thống. Trọng tâm là một "Triển lãm số" thay vì chỉ bán lẻ: mỗi hộ gia đình / nghệ nhân có không gian riêng để kể câu chuyện làm nghề, trưng bày sản phẩm độc bản và minh bạch quy trình sản xuất (truy xuất nguồn gốc).
 
 ## Vai trò
 

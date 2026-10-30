@@ -1,6 +1,6 @@
 # CI/CD
 
-> Trạng thái: đề xuất, chờ nhóm duyệt.
+> Trạng thái: đã áp dụng từ 2026-10-30.
 
 Frontend, Portal và Backend nằm chung repo này. Mỗi lần ai đó mở Pull Request vào `main`, GitHub Actions tự kiểm tra phần bị thay đổi. Chỉ merge được khi kiểm tra pass và có người approve. Chưa làm deploy tự động.
 
@@ -18,7 +18,7 @@ flowchart LR
 1. Tạo branch riêng cho mỗi việc, đặt tên theo [quy ước](#đặt-tên-branch-và-pr).
 2. Mở PR vào `main`, tiêu đề theo dạng `loại: mô tả`.
 3. Đợi CI chạy xong. Fail thì xem log trong tab **Checks** của PR, sửa rồi push lại.
-4. CI pass và có 1 approve thì squash merge.
+4. CI pass và có 1 approve thì squash merge. GitHub tự xóa branch sau khi merge.
 
 ## Đặt tên branch và PR
 
@@ -56,9 +56,23 @@ Công cụ cụ thể cho frontend và backend chọn sau khi nhóm chốt frame
 - Không push thẳng vào `main`, mọi thay đổi qua PR.
 - Cần CI pass và 1 approve.
 - Chỉ dùng squash merge: mỗi PR thành một commit, lấy tiêu đề PR làm commit message.
+- Khi gấp, admin được merge không cần approve. CI vẫn bắt buộc với mọi người, kể cả admin.
+
+## Sau khi PR được merge
+
+Branch trên GitHub tự bị xóa, nhưng branch ở máy vẫn còn. Dọn bằng:
+
+```sh
+git checkout main
+git pull
+git fetch --prune
+git branch -D <tên-branch>
+```
+
+Phải dùng `-D` vì squash merge tạo commit mới trên `main`, git ở máy không nhận ra branch đã được merge.
 
 ## Lộ trình
 
-1. **Bây giờ:** bật kiểm tra tiêu đề PR, kiểm tra tài liệu và các quy tắc cho `main`.
+1. **Đã xong:** kiểm tra tiêu đề PR, kiểm tra tài liệu và các quy tắc cho `main`.
 2. **Khi có code:** thêm kiểm tra cho `frontend/` và `backend/`.
 3. **Khi chốt nơi deploy:** bàn tiếp phần deploy tự động.

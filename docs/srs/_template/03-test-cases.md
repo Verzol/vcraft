@@ -23,6 +23,7 @@ HƯỚNG DẪN
 ## 1. Acceptance Test Cases
 
 **TC-1.1 — <Tên>** · Covers `UC-NN-AC-01`
+
 - **Given** <...>
 - **When** <...>
 - **Then** <...>
@@ -40,6 +41,7 @@ HƯỚNG DẪN
 ## 3. Security Tests
 
 **SEC-01 — <Tên>**
+
 - **Given** <...>
 - **When** <...>
 - **Then** <...>

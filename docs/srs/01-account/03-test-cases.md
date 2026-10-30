@@ -19,26 +19,31 @@ author: SA
 ## 1. Acceptance Test Cases
 
 **TC-1.1 — Đăng ký thành công** · Covers `UC-01-AC-01`, `AC-07`
+
 - **Given** người dùng chưa đăng nhập, email `binh.maytre@gmail.com` chưa tồn tại
 - **When** điền đủ thông tin, tải 1 ảnh minh chứng và 2 ảnh xưởng, chọn Gửi đăng ký
 - **Then** thấy màn hình Chờ duyệt; tài khoản gắn với 1 xưởng ở `PENDING_APPROVAL`; Admin có thông báo `NT-UC01-01`.
 
 **TC-1.2 — Email đã tồn tại** · Covers `UC-01-AC-02`, `AC-06`
+
 - **Given** đã có tài khoản Buyer với email `binh.maytre@gmail.com`
 - **When** đăng ký Artisan bằng email đó
 - **Then** hiển thị `ERR-UC01-01`; dữ liệu đã nhập được giữ; không tạo tài khoản mới.
 
 **TC-1.3 — Thiếu minh chứng** · Covers `UC-01-AC-03`
+
 - **Given** form đã điền đủ nhưng chưa tải minh chứng
 - **When** chọn Gửi đăng ký
 - **Then** hiển thị `ERR-UC01-02`; không có request nào được gửi.
 
 **TC-1.4 — Ảnh không hợp lệ** · Covers `UC-01-AC-04`
+
 - **Given** đang ở bước tải ảnh
 - **When** chọn tệp `giay-xac-nhan.pdf` hoặc ảnh 15 MB
 - **Then** hiển thị `ERR-UC01-03`; ảnh không được nhận.
 
 **TC-1.5 — Artisan chưa duyệt** · Covers `UC-01-AC-05`
+
 - **Given** tài khoản Artisan vừa đăng ký ở TC-1.1
 - **When** đăng nhập Portal và mở trực tiếp URL quản lý sản phẩm; đồng thời Guest tìm "Bình An" trên trang công khai
 - **Then** Artisan chỉ thấy trang Trạng thái hồ sơ; Guest không thấy xưởng.
@@ -60,15 +65,18 @@ author: SA
 ## 3. Security Tests
 
 **SEC-01 — Artisan chưa duyệt gọi API khác**
+
 - **Given** token của Artisan đang `PENDING_APPROVAL`
 - **When** gọi một API Portal khác, ví dụ tạo sản phẩm
 - **Then** 403.
 
 **SEC-02 — Minh chứng không công khai**
+
 - **Given** một ảnh có `kind = EVIDENCE`
 - **When** Guest truy cập URL hoặc storage key của ảnh
 - **Then** không xem được.
 
 **SEC-03 — Mật khẩu**
+
 - **When** đăng ký thành công rồi kiểm tra bảng `users` và log Backend
 - **Then** chỉ có `password_hash` (bcrypt); mật khẩu gốc không xuất hiện ở đâu.

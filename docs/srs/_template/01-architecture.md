@@ -31,9 +31,11 @@ HƯỚNG DẪN
 <Mô tả.>
 
 **In scope:**
+
 - <...>
 
 **Out of scope:**
+
 - <...>
 
 ---

@@ -5,7 +5,7 @@
 
 ## Cấu trúc
 
-```
+```text
 docs/
 ├── overview/problem-statement.md      # đề bài
 ├── brd/                               # yêu cầu nghiệp vụ — mỗi nhóm chức năng một thư mục

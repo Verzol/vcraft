@@ -1,0 +1,62 @@
+# Kiểm tra nội dung PR. Chỉ chạy job liên quan đến file bị đổi.
+# Required check duy nhất là `ci-ok`. Xem docs/design/ci-cd.md.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            docs:
+              - '**/*.md'
+              - '.markdownlint.jsonc'
+              - '.github/workflows/ci.yml'
+
+  docs:
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Markdown format
+        uses: DavidAnson/markdownlint-cli2-action@v25
+        with:
+          globs: '**/*.md'
+      - name: Internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Template chứa link mẫu như NN-<slug>, không phải link thật.
+          args: >-
+            --offline --no-progress
+            --exclude-path 'docs/brd/_template'
+            --exclude-path 'docs/srs/_template'
+            '**/*.md'
+          fail: true
+
+  # Gom kết quả các job trên. Job bị skip coi là pass.
+  # Thêm job mới thì thêm vào `needs` ở đây.
+  ci-ok:
+    if: always()
+    needs: [changes, docs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check job results
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

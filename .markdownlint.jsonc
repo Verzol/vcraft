@@ -9,6 +9,8 @@
   "MD033": false,
   // Nhãn in đậm (ví dụ **Liên quan**) là style có chủ đích, không phải heading.
   "MD036": false,
+  // Mỗi UC lặp lại cùng bộ mục (Detail, Main Flow...) theo template; chỉ cấm trùng giữa các heading anh em.
+  "MD024": { "siblings_only": true },
   // Frontmatter có title trùng với heading cấp 1; chỉ đếm heading trong nội dung.
   "MD025": { "front_matter_title": "" }
 }

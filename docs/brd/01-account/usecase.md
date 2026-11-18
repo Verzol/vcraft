@@ -3,7 +3,7 @@ title: "01 — Tài khoản"
 group: 01-account
 type: brd
 status: draft
-version: 0.2.0
+version: 0.4.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -43,7 +43,7 @@ Lộ trình của người muốn bán hàng: Guest xem trang giới thiệu bá
 | Đăng nhập, đăng xuất, phân quyền theo vai trò và trạng thái hồ sơ | Khu mua hàng, Kênh người bán, Trang quản trị | UC-04 |
 | Xem và cập nhật tên, liên hệ, mật khẩu | Khu mua hàng, Kênh người bán, Trang quản trị | UC-05 |
 
-**Ngoài phạm vi:** Xác thực email và khôi phục mật khẩu (EN-06); khóa tài khoản hoặc khóa xưởng (EN-01); rút hồ sơ đăng ký bán hàng (EN-18); Admin quản lý Admin khác (EN-19); gửi email kết quả duyệt (EN-05, MVP1 chỉ thông báo trong hệ thống); đổi email đăng nhập; xóa tài khoản; nộp lại hồ sơ đã Bị từ chối. Quản lý thông tin gian hàng thuộc UC-07.
+**Ngoài phạm vi:** Xác thực email và khôi phục mật khẩu (EN-06); khóa tài khoản Buyer, Artisan hoặc khóa xưởng (EN-01; khóa tài khoản Admin thuộc UC-34); rút hồ sơ đăng ký bán hàng (EN-18); gửi email kết quả duyệt (EN-05, MVP1 chỉ thông báo trong hệ thống); đổi email đăng nhập; xóa tài khoản; nộp lại hồ sơ đã Bị từ chối. Quản lý thông tin gian hàng thuộc UC-07. Quản lý tài khoản và phân quyền quản trị viên thuộc UC-34 (nhóm `09-portal`).
 
 **Liên quan**
 
@@ -53,6 +53,7 @@ Lộ trình của người muốn bán hàng: Guest xem trang giới thiệu bá
 | UC-07 | BRD `02-showcase` | Nhận thông tin từ hồ sơ để điền sẵn gian hàng; gửi yêu cầu đổi tên, địa chỉ để Admin duyệt (UC-02, Alt-05); chứng nhận xưởng đăng được Admin xác minh (UC-02, Alt-06). |
 | UC-13 | BRD `02-showcase` | Hộ tự mở gian hàng sau khi hồ sơ được duyệt. |
 | UC-29 | BRD `07-notification` | Hiển thị các thông báo NT-UC01-xx, NT-UC02-xx. |
+| UC-34 | BRD [09-portal](../09-portal/usecase.md) | Trưởng BQL tạo, phân quyền, khóa/mở khóa và đặt lại mật khẩu cho các tài khoản Admin; kiểm tra nhóm quyền ở UC-02 và trạng thái Đã khóa khi đăng nhập ở UC-04. |
 
 ## III. Use Cases
 
@@ -75,7 +76,7 @@ Lộ trình của người muốn bán hàng: Guest xem trang giới thiệu bá
 | Actors | Buyer. Guest cũng xem được trang giới thiệu bán hàng nhưng phải đăng ký hoặc đăng nhập trước khi bắt đầu (Alt-01). |
 | Channel | Khu mua hàng |
 | Preconditions | • Người dùng đã đăng nhập bằng tài khoản Buyer<br>• Tài khoản chưa có hồ sơ bán hàng nào đã gửi (hồ sơ Cần chỉnh sửa xử lý ở Alt-07) |
-| Expected | **Thành công:**<br>• Hồ sơ ở trạng thái Chờ duyệt<br>• Admin nhận NT-UC01-01<br>• Buyer thấy trang Trạng thái hồ sơ và vẫn mua hàng bình thường<br>**Thất bại:**<br>• Hiển thị lỗi, hồ sơ không được gửi, dữ liệu đã nhập được giữ lại |
+| Expected | **Thành công:**<br>• Hồ sơ ở trạng thái Chờ duyệt<br>• Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC01-01 (G-01, `09-portal`)<br>• Buyer thấy trang Trạng thái hồ sơ và vẫn mua hàng bình thường<br>**Thất bại:**<br>• Hiển thị lỗi, hồ sơ không được gửi, dữ liệu đã nhập được giữ lại |
 | Screens | • Trang giới thiệu bán hàng (bước 1)<br>• Form hồ sơ bán hàng: Thông tin xưởng (bước 3), Minh chứng và ảnh xưởng (bước 4), Xem lại và gửi (bước 5)<br>• Trang Trạng thái hồ sơ (bước 8) |
 | Notifications | NT-UC01-01, NT-UC01-02 |
 
@@ -91,7 +92,7 @@ Trigger: Người dùng chọn "Bán hàng cùng vCraft".
 | 4 | Buyer | Buyer tải lên minh chứng hộ làng nghề và ảnh xưởng. | Ảnh hiển thị trong form. |
 | 5 | Buyer | Buyer xem lại toàn bộ thông tin và chọn Gửi hồ sơ. | Hồ sơ được gửi. |
 | 6 | Hệ thống | Hệ thống kiểm tra dữ liệu, kiểm tra tài khoản chưa có hồ sơ đã gửi, ghi nhận hồ sơ. | Hồ sơ ở trạng thái Chờ duyệt, không sửa được. |
-| 7 | Hệ thống | Hệ thống thông báo cho mọi Admin. | NT-UC01-01 được gửi. |
+| 7 | Hệ thống | Hệ thống thông báo cho Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục. | NT-UC01-01 được gửi. |
 | 8 | Khu mua hàng | Khu mua hàng hiển thị trang Trạng thái hồ sơ. | Buyer thấy trạng thái Chờ duyệt, ngày gửi và các bước tiếp theo; vẫn mua hàng bình thường. |
 
 Outcome: Hồ sơ bán hàng ở trạng thái Chờ duyệt.
@@ -170,7 +171,7 @@ Resume: Buyer chọn tiếp tục thì quay lại bước đã dừng.
 | 2 | Buyer | Buyer chọn "Chỉnh sửa và gửi lại". | Form mở với dữ liệu hồ sơ cũ. |
 | 3 | Buyer | Buyer sửa thông tin hoặc minh chứng rồi chọn Gửi hồ sơ. | Hồ sơ được gửi lại. |
 | 4 | Hệ thống | Hệ thống kiểm tra dữ liệu như bước 6 của Main Flow, chuyển cùng hồ sơ về Chờ duyệt. | Không tạo hồ sơ mới; lịch sử các lần xử lý được giữ. |
-| 5 | Hệ thống | Hệ thống thông báo cho mọi Admin. | NT-UC01-02 được gửi. |
+| 5 | Hệ thống | Hệ thống thông báo cho Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục. | NT-UC01-02 được gửi. |
 
 Resume: Tiếp tục bước 8 của Main Flow. Lỗi dữ liệu dùng lại Alt-03 đến Alt-05.
 
@@ -203,8 +204,8 @@ Resume: Tiếp tục bước 8 của Main Flow. Lỗi dữ liệu dùng lại Al
 
 | Template ID | Trigger (step) | Channel | Recipient | Title | Body |
 |---|---|---|---|---|---|
-| NT-UC01-01 | 7 | In-app | Mọi Admin | Hồ sơ bán hàng mới chờ duyệt | "Xưởng {{workshopName}} vừa gửi hồ sơ bán hàng và đang chờ duyệt." |
-| NT-UC01-02 | Alt-07 bước 5 | In-app | Mọi Admin | Hồ sơ bán hàng được gửi lại | "Xưởng {{workshopName}} vừa chỉnh sửa và gửi lại hồ sơ bán hàng." |
+| NT-UC01-01 | 7 | In-app | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Hồ sơ bán hàng mới chờ duyệt | "Xưởng {{workshopName}} vừa gửi hồ sơ bán hàng và đang chờ duyệt." |
+| NT-UC01-02 | Alt-07 bước 5 | In-app | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Hồ sơ bán hàng được gửi lại | "Xưởng {{workshopName}} vừa chỉnh sửa và gửi lại hồ sơ bán hàng." |
 
 #### Business Rules
 
@@ -224,14 +225,14 @@ Resume: Tiếp tục bước 8 của Main Flow. Lỗi dữ liệu dùng lại Al
 
 | ID | Given | When | Then | Covers |
 |---|---|---|---|---|
-| UC-01-AC-01 | Buyer đã đăng nhập, chưa có hồ sơ | Điền đủ thông tin xưởng, tải minh chứng, xem lại và chọn Gửi hồ sơ | Hồ sơ ở trạng thái Chờ duyệt; mọi Admin nhận NT-UC01-01; hiện trang Trạng thái hồ sơ | Main Flow |
+| UC-01-AC-01 | Buyer đã đăng nhập, chưa có hồ sơ | Điền đủ thông tin xưởng, tải minh chứng, xem lại và chọn Gửi hồ sơ | Hồ sơ ở trạng thái Chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC01-01; hiện trang Trạng thái hồ sơ | Main Flow |
 | UC-01-AC-02 | Guest chưa đăng nhập đang ở trang giới thiệu bán hàng | Chọn "Bắt đầu đăng ký bán hàng", rồi đăng nhập | Quay lại đúng form hồ sơ, không phải trang chủ | Alt-01, BR-1 |
 | UC-01-AC-03 | Tài khoản đã có hồ sơ Chờ duyệt, Bị từ chối hoặc Đã duyệt | Mở form hồ sơ (kể cả bằng đường dẫn trực tiếp) | Hiển thị ERR-UC01-01 và trạng thái hiện có; không mở form mới | Alt-02, BR-2 |
 | UC-01-AC-04 | Chưa tải minh chứng | Chọn Gửi hồ sơ | Hiển thị ERR-UC01-02; hồ sơ không được gửi | Alt-03 |
 | UC-01-AC-05 | Đang ở bước tải ảnh | Chọn tệp PDF hoặc ảnh lớn hơn 10 MB | Hiển thị ERR-UC01-03; ảnh không được nhận | Alt-04 |
 | UC-01-AC-06 | Bỏ trống tên xưởng hoặc nhập số điện thoại sai | Chọn Gửi hồ sơ | Hiển thị ERR-UC01-04 và lỗi ngay tại trường sai; dữ liệu đã nhập được giữ | Alt-05 |
 | UC-01-AC-07 | Buyer đã nhập một phần thông tin | Đóng trang rồi quay lại "Bán hàng cùng vCraft" | Thấy "Tiếp tục hồ sơ đang soạn" với dữ liệu đã nhập; Admin chưa nhận thông báo | Alt-06, BR-8 |
-| UC-01-AC-08 | Hồ sơ Cần chỉnh sửa có lý do | Sửa và gửi lại | Cùng hồ sơ về Chờ duyệt; mọi Admin nhận NT-UC01-02; không tạo hồ sơ thứ hai | Alt-07, BR-6 |
+| UC-01-AC-08 | Hồ sơ Cần chỉnh sửa có lý do | Sửa và gửi lại | Cùng hồ sơ về Chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC01-02; không tạo hồ sơ thứ hai | Alt-07, BR-6 |
 | UC-01-AC-09 | Hồ sơ đang Chờ duyệt | Buyer mở hồ sơ để sửa | Không có nút sửa; chỉ xem được trạng thái | BR-3 |
 | UC-01-AC-10 | Hồ sơ Chờ duyệt, Cần chỉnh sửa hoặc Bị từ chối | Buyer mua hàng bình thường; Guest tìm xưởng trên trang công khai | Mua hàng được; xưởng không xuất hiện công khai; không có Kênh người bán | BR-4 |
 | UC-01-AC-11 | Có hồ sơ đã gửi | Buyer khác, Guest hoặc Artisan khác xem minh chứng; Guest xem trang gian hàng của xưởng đã mở | Minh chứng không xem được, chỉ Admin và người nộp xem; số điện thoại trong hồ sơ không hiện ở trang công khai | BR-5 |
@@ -371,7 +372,7 @@ Resume: Kết thúc. Khi xưởng sửa hoặc thay ảnh chứng nhận, nhãn 
 
 | ID | Rule | Source |
 |---|---|---|
-| BR-1 | Chỉ Admin xử lý hồ sơ, và chỉ xử lý được hồ sơ ở trạng thái Chờ duyệt. Admin không sửa nội dung hồ sơ thay người nộp. | Đề bài §3.3; Nhóm đề xuất |
+| BR-1 | Chỉ Trưởng BQL hoặc Admin có nhóm quyền `Kiểm duyệt & Danh mục` xử lý hồ sơ (UC-34 BR-4, `09-portal`), và chỉ xử lý được hồ sơ ở trạng thái Chờ duyệt. Admin không sửa nội dung hồ sơ thay người nộp. | Đề bài §3.3; Nhóm đề xuất; UC-34 BR-4 (`09-portal`) |
 | BR-2 | Đổi tên xưởng hoặc địa chỉ đã duyệt phải qua Admin duyệt; trong lúc chờ, gian hàng vẫn hiện thông tin cũ. | Overview §3.1 |
 | BR-3 | Từ chối luôn ghi lý do. Có hai kiểu: cho gửi lại (Cần chỉnh sửa) và không cho gửi lại (Bị từ chối). | Overview §1, §3.1 |
 | BR-4 | Duyệt hồ sơ cấp quyền bán và tạo gian hàng Đang chuẩn bị; Admin không duyệt lần hai khi hộ mở gian hàng, hộ tự mở khi đủ checklist (UC-13). | Overview §3.2 |
@@ -510,7 +511,7 @@ Số điện thoại không bắt buộc khi đăng ký; được nhập khi tha
 | BR-1 | Mỗi email chỉ gắn với một tài khoản, bất kể vai trò. Email so sánh không phân biệt chữ hoa chữ thường. | Overview §3.1 |
 | BR-2 | Tài khoản mới luôn là Buyer, chưa có quyền bán. Quyền bán chỉ có sau khi hồ sơ được duyệt (UC-01, UC-02). | Overview §1 |
 | BR-3 | Chưa xác thực email khi đăng ký; tài khoản dùng được ngay. | Overview §3.1 (EN-06) |
-| BR-4 | Không có đăng ký Admin công khai; tài khoản Admin được nạp sẵn. | Overview §3.1 |
+| BR-4 | Không có đăng ký Admin công khai; tài khoản Trưởng BQL được nạp sẵn, các tài khoản Admin khác do Trưởng BQL tạo và phân quyền ở UC-34 (nhóm `09-portal`). | Overview §3.1; UC-34 (`09-portal`) |
 | BR-5 | Sau đăng ký, giữ giỏ hàng của Guest và yêu cầu báo giá đang soạn, và đưa người dùng về đúng thao tác đang làm. | Overview §3.1 |
 
 #### Acceptance Criteria
@@ -554,7 +555,7 @@ Trigger: Guest chọn "Đăng nhập", hoặc hệ thống yêu cầu đăng nh�
 | 3 | Guest | Guest chọn Đăng nhập. | Thông tin được gửi. |
 | 4 | Hệ thống | Hệ thống xác thực email và mật khẩu, tạo phiên đăng nhập. | Người dùng đã đăng nhập. |
 | 5 | Hệ thống | Hệ thống gộp giỏ hàng Guest vào giỏ tài khoản (UC-30) và giữ yêu cầu báo giá đang soạn (UC-18). | Không mất dữ liệu đang làm. |
-| 6 | Khu mua hàng | Khu mua hàng đưa người dùng về thao tác hoặc trang đang làm. Nếu không có: Buyer và Artisan về Khu mua hàng (Artisan có nút Kênh người bán, Buyer đã gửi hồ sơ có mục Trạng thái hồ sơ); Admin về Trang quản trị. | Menu và nút hiển thị đúng quyền. |
+| 6 | Khu mua hàng | Khu mua hàng đưa người dùng về thao tác hoặc trang đang làm. Nếu không có: Buyer và Artisan về Khu mua hàng (Artisan có nút Kênh người bán, Buyer đã gửi hồ sơ có mục Trạng thái hồ sơ); Admin về mục đầu tiên Admin có quyền trong Trang quản trị theo thứ tự ưu tiên cố định (UC-34 BR-9, `09-portal`). | Menu và nút hiển thị đúng quyền. |
 
 Outcome: Người dùng đã đăng nhập, đang ở đúng khu vực.
 
@@ -612,7 +613,7 @@ Resume: Kết thúc.
 
 ##### Alt-06 — ERR-UC04-06 — Không có quyền vào Trang quản trị
 
-- At step: 6 · Trigger: Người dùng không phải Admin mở Trang quản trị.
+- At step: 6 · Trigger: Người dùng không phải Admin mở Trang quản trị, hoặc Admin không có nhóm quyền `Kiểm duyệt & Danh mục` mở chức năng của UC-02 (UC-34 BR-4, `09-portal`).
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
@@ -651,6 +652,16 @@ Resume: Sau khi đăng nhập thì quay lại đúng thao tác đó (bước 6).
 
 Resume: Kết thúc. Giỏ hàng tài khoản vẫn lưu cho lần đăng nhập sau.
 
+##### Alt-10 — ERR-UC04-07 — Tài khoản Admin đã bị khóa
+
+- At step: 4 · Trigger: Email và mật khẩu đúng nhưng tài khoản Admin đang ở trạng thái Đã khóa (UC-34 Alt-04, `09-portal`).
+
+| Step | Actor / System | Action | Result |
+|---|---|---|---|
+| 1 | Hệ thống | Hệ thống xác thực đúng mật khẩu nhưng từ chối tạo phiên vì tài khoản Đã khóa. | Hiển thị ERR-UC04-07; không tạo phiên đăng nhập. |
+
+Resume: Kết thúc.
+
 #### Data Fields
 
 | Field | Format | Validation | Required | Ghi chú |
@@ -667,7 +678,8 @@ Resume: Kết thúc. Giỏ hàng tài khoản vẫn lưu cho lần đăng nhập
 | ERR-UC04-03 | Chưa có hồ sơ bán hàng | "Tài khoản của bạn chưa có quyền bán hàng. Đăng ký bán hàng để bắt đầu." | Trang | Alt-04 |
 | ERR-UC04-04 | Hồ sơ chưa được duyệt | "Kênh người bán chỉ mở sau khi hồ sơ bán hàng được duyệt." | Trang | Alt-05 |
 | ERR-UC04-05 | Phiên hết hạn | "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại." | Toast | Alt-08 |
-| ERR-UC04-06 | Không phải Admin mở Trang quản trị | "Bạn không có quyền truy cập trang này." | Trang | Alt-06 |
+| ERR-UC04-06 | Không phải Admin mở Trang quản trị, hoặc Admin thiếu nhóm quyền mở UC-02 | "Bạn không có quyền truy cập trang này." | Trang | Alt-06 |
+| ERR-UC04-07 | Tài khoản Admin đang Đã khóa | "Tài khoản quản trị này đã bị khóa. Liên hệ Trưởng BQL để được hỗ trợ." | Inline | Alt-10 |
 
 #### Business Rules
 
@@ -681,6 +693,7 @@ Resume: Kết thúc. Giỏ hàng tài khoản vẫn lưu cho lần đăng nhập
 | BR-6 | Admin đăng nhập vào Trang quản trị; Admin không mua và không bán. | Overview §1 |
 | BR-7 | Tài khoản Buyer có hồ sơ chưa Đã duyệt vẫn đăng nhập và mua hàng bình thường. | Overview §1 |
 | BR-8 | Đăng nhập bằng Google là Should; không bắt buộc cho demo. | Overview §3.1 |
+| BR-9 | Kiểm tra trạng thái Đã khóa của tài khoản Admin chỉ thực hiện sau khi xác thực đúng mật khẩu; sai mật khẩu luôn trả ERR-UC04-01 bất kể tài khoản có bị khóa hay không, giữ đúng BR-4 (không lộ trạng thái tồn tại của email). | Chốt 2026-11-18; UC-34 BR-6 (`09-portal`) |
 
 #### Acceptance Criteria
 
@@ -698,7 +711,9 @@ Resume: Kết thúc. Giỏ hàng tài khoản vẫn lưu cho lần đăng nhập
 | UC-04-AC-10 | Người dùng đang đăng nhập | Chọn Đăng xuất, rồi bấm nút Quay lại của trình duyệt | Về trang chủ; trang cần đăng nhập không mở lại được; giỏ tài khoản còn nguyên khi đăng nhập lần sau | Alt-09 |
 | UC-04-AC-11 | Artisan đã duyệt đang ở Khu mua hàng | Vào Kênh người bán rồi quay về sàn | Không bị hỏi đăng nhập lại | BR-1 |
 | UC-04-AC-12 | Guest có 2 món trong giỏ | Đăng nhập | Giỏ gộp vào giỏ tài khoản; món trùng cộng số lượng | BR-3 |
-| UC-04-AC-13 | Admin | Đăng nhập | Về Trang quản trị; không có giỏ hàng, nút mua hay Kênh người bán | BR-6 |
+| UC-04-AC-13 | Admin | Đăng nhập | Về mục đầu tiên Admin có quyền trong Trang quản trị (UC-34 BR-9, `09-portal`); không có giỏ hàng, nút mua hay Kênh người bán | BR-6 |
+| UC-04-AC-14 | Tài khoản Admin đang Đã khóa | Nhập đúng email và mật khẩu, chọn Đăng nhập | Hiển thị ERR-UC04-07; không tạo phiên đăng nhập | Alt-10, BR-9 |
+| UC-04-AC-15 | Tài khoản Admin đang Đã khóa | Nhập sai mật khẩu | Hiển thị ERR-UC04-01 (không tiết lộ tài khoản đang bị khóa) | Alt-01, BR-9 |
 
 ### UC-05 — Quản lý thông tin tài khoản
 
@@ -799,7 +814,7 @@ Resume: Quay lại Alt-01 bước 1.
 | BR-2 | Chỉ sửa được thông tin của chính mình. Thông tin gian hàng (tên xưởng, địa chỉ, ảnh) quản lý ở UC-07, không ở đây. | Overview §3.1 |
 | BR-3 | Đổi họ tên hoặc số điện thoại không làm đổi thông tin đã ghi trong đơn và yêu cầu cũ. | Nhóm đề xuất (cùng nguyên tắc "sửa không đổi đơn cũ", Overview §3.2) |
 | BR-4 | Đổi mật khẩu kết thúc các phiên đăng nhập khác của tài khoản. | Nhóm đề xuất |
-| BR-5 | Tài khoản Admin được nạp sẵn; Admin chỉ sửa họ tên và mật khẩu của chính mình. | Overview §3.1 |
+| BR-5 | Tài khoản Trưởng BQL được nạp sẵn, các tài khoản Admin khác do Trưởng BQL quản lý ở UC-34 (nhóm `09-portal`); Admin chỉ tự sửa họ tên và mật khẩu của chính mình ở UC-05. | Overview §3.1; UC-34 (`09-portal`) |
 
 #### Acceptance Criteria
 

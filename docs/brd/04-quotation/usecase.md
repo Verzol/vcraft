@@ -3,7 +3,7 @@ title: "04 — Đặt hàng riêng"
 group: 04-quotation
 type: brd
 status: draft
-version: 0.1.0
+version: 0.2.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -14,7 +14,7 @@ Change history: [CHANGELOG.md](CHANGELOG.md)
 
 ## I. Overview
 
-Nhóm chức năng cho nhu cầu đặt làm riêng theo mẫu, kích thước, số lượng mà sản phẩm có sẵn không đáp ứng. Buyer gửi yêu cầu báo giá riêng cho một xưởng hoặc chung cho nhiều xưởng; xưởng nhận phản hồi bằng báo giá hoặc từ chối; Buyer so sánh, chấp nhận một báo giá (kèm đặt cọc nếu có) để tạo đơn đặt riêng, rồi theo dõi xưởng sản xuất và giao hàng. Mỗi yêu cầu có hạn nhận báo giá hoặc hạn phản hồi, mỗi báo giá có hiệu lực riêng, và hệ thống nhắc cả hai phía trước hạn. Báo giá là kín: Buyer thấy mọi báo giá, xưởng chỉ thấy báo giá của mình. Mỗi đơn do đúng một xưởng làm toàn bộ số lượng; BQL (Admin) không chia đơn và không xem giao dịch.
+Nhóm chức năng cho nhu cầu đặt làm riêng theo mẫu, kích thước, số lượng mà sản phẩm có sẵn không đáp ứng. Buyer gửi yêu cầu báo giá riêng cho một xưởng hoặc chung cho nhiều xưởng; xưởng nhận phản hồi bằng báo giá hoặc từ chối; Buyer so sánh, chấp nhận một báo giá (kèm đặt cọc nếu có) để tạo đơn đặt riêng, rồi theo dõi xưởng sản xuất và giao hàng. Mỗi yêu cầu có hạn nhận báo giá hoặc hạn phản hồi, mỗi báo giá có hiệu lực riêng, và hệ thống nhắc cả hai phía trước hạn. Báo giá là kín: Buyer thấy mọi báo giá, xưởng chỉ thấy báo giá của mình. Mỗi đơn do đúng một xưởng làm toàn bộ số lượng; BQL (Admin) không chia đơn và không can thiệp giao dịch (việc theo dõi chỉ xem toàn hệ thống ở Trang quản trị thuộc UC-35, nhóm `09-portal`).
 
 ### Terms
 
@@ -51,7 +51,7 @@ Nhóm chức năng cho nhu cầu đặt làm riêng theo mẫu, kích thước, 
 | Buyer hủy yêu cầu chưa chấp nhận | Khu mua hàng | UC-23 |
 | Buyer xem nhật ký sản xuất của đơn đặt riêng | Khu mua hàng | UC-24 |
 
-**Ngoài phạm vi:** Chia đơn cho nhiều xưởng, BQL chọn xưởng hoặc điều phối đơn; báo giá một phần số lượng; sửa yêu cầu sau khi gửi (hủy rồi tạo lại, trừ gia hạn); xưởng rút báo giá; phụ phí (làm gấp, khắc chữ, mức Should chưa mô tả); trao đổi tin nhắn theo yêu cầu (EN-04); yêu cầu có cấu trúc kích thước, hoa văn, vật liệu (EN-07); thông báo qua email (EN-05); thanh toán phần còn lại online và đối soát tiền cho xưởng (EN-15); giao từng phần, đổi trả, tranh chấp (EN-17); hủy đơn đặt riêng và hoàn cọc (UC-33, nhóm `08-order`); giới hạn số xưởng nhận mỗi yêu cầu gửi chung (KI-01); Admin xem hoặc can thiệp yêu cầu, báo giá, đơn.
+**Ngoài phạm vi:** Chia đơn cho nhiều xưởng, BQL chọn xưởng hoặc điều phối đơn; báo giá một phần số lượng; sửa yêu cầu sau khi gửi (hủy rồi tạo lại, trừ gia hạn); xưởng rút báo giá; phụ phí (làm gấp, khắc chữ, mức Should chưa mô tả); trao đổi tin nhắn theo yêu cầu (EN-04); yêu cầu có cấu trúc kích thước, hoa văn, vật liệu (EN-07); thông báo qua email (EN-05); thanh toán phần còn lại online và đối soát tiền cho xưởng (EN-15); giao từng phần, đổi trả, tranh chấp (EN-17); hủy đơn đặt riêng và hoàn cọc (UC-33, nhóm `08-order`); giới hạn số xưởng nhận mỗi yêu cầu gửi chung (KI-01); Admin can thiệp yêu cầu, báo giá, đơn (theo dõi chỉ xem ở Trang quản trị thuộc UC-35, nhóm `09-portal`).
 
 **Liên quan**
 
@@ -61,6 +61,7 @@ Nhóm chức năng cho nhu cầu đặt làm riêng theo mẫu, kích thước, 
 | BRD-03 | [03-traceability](../03-traceability/usecase.md) | UC-14 tạo lô cho đơn đặt riêng chưa Đã hủy hoặc Hoàn tất, một đơn nhiều lô; UC-17 trang nguồn gốc của lô đặt riêng không lộ Buyer, đơn, sản phẩm mẫu; UC-24 là nơi Buyer xem nhật ký lô của đơn. |
 | BRD-07 | `07-notification` | UC-29 hiển thị các thông báo NT-UC18-xx đến NT-UC23-xx. |
 | BRD-08 | `08-order` | UC-33 hủy đơn đặt riêng và hoàn cọc; cổng thanh toán cọc dùng chung cấu hình với đơn mua (ZaloPay sandbox, dự phòng VNPay sandbox). |
+| BRD-09 | [09-portal](../09-portal/usecase.md) | UC-35 theo dõi chỉ xem yêu cầu báo giá (đã gửi), báo giá các xưởng và đơn đặt riêng toàn hệ thống ở Trang quản trị. |
 
 ## III. Use Cases
 
@@ -352,7 +353,7 @@ Resume: Kết thúc.
 | BR-10 | Nhắc xưởng chưa phản hồi 24 giờ trước hạn, chỉ khi hạn cách ngày gửi từ 2 ngày trở lên; mỗi xưởng tối đa một lần nhắc. | Chốt 2026-11-18; ngưỡng cụ thể chờ chốt G-05 |
 | BR-11 | Hạn của yêu cầu là lúc xưởng ngừng gửi và cập nhật báo giá; khác với hiệu lực báo giá là thời hạn Buyer còn chấp nhận được báo giá. Đến hạn thì đóng nhận báo giá: còn báo giá hiệu lực thì Buyer so sánh và chốt (yêu cầu giữ Đang nhận báo giá, hiển thị nhãn "Chờ Buyer lựa chọn"); chưa có thì yêu cầu Hết hạn. | Chốt 2026-11-18; chờ chốt G-06 |
 | BR-12 | Chuyển trạng thái yêu cầu: Nháp sang Đã gửi; Đã gửi sang Đang nhận báo giá khi có báo giá đầu tiên; Đang nhận báo giá sang Đã chấp nhận (UC-20); Đã gửi hoặc Đang nhận báo giá sang Đã hủy (UC-23) hoặc Hết hạn (Alt-12, Alt-13; hoặc xưởng Không nhận ở yêu cầu gửi riêng, hoặc tất cả xưởng Không nhận ở yêu cầu gửi chung, UC-19 Alt-02); Hết hạn về Đã gửi (gia hạn, Alt-14) hoặc về Đang nhận báo giá (khi xưởng gửi báo giá mới còn hiệu lực theo Yêu cầu cập nhật giá, UC-19 Alt-07). Mọi chuyển lưu người thực hiện và thời điểm. | Overview mục 4; Chốt 2026-11-18 |
-| BR-13 | Admin không tạo, không xem yêu cầu. Artisan gửi yêu cầu với vai trò Buyer và không gửi cho xưởng của chính mình. | Overview mục 1 |
+| BR-13 | Admin không tạo yêu cầu và không xem qua UC-18/UC-21 (chỉ giám sát ở Trang quản trị qua UC-35, nhóm `09-portal`). Artisan gửi yêu cầu với vai trò Buyer và không gửi cho xưởng của chính mình. | Overview mục 1; UC-35 (`09-portal`) |
 | BR-14 | Các thời hạn trong nhóm và người đặt: hạn nhận báo giá và hạn phản hồi (Buyer chọn ngày); hiệu lực báo giá (xưởng chọn, tối đa 90 ngày); hạn trả lời Yêu cầu cập nhật giá 3 ngày (hệ thống); xác nhận nhận hàng 7 ngày (hệ thống, UC-22). | Nhóm đề xuất |
 
 #### Acceptance Criteria
@@ -836,7 +837,7 @@ Resume: Kết thúc.
 | BR-10 | Đến hạn nhận báo giá thì xưởng ngừng gửi và cập nhật, nhưng Buyer vẫn chốt báo giá còn hiệu lực. | Chốt 2026-11-18 |
 | BR-11 | Quá hiệu lực thì báo giá Hết hiệu lực và khóa nút chấp nhận; Buyer vẫn muốn mua thì chọn Yêu cầu cập nhật giá để xưởng xác nhận giá mới. Mỗi báo giá chỉ có một Yêu cầu cập nhật giá đang chờ. | Chốt 2026-11-18 |
 | BR-12 | Nhắc Buyer trước 24 giờ khi báo giá sắp hết hiệu lực mà chưa chốt; mỗi báo giá một lần nhắc. | Chốt 2026-11-18 |
-| BR-13 | Admin không xem, không can thiệp báo giá và đơn. Hủy đơn đặt riêng và hoàn cọc thuộc UC-33. | Overview mục 1 |
+| BR-13 | Admin không báo giá, không can thiệp và không xem qua UC-20/UC-21 (chỉ giám sát ở Trang quản trị qua UC-35, nhóm `09-portal`). Hủy đơn đặt riêng và hoàn cọc thuộc UC-33. | Overview mục 1; UC-35 (`09-portal`) |
 
 #### Acceptance Criteria
 
@@ -966,7 +967,7 @@ Resume: Kết thúc.
 
 | ID | Rule | Source |
 |---|---|---|
-| BR-1 | Buyer chỉ thấy yêu cầu, báo giá, đơn của mình; xưởng chỉ thấy yêu cầu mình được nhận, báo giá và đơn của xưởng mình; Admin không xem. | Overview mục 1 |
+| BR-1 | Buyer chỉ thấy yêu cầu, báo giá, đơn của mình; xưởng chỉ thấy yêu cầu mình được nhận, báo giá và đơn của xưởng mình; Admin không xem qua UC-21 (chỉ giám sát ở Trang quản trị qua UC-35, nhóm `09-portal`). | Overview mục 1; UC-35 (`09-portal`) |
 | BR-2 | Báo giá kín: Buyer thấy mọi báo giá; xưởng chỉ thấy báo giá của mình; xưởng không được chọn thấy "Đã đóng". | Overview 3.4 |
 | BR-3 | Trạng thái yêu cầu: Nháp, Đã gửi, Đang nhận báo giá, Đã chấp nhận, Đã hủy, Hết hạn; phản hồi của xưởng (Chưa phản hồi, Đã báo giá, Không nhận) hiển thị riêng. Nhãn hiển thị (không phải trạng thái): "Chờ báo giá" (còn nhận báo giá), "Chờ Buyer lựa chọn" (đã đóng nhận báo giá, còn báo giá hiệu lực), "Đang chờ cập nhật giá" (Hết hạn có Yêu cầu cập nhật giá đang chờ). Bên xưởng: nhãn "Cần cập nhật giá" khi Buyer đã Yêu cầu cập nhật giá và còn hạn trả lời. | Overview mục 4; Chốt 2026-11-18 |
 | BR-4 | Trạng thái đơn đặt riêng: Chờ sản xuất, Đang sản xuất, Đang giao, Đã giao, Hoàn tất, Đã hủy; trạng thái thanh toán hiển thị riêng. | Overview mục 4 |

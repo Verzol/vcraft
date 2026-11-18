@@ -3,7 +3,7 @@ title: "08 — Mua hàng có sẵn"
 group: 08-order
 type: brd
 status: draft
-version: 0.1.0
+version: 0.2.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -14,7 +14,7 @@ Change history: [CHANGELOG.md](CHANGELOG.md)
 
 ## I. Overview
 
-Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết và số lượng còn bán) trên sàn: giỏ hàng, thanh toán và tạo đơn, quản lý đơn mua hàng, hủy đơn. Guest và Buyer thêm sản phẩm vào giỏ (thêm giỏ không giữ hàng); Buyer chọn món của một xưởng, chọn phương thức giao và thanh toán rồi đặt hàng, lúc này hệ thống mới giữ hàng. Xưởng xác nhận hoặc từ chối đơn, chuẩn bị, giao hàng và xác nhận đã thu tiền COD; Buyer theo dõi và xác nhận đã nhận để đơn Hoàn tất. Nhóm này cũng quy định việc hủy đơn cho cả đơn mua hàng và đơn đặt riêng (tạo ở `04-quotation`), kèm hoàn số lượng và hoàn tiền đã thanh toán online. Mỗi đơn do đúng một xưởng thực hiện; MVP1 không thu phí sàn và không đối soát tiền cho xưởng; Admin không mua, không bán và không xem đơn.
+Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết và số lượng còn bán) trên sàn: giỏ hàng, thanh toán và tạo đơn, quản lý đơn mua hàng, hủy đơn. Guest và Buyer thêm sản phẩm vào giỏ (thêm giỏ không giữ hàng); Buyer chọn món của một xưởng, chọn phương thức giao và thanh toán rồi đặt hàng, lúc này hệ thống mới giữ hàng. Xưởng xác nhận hoặc từ chối đơn, chuẩn bị, giao hàng và xác nhận đã thu tiền COD; Buyer theo dõi và xác nhận đã nhận để đơn Hoàn tất. Nhóm này cũng quy định việc hủy đơn cho cả đơn mua hàng và đơn đặt riêng (tạo ở `04-quotation`), kèm hoàn số lượng và hoàn tiền đã thanh toán online. Mỗi đơn do đúng một xưởng thực hiện; MVP1 không thu phí sàn và không đối soát tiền cho xưởng; Admin không mua, không bán và không can thiệp đơn (chỉ theo dõi ở Trang quản trị qua UC-35, nhóm `09-portal`).
 
 ### Terms
 
@@ -46,7 +46,7 @@ Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết 
 | Xưởng xác nhận hoặc từ chối đơn, chuẩn bị, giao, xác nhận đã thu COD; Buyer theo dõi và xác nhận đã nhận | Kênh người bán, Khu mua hàng | UC-32 |
 | Hủy đơn mua hàng và đơn đặt riêng, yêu cầu hủy, hoàn số lượng và hoàn tiền | Khu mua hàng, Kênh người bán | UC-33 |
 
-**Ngoài phạm vi:** Mã giảm giá, thanh toán một phần hoặc trả góp; thanh toán nhiều xưởng trong một lần; giữ hàng khi thêm giỏ; giỏ cho sản phẩm chỉ nhận đặt riêng (đi qua UC-18); biến thể kích thước, màu (Should, chưa mô tả); sửa đơn sau khi đã tạo (muốn đổi địa chỉ hoặc số lượng thì hủy rồi đặt lại); sổ địa chỉ nhiều địa chỉ; đổi trả, tranh chấp, khiếu nại giao thiếu hoặc hỏng (EN-17); thanh toán thật và đối soát tiền cho xưởng (EN-15); thu phí sàn; tích hợp vận chuyển thật, nhiều hãng (EN-16) và chi tiết vận đơn, webhook GHN (mức Should, chưa mô tả ngoài phần tính phí ở UC-31); hóa đơn; đánh giá sau giao dịch (EN-09); thông báo qua email (EN-05); Admin xem, hủy hoặc can thiệp đơn; hạn thanh toán cọc của đơn đặt riêng (G-07 của `04-quotation`).
+**Ngoài phạm vi:** Mã giảm giá, thanh toán một phần hoặc trả góp; thanh toán nhiều xưởng trong một lần; giữ hàng khi thêm giỏ; giỏ cho sản phẩm chỉ nhận đặt riêng (đi qua UC-18); biến thể kích thước, màu (Should, chưa mô tả); sửa đơn sau khi đã tạo (muốn đổi địa chỉ hoặc số lượng thì hủy rồi đặt lại); sổ địa chỉ nhiều địa chỉ; đổi trả, tranh chấp, khiếu nại giao thiếu hoặc hỏng (EN-17); thanh toán thật và đối soát tiền cho xưởng (EN-15); thu phí sàn; tích hợp vận chuyển thật, nhiều hãng (EN-16) và chi tiết vận đơn, webhook GHN (mức Should, chưa mô tả ngoài phần tính phí ở UC-31); hóa đơn; đánh giá sau giao dịch (EN-09); thông báo qua email (EN-05); Admin hủy hoặc can thiệp đơn (theo dõi chỉ xem ở Trang quản trị thuộc UC-35, nhóm `09-portal`); hạn thanh toán cọc của đơn đặt riêng (G-07 của `04-quotation`).
 
 **Liên quan**
 
@@ -59,6 +59,7 @@ Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết 
 | BRD-04 | [04-quotation](../04-quotation/usecase.md) | UC-20 tạo đơn đặt riêng và thanh toán cọc qua cùng cổng thanh toán; UC-22 cập nhật đơn đặt riêng; UC-33 hủy đơn đặt riêng và hoàn cọc; UC-18 (Alt-15) tạo yêu cầu mới từ yêu cầu có đơn bị hủy; G-07 hạn thanh toán cọc. |
 | BRD-05 | [05-village-map](../05-village-map/usecase.md) | Nhận tại xưởng dùng nút Chỉ đường của bản đồ (UC-26, Alt-05). |
 | BRD-07 | [07-notification](../07-notification/usecase.md) | UC-29 hiển thị NT-UC31-01 đến NT-UC31-03, NT-UC32-01 đến NT-UC32-08, NT-UC33-01 đến NT-UC33-09; các mẫu này cần được bổ sung vào Danh mục thông báo (G-01 của BRD 07). |
+| BRD-09 | [09-portal](../09-portal/usecase.md) | UC-35 theo dõi chỉ xem đơn mua hàng, đơn đặt riêng và trạng thái thanh toán/hoàn tiền toàn hệ thống ở Trang quản trị. |
 
 ## III. Use Cases
 
@@ -769,7 +770,7 @@ Resume: Sau khi đăng nhập quay lại đúng đơn đang xử lý.
 | ID | Rule | Source |
 |---|---|---|
 | BR-1 | Đơn mua hàng chỉ chuyển trạng thái theo các bước: Chờ thanh toán sang Chờ xác nhận (thanh toán thành công) hoặc Đã hủy (quá 15 phút); Chờ xác nhận sang Đang chuẩn bị (xưởng xác nhận), Bị từ chối (xưởng từ chối), Đã hủy (Buyer hủy hoặc quá 3 ngày); Đang chuẩn bị sang Đang giao, Đã giao (nhận tại xưởng) hoặc Đã hủy (xưởng hủy); Đang giao sang Đã giao; Đã giao sang Hoàn tất. Bị từ chối, Đã hủy, Hoàn tất là trạng thái cuối. | Overview mục 4 |
-| BR-2 | Chỉ xưởng của đơn được xác nhận, từ chối, bắt đầu giao, đánh dấu Đã giao. Buyer chỉ xác nhận đã nhận và hủy theo UC-33. Hệ thống tự hủy (15 phút, 3 ngày) và tự hoàn tất (7 ngày). Admin không xem đơn. | Overview mục 1, 3.8 |
+| BR-2 | Chỉ xưởng của đơn được xác nhận, từ chối, bắt đầu giao, đánh dấu Đã giao. Buyer chỉ xác nhận đã nhận và hủy theo UC-33. Hệ thống tự hủy (15 phút, 3 ngày) và tự hoàn tất (7 ngày). Admin không thao tác đơn và không xem qua UC-32 (chỉ theo dõi ở Trang quản trị qua UC-35, nhóm `09-portal`). | Overview mục 1, 3.8; UC-35 (`09-portal`) |
 | BR-3 | Xưởng từ chối đơn phải nhập lý do và chỉ từ chối được ở Chờ xác nhận. Từ chối hoàn số lượng đã giữ; đơn đã thanh toán online được hoàn tiền (UC-33). | Overview 3.8 |
 | BR-4 | Hạn xác nhận 3 ngày tính từ lúc đơn vào Chờ xác nhận (COD: khi tạo đơn; online: khi thanh toán thành công). Hết hạn đơn tự hủy (trạng thái Đã hủy, không phải Bị từ chối), hoàn số lượng và hoàn tiền nếu đã thanh toán online. | Overview 3.8, mục 4 |
 | BR-5 | Nhận tại xưởng đi thẳng từ Đang chuẩn bị sang Đã giao, không qua Đang giao. Xưởng tự giao đi qua Đang giao. | Overview mục 4 |

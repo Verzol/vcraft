@@ -3,7 +3,7 @@ title: "07 — Trung tâm thông báo"
 group: 07-notification
 type: brd
 status: draft
-version: 0.1.0
+version: 0.2.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -53,6 +53,7 @@ Nhóm chức năng Notification Center: nơi duy nhất để người dùng đ�
 | BRD-05 | [05-village-map](../05-village-map/usecase.md) | Không phát thông báo. |
 | BRD-06 | [06-news](../06-news/usecase.md) | Phát NT-UC27-01. Mở thông báo dẫn tới UC-28 (Alt-02); tin đã Ẩn xử lý ở UC-28 (Alt-05). |
 | BRD-08 | [08-order](../08-order/usecase.md) | Phát NT-UC31-01 đến NT-UC31-03, NT-UC32-01 đến NT-UC32-08, NT-UC33-01 đến NT-UC33-09. Thông báo mở chi tiết đơn mua hàng và đơn đặt riêng (UC-32, UC-22); nội dung không chứa họ tên, số điện thoại, địa chỉ nhận (UC-31 BR-12, UC-32 BR-9, UC-33 BR-14). |
+| BRD-09 | [09-portal](../09-portal/usecase.md) | Tài khoản Admin Đã khóa ngừng nhận thông báo mới (UC-34 BR-6); phạm vi nhận thông báo của Admin theo nhóm quyền chốt ở G-01: NT-UC01-01, NT-UC01-02, NT-UC07-01 chỉ gửi Trưởng BQL và Admin có quyền `Kiểm duyệt & Danh mục`. |
 
 ## III. Use Cases
 
@@ -238,7 +239,7 @@ Resume: Tiếp tục bước 1.
 | BR-7 | Số chưa đọc làm mới khi tải trang, khi bấm chuông và định kỳ khi trang đang mở; không có đẩy thời gian thực. Bảng đang mở không tự đổi nội dung. Giao diện nghiệp vụ vẫn là nguồn trạng thái chính khi thông báo đến chậm. | Requirements mục 5; chờ chốt G-02 |
 | BR-8 | Chuông có ở Khu mua hàng, Kênh người bán và Trang quản trị cho người đã đăng nhập; Guest không có. Một tài khoản một chuông: Artisan nhận cả thông báo mua hàng và bán hàng, mỗi dòng mang nhãn khu vực. Bấm thông báo thuộc khu vực khác thì chuyển khu vực mà không đăng nhập lại. | Overview mục 1; UC-04 BR-1 (BRD 01); Nhóm đề xuất |
 | BR-9 | Nội dung thông báo được chụp lúc gửi: đổi tên xưởng, sửa sản phẩm, đổi trạng thái đối tượng sau đó không làm đổi thông báo cũ, và thông báo đã gửi không bị thu hồi khi đối tượng gốc bị ẩn hoặc đóng. | Nhóm đề xuất; UC-27 BR-14 (BRD 06) |
-| BR-10 | Đối tượng đích không còn khả dụng thì màn hình đích báo lỗi theo use case của nó. Thông báo vẫn Đã đọc, vẫn nằm trong danh sách; UC-29 không tự xóa thông báo. | UC-27 Alt-08, UC-28 Alt-05 (BRD 06); Nhóm đề xuất |
+| BR-10 | Đối tượng đích không còn khả dụng thì màn hình đích báo lỗi theo use case của nó. Thông báo vẫn Đã đọc, vẫn nằm trong danh sách; UC-29 không tự xóa thông báo. Ví dụ: Admin bị Trưởng BQL gỡ nhóm quyền liên quan (UC-34 Alt-03, `09-portal`) rồi bấm lại thông báo cũ — thông báo chuyển Đã đọc như thường, màn đích báo lỗi không có quyền của use case đó (ERR-UC04-06, ERR-UC12-03, ERR-UC27-06 hoặc ERR-UC35-04). | UC-27 Alt-08, UC-28 Alt-05 (BRD 06); UC-34 Alt-03 (`09-portal`); Nhóm đề xuất |
 | BR-11 | Thông báo không lộ thông tin ngoài quyền của người nhận. Use case phát chịu trách nhiệm về nội dung: ví dụ NT-UC20-03 không nêu xưởng được chọn hay giá, NT-UC18-01 không nêu họ tên, số điện thoại, địa chỉ chi tiết của Buyer. UC-29 không hiển thị dữ liệu nào ngoài nội dung đã chụp. | UC-21 BR-2, UC-18 BR-8 (BRD 04); Requirements mục 5 |
 | BR-12 | Một sự kiện chỉ phát một thông báo cho mỗi người nhận, kể cả khi thao tác gửi lặp hoặc đồng thời. Không gửi cho chính người thao tác. Không thông báo khi lưu nháp, chỉ xem hoặc thao tác thất bại. | Requirements mục 5; UC-27 BR-7 (BRD 06) |
 | BR-13 | Lỗi tạo hoặc chuyển thông báo không làm mất hoặc hoàn tác kết quả nghiệp vụ; người dùng vẫn xem được kết quả ở màn hình nghiệp vụ. | Requirements mục 5 |
@@ -262,7 +263,7 @@ Resume: Tiếp tục bước 1.
 | UC-29-AC-11 | Buyer B; thông báo của Buyer A; mã thông báo không tồn tại | Buyer B mở thẳng đường dẫn thông báo của A, rồi mở mã không tồn tại | Cả hai trường hợp hiển thị ERR-UC29-03; thông báo của A vẫn Chưa đọc | Alt-09, BR-14 |
 | UC-29-AC-12 | Phiên đã hết hạn khi người dùng đang xem bảng thông báo | Bấm một thông báo | Hiển thị ERR-UC04-05; đăng nhập lại xong, thông báo đã chọn được mở | Alt-10 |
 | UC-29-AC-13 | Guest chưa đăng nhập | Mở đầu trang; mở đường dẫn trang Thông báo | Không có chuông; được chuyển sang đăng nhập, đăng nhập xong vào trang Thông báo | Alt-11, BR-8 |
-| UC-29-AC-14 | Có hai Admin A, B và một Artisan; Buyer gửi hồ sơ bán hàng | Admin A mở NT-UC01-01 và đọc | Thông báo của A Đã đọc, số của A giảm; thông báo của B vẫn Chưa đọc, số của B không đổi; Artisan không có thông báo này | BR-2 |
+| UC-29-AC-14 | Có hai Admin A, B cùng có quyền Kiểm duyệt & Danh mục, và một Artisan; Buyer gửi hồ sơ bán hàng | Admin A mở NT-UC01-01 và đọc | Thông báo của A Đã đọc, số của A giảm; thông báo của B vẫn Chưa đọc, số của B không đổi; Artisan không có thông báo này | BR-2 |
 | UC-29-AC-15 | Buyer có NT-UC20-01 (báo giá sắp hết hiệu lực) và NT-UC22-02 (đơn đã giao) | Bấm từng thông báo | Mở So sánh báo giá; mở chi tiết đơn; báo giá chưa được chấp nhận và đơn chưa Hoàn tất cho tới khi Buyer tự thao tác ở màn hình đích; bấm lại thông báo đã đọc chỉ mở đích | BR-3 |
 | UC-29-AC-16 | Tài khoản có 5 thông báo Chưa đọc | Mở bảng, xem, đóng bảng mà không bấm thông báo nào | Vẫn 5 thông báo Chưa đọc; không có thao tác đánh dấu chưa đọc lại | BR-4 |
 | UC-29-AC-17 | Tài khoản lần lượt có 0, 7 và 150 thông báo Chưa đọc | Xem chuông | Không hiện số; hiện "7"; hiện "99+" | BR-5 |
@@ -283,14 +284,14 @@ Danh mục tổng hợp các mẫu thông báo đã khai báo trong các BRD; ti
 
 | Template ID | Sự kiện | Người nhận | Đích mở khi bấm | Khu vực | Use case phát |
 |---|---|---|---|---|---|
-| NT-UC01-01 | Có hồ sơ bán hàng mới | Mọi Admin | Chi tiết hồ sơ bán hàng (UC-02) | Quản trị | UC-01 |
-| NT-UC01-02 | Hồ sơ bán hàng được gửi lại | Mọi Admin | Chi tiết hồ sơ bán hàng, nhãn "Gửi lại" (UC-02) | Quản trị | UC-01 |
+| NT-UC01-01 | Có hồ sơ bán hàng mới | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Chi tiết hồ sơ bán hàng (UC-02) | Quản trị | UC-01 |
+| NT-UC01-02 | Hồ sơ bán hàng được gửi lại | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Chi tiết hồ sơ bán hàng, nhãn "Gửi lại" (UC-02) | Quản trị | UC-01 |
 | NT-UC02-01 | Hồ sơ được duyệt | Người nộp hồ sơ | Trang Trạng thái hồ sơ (UC-01) | Mua hàng | UC-02 |
 | NT-UC02-02 | Hồ sơ cần chỉnh sửa | Người nộp hồ sơ | Trang Trạng thái hồ sơ kèm lý do và nút Chỉnh sửa và gửi lại (UC-01, Alt-07) | Mua hàng | UC-02 |
 | NT-UC02-03 | Hồ sơ bị từ chối | Người nộp hồ sơ | Trang Trạng thái hồ sơ kèm lý do (UC-01) | Mua hàng | UC-02 |
 | NT-UC02-04 | Yêu cầu đổi tên, địa chỉ xưởng được duyệt | Artisan gửi yêu cầu | Thông tin gian hàng (UC-07) | Bán hàng | UC-02 |
 | NT-UC02-05 | Yêu cầu đổi tên, địa chỉ xưởng bị từ chối | Artisan gửi yêu cầu | Thông tin gian hàng (UC-07) | Bán hàng | UC-02 |
-| NT-UC07-01 | Xưởng xin đổi tên hoặc địa chỉ | Mọi Admin | Chi tiết yêu cầu "Đổi thông tin xưởng" (UC-02, Alt-05) | Quản trị | UC-07 |
+| NT-UC07-01 | Xưởng xin đổi tên hoặc địa chỉ | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Chi tiết yêu cầu "Đổi thông tin xưởng" (UC-02, Alt-05) | Quản trị | UC-07 |
 | NT-UC18-01 | Có yêu cầu báo giá mới | Từng xưởng nhận | Chi tiết yêu cầu nhận (UC-19) | Bán hàng | UC-18 |
 | NT-UC18-02 | Nhắc yêu cầu sắp đóng nhận báo giá | Xưởng nhận chưa phản hồi | Chi tiết yêu cầu nhận (UC-19) | Bán hàng | UC-18 |
 | NT-UC18-03 | Yêu cầu đã đóng nhận báo giá, chờ Buyer lựa chọn | Buyer sở hữu yêu cầu | So sánh báo giá (UC-20) | Mua hàng | UC-18 |

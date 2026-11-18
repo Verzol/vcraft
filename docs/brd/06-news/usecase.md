@@ -3,7 +3,7 @@ title: "06 — Tin tức cộng đồng"
 group: 06-news
 type: brd
 status: draft
-version: 0.1.0
+version: 0.2.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -47,6 +47,7 @@ Nhóm chức năng tin tức cộng đồng của làng nghề: Admin (BQL) so�
 | BRD-01 | [01-account](../01-account/usecase.md) | Admin đăng nhập vào Trang quản trị (UC-04). Mở đường dẫn Kênh người bán khi chưa đăng nhập thì chuyển sang đăng nhập (UC-04, Alt-07); tài khoản chưa có quyền bán bị từ chối (ERR-UC04-03, ERR-UC04-04), nên tin nội bộ chỉ Artisan đọc được (UC-28, BR-3). |
 | BRD-02 | [02-showcase](../02-showcase/usecase.md) | UC-06 hiện tối đa 3 tin công khai mới nhất lấy từ UC-28 và dẫn tới UC-28 khi chọn một tin (UC-28, BR-4, Alt-03); UC-06 có mục Tin tức ở menu và nút Xem tất cả ở khối tin, cùng mở danh sách tin công khai (UC-28, Main Flow, Alt-03; G-02). |
 | BRD-07 | `07-notification` | UC-29 hiển thị NT-UC27-01; mở thông báo dẫn tới UC-28 (Alt-02). |
+| BRD-09 | [09-portal](../09-portal/usecase.md) | UC-34 quy định chỉ Trưởng BQL hoặc Admin có nhóm quyền `Tin tức cộng đồng` mới quản lý tin ở UC-27 (UC-34 BR-4). |
 
 ## III. Use Cases
 
@@ -218,7 +219,7 @@ Resume: Quay lại bước 1.
 
 ##### Alt-13 — ERR-UC27-06 — Không có quyền
 
-- At step: 1 · Trigger: Người không phải Admin (Guest, Buyer, Artisan) gửi thao tác quản lý tin.
+- At step: 1 · Trigger: Người không phải Admin (Guest, Buyer, Artisan) gửi thao tác quản lý tin, hoặc Admin không có nhóm quyền `Tin tức cộng đồng` (UC-34 BR-4, `09-portal`).
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
@@ -295,7 +296,7 @@ Resume: Chọn tệp khác, lặp lại bước 3.
 
 | ID | Rule | Source |
 |---|---|---|
-| BR-1 | Chỉ Admin quản lý tin và xem được tin ở mọi trạng thái. | Đề bài §3.3; Overview 3.6 |
+| BR-1 | Chỉ Trưởng BQL hoặc Admin có nhóm quyền `Tin tức cộng đồng` quản lý tin và xem được tin ở mọi trạng thái. | Đề bài §3.3; Overview 3.6; UC-34 BR-4 (`09-portal`) |
 | BR-2 | Có năm loại tin cố định, mỗi tin đúng một loại: Thị trường & Nguyên liệu (biến động giá mây, tre, phụ kiện, mùa vụ nguyên liệu, xu hướng mẫu mã); Hạ tầng & Vận hành (lịch cắt điện, nước ở làng nghề, bảo trì hệ thống sàn, gián đoạn vận chuyển); Chính sách & Quy định (quy định của sàn, chính sách hỗ trợ làng nghề của địa phương và nhà nước); Hoạt động & Sự kiện làng nghề (hội chợ, triển lãm, lễ hội truyền thống, lớp tập huấn kỹ thuật); Thông báo chung (tin tổng hợp, thông báo lễ Tết, nội dung đột xuất khác). Admin không thêm hoặc sửa loại tin trong MVP1. | Overview 3.6; Chốt 2026-11-18 (G-06) |
 | BR-3 | Tin mặc định không công khai (nội bộ): chỉ Artisan đọc. Chọn Công khai thì tin hiện thêm ở trang chủ và mọi người đọc được; đăng hoặc đổi sang Công khai phải qua hộp xác nhận. | Overview 3.6; Nhóm đề xuất |
 | BR-4 | Vòng đời tin: Nháp sang Đã đăng; Đã đăng và Ẩn chuyển qua lại; không quay về Nháp. Tin Nháp và Ẩn chỉ Admin thấy. | Nhóm đề xuất |
@@ -307,7 +308,7 @@ Resume: Chọn tệp khác, lặp lại bước 3.
 | BR-10 | Nội dung cho phép định dạng: tiêu đề phụ, in đậm, in nghiêng, danh sách, bảng, liên kết và ảnh. Hệ thống chỉ giữ các định dạng này; mã script hoặc nội dung ngoài danh sách bị loại khi lưu, không bao giờ chạy khi người đọc mở tin. | Đề bài §1 (An ninh); Chốt 2026-11-18 (G-07) |
 | BR-11 | Ảnh bìa và ảnh trong bài được backend thu nhỏ để danh sách và trang tin không tải ảnh gốc. | Đề bài §4.4 |
 | BR-12 | Khi hai Admin thao tác cùng một tin, thao tác đến trước được giữ; thao tác đến sau báo ERR-UC27-05, không ghi đè. | Đề bài §4.2 (khóa bản ghi); Nhóm đề xuất (cùng nguyên tắc UC-02 BR-5, BRD 01) |
-| BR-13 | Mỗi thao tác đều kiểm tra quyền Admin, không chỉ ẩn nút hoặc menu: mở thẳng đường dẫn ngoài quyền bị từ chối. | Đề bài §1 (An ninh) |
+| BR-13 | Mỗi thao tác đều kiểm tra quyền Admin (nhóm quyền `Tin tức cộng đồng`, UC-34 BR-4 `09-portal`), không chỉ ẩn nút hoặc menu: mở thẳng đường dẫn ngoài quyền bị từ chối. | Đề bài §1 (An ninh) |
 | BR-14 | Ẩn có hiệu lực ngay ở mọi nơi: Kênh người bán, trang chủ, mục Tin tức và link trực tiếp. Thông báo đã gửi không bị thu hồi. | Nhóm đề xuất |
 | BR-15 | Ảnh trong bài và tệp đính kèm theo phạm vi của tin: người đọc được tin (UC-28, BR-1) mới mở được ảnh và tải được tệp; với tin Nháp, Ẩn hoặc tin nội bộ mở ở Khu mua hàng, link trực tiếp tới ảnh và tệp bị từ chối. Admin đã đăng nhập luôn mở được ảnh và tải được tệp của tin ở mọi trạng thái để xem trước và quản lý (kể cả Nháp và Ẩn); quyền này kiểm tra ở backend theo phiên Admin, không phụ thuộc trạng thái tin. Người dùng khác (Guest, Buyer, Artisan) chỉ theo phạm vi đọc ở trên. Tệp chỉ tải về, không xem trực tiếp. | Đề bài §1 (An ninh); Chốt 2026-11-18 (G-07) |
 

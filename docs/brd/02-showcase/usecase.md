@@ -3,7 +3,7 @@ title: "02 — Triển lãm số"
 group: 02-showcase
 type: brd
 status: draft
-version: 0.1.0
+version: 0.2.0
 date: 2026-11-18
 author: Khánh Chi
 ---
@@ -56,6 +56,7 @@ Nhóm chức năng trưng bày làng nghề: trang chủ giới thiệu làng ng
 | BRD-06 | `06-news` | UC-28 cung cấp tin công khai cho trang chủ, và là nơi mở ra từ mục Tin tức ở menu và nút Xem tất cả ở khối tin (UC-06). |
 | BRD-07 | `07-notification` | UC-29 hiển thị NT-UC07-01. |
 | BRD-08 | `08-order` | UC-30, UC-31 dùng phương thức giao và phí giao cấu hình ở UC-07. |
+| BRD-09 | [09-portal](../09-portal/usecase.md) | UC-34 quy định chỉ Trưởng BQL hoặc Admin có nhóm quyền `Kiểm duyệt & Danh mục` mới quản lý phân loại ở UC-12 và duyệt yêu cầu đổi tên/địa chỉ, xác minh chứng nhận ở UC-02 (UC-34 BR-4). |
 
 ## III. Use Cases
 
@@ -186,7 +187,7 @@ Resume: Tiếp tục bước 2.
 | Actors | Artisan |
 | Channel | Kênh người bán |
 | Preconditions | • Đã đăng nhập và có quyền bán (hồ sơ đã được duyệt ở UC-02)<br>• Gian hàng ở bất kỳ trạng thái nào |
-| Expected | **Thành công:**<br>• Thông tin mới được lưu và có hiệu lực ngay<br>• Riêng tên hoặc địa chỉ: yêu cầu chờ duyệt, thông tin cũ vẫn hiển thị, Admin nhận NT-UC07-01<br>**Thất bại:**<br>• Hiển thị lỗi, không lưu thay đổi |
+| Expected | **Thành công:**<br>• Thông tin mới được lưu và có hiệu lực ngay<br>• Riêng tên hoặc địa chỉ: yêu cầu chờ duyệt, thông tin cũ vẫn hiển thị, Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC07-01 (G-01, `09-portal`)<br>**Thất bại:**<br>• Hiển thị lỗi, không lưu thay đổi |
 | Screens | • Thông tin gian hàng (bước 1-2, 4-6)<br>• Phương thức giao (bước 3)<br>• Xem trước gian hàng (Alt-07) |
 | Notifications | NT-UC07-01 |
 
@@ -234,7 +235,7 @@ Resume: Chọn ảnh khác, lặp lại bước 2.
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
 | 1 | Backend | Backend lưu yêu cầu đổi ở trạng thái chờ duyệt; các thay đổi khác lưu bình thường. | Tên và địa chỉ cũ vẫn hiển thị công khai. |
-| 2 | Backend | Backend thông báo cho Admin. | NT-UC07-01 được gửi. |
+| 2 | Backend | Backend thông báo cho Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục. | NT-UC07-01 được gửi. |
 | 3 | Frontend | Frontend hiện dòng "Yêu cầu đổi tên hoặc địa chỉ đang chờ BQL duyệt". | Artisan biết yêu cầu đang chờ. |
 
 Resume: Tiếp tục bước 6. Kết quả duyệt xử lý ở UC-02.
@@ -311,7 +312,7 @@ Resume: Quay lại sửa thì về bước 2; Lưu thì tiếp tục bước 5. 
 
 | Template ID | Trigger (step) | Channel | Recipient | Title | Body |
 |---|---|---|---|---|---|
-| NT-UC07-01 | Alt-03 bước 2 | In-app | Mọi Admin | Xưởng xin đổi thông tin | "Xưởng {{workshopName}} xin đổi tên hoặc địa chỉ và đang chờ duyệt." |
+| NT-UC07-01 | Alt-03 bước 2 | In-app | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục | Xưởng xin đổi thông tin | "Xưởng {{workshopName}} xin đổi tên hoặc địa chỉ và đang chờ duyệt." |
 
 #### Business Rules
 
@@ -335,7 +336,7 @@ Resume: Quay lại sửa thì về bước 2; Lưu thì tiếp tục bước 5. 
 | UC-07-AC-01 | Artisan đã đăng nhập, gian hàng bất kỳ | Sửa mô tả và phương thức giao rồi chọn Lưu | Thay đổi được lưu, hiển thị ngay | Main Flow |
 | UC-07-AC-02 | Artisan để trống tên xưởng | Chọn Lưu | Hiển thị ERR-UC07-01; dữ liệu đã nhập được giữ; không lưu | Alt-01 |
 | UC-07-AC-03 | Artisan chọn ảnh PDF hoặc lớn hơn 10 MB | Tải ảnh | Hiển thị ERR-UC07-02; ảnh không được nhận | Alt-02 |
-| UC-07-AC-04 | Gian hàng đã duyệt, không có yêu cầu chờ | Đổi tên xưởng rồi Lưu | Tên cũ vẫn hiển thị công khai; yêu cầu chờ duyệt; Admin nhận NT-UC07-01 | Alt-03, BR-2 |
+| UC-07-AC-04 | Gian hàng đã duyệt, không có yêu cầu chờ | Đổi tên xưởng rồi Lưu | Tên cũ vẫn hiển thị công khai; yêu cầu chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC07-01 | Alt-03, BR-2 |
 | UC-07-AC-05 | Đang có yêu cầu đổi tên chờ duyệt | Đổi địa chỉ rồi Lưu | Hiển thị ERR-UC07-03; không tạo yêu cầu thứ hai | Alt-04, BR-3 |
 | UC-07-AC-06 | Gian hàng có sản phẩm có sẵn Hiển thị | Tắt cả ba phương thức giao | Hiển thị ERR-UC07-04; thiết lập cũ giữ nguyên | Alt-05, BR-6 |
 | UC-07-AC-07 | Tài khoản Buyer chưa có quyền bán, hoặc Artisan khác | Mở hoặc gửi thay đổi gian hàng này | Hiển thị ERR-UC07-05; dữ liệu không đổi | Alt-06, BR-1 |
@@ -1090,7 +1091,7 @@ Resume: Kết thúc.
 
 ##### Alt-06 — ERR-UC12-03 — Không có quyền
 
-- At step: 1 · Trigger: Người không phải Admin truy cập hoặc gửi thao tác.
+- At step: 1 · Trigger: Người dùng không phải Trưởng BQL hoặc Admin có nhóm quyền `Kiểm duyệt & Danh mục` truy cập hoặc gửi thao tác (UC-34 BR-4, `09-portal`).
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
@@ -1118,7 +1119,7 @@ Resume: Kết thúc.
 
 | ID | Rule | Source |
 |---|---|---|
-| BR-1 | Chỉ Admin quản lý phân loại. | Overview mục 1 |
+| BR-1 | Chỉ Trưởng BQL hoặc Admin có nhóm quyền `Kiểm duyệt & Danh mục` quản lý phân loại. | Overview mục 1; UC-34 BR-4 (`09-portal`) |
 | BR-2 | Phân loại không bị xóa, chỉ ẩn. | Nhóm đề xuất |
 | BR-3 | Chỉ ẩn được phân loại không còn sản phẩm Hiển thị. | Overview 3.2 |
 | BR-4 | Phân loại Ẩn không chọn được ở UC-09 và không hiện trong bộ lọc UC-08, UC-10. | Nhóm đề xuất |

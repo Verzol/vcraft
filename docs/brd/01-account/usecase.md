@@ -523,7 +523,7 @@ Số điện thoại không bắt buộc khi đăng ký; được nhập khi tha
 | UC-03-AC-04 | Hai lần nhập mật khẩu khác nhau | Chọn Tạo tài khoản | Hiển thị ERR-UC03-03 | Alt-03 |
 | UC-03-AC-05 | Họ tên trống hoặc email "lan@" | Chọn Tạo tài khoản | Hiển thị ERR-UC03-04 tại trường sai | Alt-04 |
 | UC-03-AC-06 | Chưa chọn đồng ý điều khoản | Chọn Tạo tài khoản | Hiển thị ERR-UC03-05 | Alt-05 |
-| UC-03-AC-07 | Email đã đăng ký là "lan.tran@gmail.com" | Đăng ký bằng "Lan.Tran@Gmail.com " | Hiển thị ERR-UC03-01 | BR-1 |
+| UC-03-AC-07 | Email đã đăng ký là `lan.tran@gmail.com` | Đăng ký bằng `Lan.Tran@Gmail.com` (có khoảng trắng ở cuối) | Hiển thị ERR-UC03-01 | BR-1 |
 | UC-03-AC-08 | Đăng ký thành công | Kiểm tra quyền của tài khoản | Chỉ là Buyer; không có Kênh người bán; không thấy Trang quản trị | BR-2, BR-4 |
 | UC-03-AC-09 | Đăng ký thành công ngay sau khi chưa mở email | Dùng tài khoản | Dùng được ngay, không yêu cầu xác thực email | BR-3 |
 | UC-03-AC-10 | Guest có 2 món trong giỏ, hoặc bắt đầu đăng ký từ nút "Bắt đầu đăng ký bán hàng" | Đăng ký thành công | Giỏ còn 2 món; hoặc quay lại đúng form hồ sơ bán hàng | BR-5 |

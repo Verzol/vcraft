@@ -3,17 +3,19 @@ title: "06 — Tin tức cộng đồng — Đặc tả chức năng"
 code: SRS-06
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 06 — Tin tức cộng đồng — Đặc tả chức năng
 
-[BRD 0.1.0](../../brd/06-news/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.2.0](../../brd/06-news/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
 ## UC-27 — Quản lý tin tức
+
+Backend yêu cầu Trưởng BQL hoặc quyền Tin tức cộng đồng cho cả danh sách quản trị và lệnh ghi. Sai quyền trả ERR-UC27-06.
 
 Admin soạn tin, chọn loại tin và phạm vi đọc (công khai hoặc nội bộ), lưu nháp hoặc đăng; sửa, đổi phạm vi, ẩn và đăng lại tin đã đăng; xóa tin nháp. Khi một tin được đăng lần đầu, mọi Artisan nhận thông báo.
 

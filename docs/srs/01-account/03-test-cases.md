@@ -3,13 +3,13 @@ title: "01 — Tài khoản — Ca nghiệm thu"
 code: SRS-01
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 01 — Tài khoản — Ca nghiệm thu
 
-[BRD 0.2.0](../../brd/01-account/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
+[BRD 0.4.0](../../brd/01-account/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
 
 Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện hoặc API tương ứng khi có ứng dụng.
 
@@ -17,14 +17,14 @@ Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện ho�
 
 | TC | AC và quy tắc | Chuẩn bị | Thao tác | Kết quả mong đợi |
 |---|---|---|---|---|
-| TC-1.1 | UC-01-AC-01 · Main Flow | Buyer đã đăng nhập, chưa có hồ sơ | Điền đủ thông tin xưởng, tải minh chứng, xem lại và chọn Gửi hồ sơ | Hồ sơ ở trạng thái Chờ duyệt; mọi Admin nhận NT-UC01-01; hiện trang Trạng thái hồ sơ |
+| TC-1.1 | UC-01-AC-01 · Main Flow | Buyer đã đăng nhập, chưa có hồ sơ | Điền đủ thông tin xưởng, tải minh chứng, xem lại và chọn Gửi hồ sơ | Hồ sơ ở trạng thái Chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC01-01; hiện trang Trạng thái hồ sơ |
 | TC-1.2 | UC-01-AC-02 · Alt-01, BR-1 | Guest chưa đăng nhập đang ở trang giới thiệu bán hàng | Chọn "Bắt đầu đăng ký bán hàng", rồi đăng nhập | Quay lại đúng form hồ sơ, không phải trang chủ |
 | TC-1.3 | UC-01-AC-03 · Alt-02, BR-2 | Tài khoản đã có hồ sơ Chờ duyệt, Bị từ chối hoặc Đã duyệt | Mở form hồ sơ (kể cả bằng đường dẫn trực tiếp) | Hiển thị ERR-UC01-01 và trạng thái hiện có; không mở form mới |
 | TC-1.4 | UC-01-AC-04 · Alt-03 | Chưa tải minh chứng | Chọn Gửi hồ sơ | Hiển thị ERR-UC01-02; hồ sơ không được gửi |
 | TC-1.5 | UC-01-AC-05 · Alt-04 | Đang ở bước tải ảnh | Chọn tệp PDF hoặc ảnh lớn hơn 10 MB | Hiển thị ERR-UC01-03; ảnh không được nhận |
 | TC-1.6 | UC-01-AC-06 · Alt-05 | Bỏ trống tên xưởng hoặc nhập số điện thoại sai | Chọn Gửi hồ sơ | Hiển thị ERR-UC01-04 và lỗi ngay tại trường sai; dữ liệu đã nhập được giữ |
 | TC-1.7 | UC-01-AC-07 · Alt-06, BR-8 | Buyer đã nhập một phần thông tin | Đóng trang rồi quay lại "Bán hàng cùng vCraft" | Thấy "Tiếp tục hồ sơ đang soạn" với dữ liệu đã nhập; Admin chưa nhận thông báo |
-| TC-1.8 | UC-01-AC-08 · Alt-07, BR-6 | Hồ sơ Cần chỉnh sửa có lý do | Sửa và gửi lại | Cùng hồ sơ về Chờ duyệt; mọi Admin nhận NT-UC01-02; không tạo hồ sơ thứ hai |
+| TC-1.8 | UC-01-AC-08 · Alt-07, BR-6 | Hồ sơ Cần chỉnh sửa có lý do | Sửa và gửi lại | Cùng hồ sơ về Chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC01-02; không tạo hồ sơ thứ hai |
 | TC-1.9 | UC-01-AC-09 · BR-3 | Hồ sơ đang Chờ duyệt | Buyer mở hồ sơ để sửa | Không có nút sửa; chỉ xem được trạng thái |
 | TC-1.10 | UC-01-AC-10 · BR-4 | Hồ sơ Chờ duyệt, Cần chỉnh sửa hoặc Bị từ chối | Buyer mua hàng bình thường; Guest tìm xưởng trên trang công khai | Mua hàng được; xưởng không xuất hiện công khai; không có Kênh người bán |
 | TC-1.11 | UC-01-AC-11 · BR-5 | Có hồ sơ đã gửi | Buyer khác, Guest hoặc Artisan khác xem minh chứng; Guest xem trang gian hàng của xưởng đã mở | Minh chứng không xem được, chỉ Admin và người nộp xem; số điện thoại trong hồ sơ không hiện ở trang công khai |
@@ -80,7 +80,9 @@ Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện ho�
 | TC-4.10 | UC-04-AC-10 · Alt-09 | Người dùng đang đăng nhập | Chọn Đăng xuất, rồi bấm nút Quay lại của trình duyệt | Về trang chủ; trang cần đăng nhập không mở lại được; giỏ tài khoản còn nguyên khi đăng nhập lần sau |
 | TC-4.11 | UC-04-AC-11 · BR-1 | Artisan đã duyệt đang ở Khu mua hàng | Vào Kênh người bán rồi quay về sàn | Không bị hỏi đăng nhập lại |
 | TC-4.12 | UC-04-AC-12 · BR-3 | Guest có 2 món trong giỏ | Đăng nhập | Giỏ gộp vào giỏ tài khoản; món trùng cộng số lượng |
-| TC-4.13 | UC-04-AC-13 · BR-6 | Admin | Đăng nhập | Về Trang quản trị; không có giỏ hàng, nút mua hay Kênh người bán |
+| TC-4.13 | UC-04-AC-13 · BR-6 | Admin | Đăng nhập | Về mục đầu tiên Admin có quyền trong Trang quản trị (UC-34 BR-9, `09-portal`); không có giỏ hàng, nút mua hay Kênh người bán |
+| TC-4.14 | UC-04-AC-14 · Alt-10, BR-9 | Tài khoản Admin đang Đã khóa | Nhập đúng email và mật khẩu, chọn Đăng nhập | Hiển thị ERR-UC04-07; không tạo phiên đăng nhập |
+| TC-4.15 | UC-04-AC-15 · Alt-01, BR-9 | Tài khoản Admin đang Đã khóa | Nhập sai mật khẩu | Hiển thị ERR-UC04-01 (không tiết lộ tài khoản đang bị khóa) |
 
 ## UC-05 — Quản lý thông tin tài khoản
 

@@ -3,13 +3,13 @@ title: "02 — Triển lãm số — Đặc tả chức năng"
 code: SRS-02
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 02 — Triển lãm số — Đặc tả chức năng
 
-[BRD 0.1.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.2.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
@@ -35,6 +35,8 @@ Ghép nội dung làng nghề, dữ liệu triển lãm và ba tin công khai m�
 | ERR-UC06-01 | Khối không tải được |
 
 ## UC-07 — Quản lý thông tin gian hàng
+
+NT-UC07-01 chỉ gửi Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục.
 
 Artisan cập nhật thông tin gian hàng (giới thiệu, ảnh, chứng nhận, số điện thoại liên hệ, phương thức giao), xem trước rồi lưu hoặc lưu luôn; đổi tên hoặc địa chỉ đã duyệt thì gửi Admin duyệt.
 
@@ -67,7 +69,7 @@ Lưu riêng dữ liệu chủ hộ và liên hệ công khai. Chuyển tên/đ�
 
 | Thông báo | Người nhận |
 |---|---|
-| NT-UC07-01 | Mọi Admin |
+| NT-UC07-01 | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục |
 
 ## UC-08 — Khám phá xưởng
 
@@ -164,6 +166,8 @@ Trả giá, ảnh và lô được liệt kê. Hành động mua dùng giỏ UC-
 | ERR-UC11-01 | Sản phẩm không khả dụng |
 
 ## UC-12 — Quản lý phân loại
+
+Backend yêu cầu Trưởng BQL hoặc quyền Kiểm duyệt & Danh mục. Sai quyền trả ERR-UC12-03.
 
 Admin thêm, sửa tên, ẩn và hiện lại phân loại sản phẩm.
 

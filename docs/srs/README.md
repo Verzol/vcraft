@@ -1,6 +1,6 @@
 # SRS vCraft và các phụ thuộc liên nhóm
 
-Bản SRS chính thức ngày 18/11/2026 dựa trên tám BRD tại commit `c70bcfe`. Mỗi nhóm quy định API, dữ liệu vào, quyền và lỗi nghiệp vụ. Cột nghiệm thu dẫn tới các ca cần chạy khi có ứng dụng. [ERD và từ điển dữ liệu](../design/erd.md)
+Bản SRS chính thức ngày 18/11/2026 dựa trên chín BRD tại commit `7e4e64b`. Mỗi nhóm quy định API, dữ liệu vào, quyền và lỗi nghiệp vụ. Cột nghiệm thu dẫn tới các ca cần chạy khi có ứng dụng. [ERD và từ điển dữ liệu](../design/erd.md)
 
 | Nhóm | UC | Nghiệp vụ | Thiết kế | Chi tiết | Nghiệm thu |
 |---|---|---|---|---|---|
@@ -12,6 +12,7 @@ Bản SRS chính thức ngày 18/11/2026 dựa trên tám BRD tại commit `c70b
 | Tin tức cộng đồng | 27–28 | [BRD](../brd/06-news/usecase.md) | [API và dữ liệu](06-news/01-architecture.md) | [Chức năng](06-news/02-feature-description.md) | [Test case](06-news/03-test-cases.md) |
 | Trung tâm thông báo | 29 | [BRD](../brd/07-notification/usecase.md) | [API và dữ liệu](07-notification/01-architecture.md) | [Chức năng](07-notification/02-feature-description.md) | [Test case](07-notification/03-test-cases.md) |
 | Mua hàng có sẵn | 30–33 | [BRD](../brd/08-order/usecase.md) | [API và dữ liệu](08-order/01-architecture.md) | [Chức năng](08-order/02-feature-description.md) | [Test case](08-order/03-test-cases.md) |
+| Quản trị & Giám sát sàn | 34–35 | [BRD](../brd/09-portal/usecase.md) | [API và dữ liệu](09-portal/01-architecture.md) | [Chức năng](09-portal/02-feature-description.md) | [Test case](09-portal/03-test-cases.md) |
 
 ## Hợp đồng và ca kiểm tra xuyên nhóm
 
@@ -27,6 +28,8 @@ Bản SRS chính thức ngày 18/11/2026 dựa trên tám BRD tại commit `c70b
 | UC-31/32 hoặc UC-20/22 → UC-33 | Dùng chung xử lý tiền qua cổng sandbox. Áp quy tắc hủy, trả tồn, hoàn tiền hoặc giữ cọc theo loại đơn và người hủy. | Đơn mua online hết 15 phút rồi mới nhận callback thành công hai lần → đơn vẫn hủy, hoàn tồn một lần, một khoản hoàn. Đơn đặt riêng bị hủy → không cộng tồn sản phẩm mẫu. |
 | UC-27 → UC-06/28/29 | Trang chủ chỉ đọc tin công khai. Tin nội bộ và tệp đi kèm kiểm tra vùng người bán. Thông báo chụp người nhận khi đăng đầu. | Đăng tin nội bộ, ẩn rồi mở từ chuông → Guest không đọc được, người nhận còn thông báo và màn hình đích báo bài không khả dụng. Đăng lại không nhân thông báo. |
 | UC phát sự kiện → UC-29 → UC đích | Sự kiện thành công ghi người nhận, khu vực, đối tượng và nội dung lúc phát. Mỗi sự kiện/người nhận chỉ một thông báo. | Cùng tài khoản có đơn mua và đơn bán → mở từ chuông vào đúng khu vực. Đọc thông báo không thay trạng thái đơn. Gửi bù không chạy lại nghiệp vụ nguồn. |
+| UC-34 → UC-02/04/07/12/27/29/35 | Kiểm quyền theo nhóm, lọc người nhận tại thời điểm sự kiện. | Bỏ quyền kiểm duyệt khi Admin đang đăng nhập → thao tác kế tiếp bị chặn, mở thông báo cũ vẫn kiểm lại quyền đích. Khóa Admin → mọi phiên hết hiệu lực và ngừng nhận tin mới. |
+| UC-14/18–24/31–33 → UC-35 | Giám sát đọc dữ liệu nguồn của hai loại đơn, RFQ đã gửi, các phiên bản giá, lô, thanh toán và hoàn tiền. | Đơn DR có hai lô và cọc → thấy đủ liên kết, tổng giá trị chỉ tính một lần. Khoản đang chờ hoàn từ kỳ trước vẫn xuất hiện ở chỉ số tồn đọng. |
 
 ## Các điểm cần thống nhất trước khi triển khai
 

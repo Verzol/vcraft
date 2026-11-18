@@ -3,13 +3,13 @@ title: "06 — Tin tức cộng đồng — Ca nghiệm thu"
 code: SRS-06
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 06 — Tin tức cộng đồng — Ca nghiệm thu
 
-[BRD 0.1.0](../../brd/06-news/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
+[BRD 0.2.0](../../brd/06-news/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
 
 Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện hoặc API tương ứng khi có ứng dụng.
 

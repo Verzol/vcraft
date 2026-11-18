@@ -3,13 +3,13 @@ title: "07 — Trung tâm thông báo — Ca nghiệm thu"
 code: SRS-07
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 07 — Trung tâm thông báo — Ca nghiệm thu
 
-[BRD 0.1.0](../../brd/07-notification/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
+[BRD 0.2.0](../../brd/07-notification/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
 
 Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện hoặc API tương ứng khi có ứng dụng.
 
@@ -30,7 +30,7 @@ Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện ho�
 | TC-29.11 | UC-29-AC-11 · Alt-09, BR-14 | Buyer B; thông báo của Buyer A; mã thông báo không tồn tại | Buyer B mở thẳng đường dẫn thông báo của A, rồi mở mã không tồn tại | Cả hai trường hợp hiển thị ERR-UC29-03; thông báo của A vẫn Chưa đọc |
 | TC-29.12 | UC-29-AC-12 · Alt-10 | Phiên đã hết hạn khi người dùng đang xem bảng thông báo | Bấm một thông báo | Hiển thị ERR-UC04-05; đăng nhập lại xong, thông báo đã chọn được mở |
 | TC-29.13 | UC-29-AC-13 · Alt-11, BR-8 | Guest chưa đăng nhập | Mở đầu trang; mở đường dẫn trang Thông báo | Không có chuông; được chuyển sang đăng nhập, đăng nhập xong vào trang Thông báo |
-| TC-29.14 | UC-29-AC-14 · BR-2 | Có hai Admin A, B và một Artisan; Buyer gửi hồ sơ bán hàng | Admin A mở NT-UC01-01 và đọc | Thông báo của A Đã đọc, số của A giảm; thông báo của B vẫn Chưa đọc, số của B không đổi; Artisan không có thông báo này |
+| TC-29.14 | UC-29-AC-14 · BR-2 | Có hai Admin A, B cùng có quyền Kiểm duyệt & Danh mục, và một Artisan; Buyer gửi hồ sơ bán hàng | Admin A mở NT-UC01-01 và đọc | Thông báo của A Đã đọc, số của A giảm; thông báo của B vẫn Chưa đọc, số của B không đổi; Artisan không có thông báo này |
 | TC-29.15 | UC-29-AC-15 · BR-3 | Buyer có NT-UC20-01 (báo giá sắp hết hiệu lực) và NT-UC22-02 (đơn đã giao) | Bấm từng thông báo | Mở So sánh báo giá; mở chi tiết đơn; báo giá chưa được chấp nhận và đơn chưa Hoàn tất cho tới khi Buyer tự thao tác ở màn hình đích; bấm lại thông báo đã đọc chỉ mở đích |
 | TC-29.16 | UC-29-AC-16 · BR-4 | Tài khoản có 5 thông báo Chưa đọc | Mở bảng, xem, đóng bảng mà không bấm thông báo nào | Vẫn 5 thông báo Chưa đọc; không có thao tác đánh dấu chưa đọc lại |
 | TC-29.17 | UC-29-AC-17 · BR-5 | Tài khoản lần lượt có 0, 7 và 150 thông báo Chưa đọc | Xem chuông | Không hiện số; hiện "7"; hiện "99+" |

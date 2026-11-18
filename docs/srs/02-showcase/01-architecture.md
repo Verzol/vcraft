@@ -3,13 +3,13 @@ title: "02 — Triển lãm số — Kiến trúc và giao diện"
 code: SRS-02
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 02 — Triển lãm số — Kiến trúc và giao diện
 
-[BRD 0.1.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Đặc tả chức năng](02-feature-description.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.2.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Đặc tả chức năng](02-feature-description.md) · [Ca nghiệm thu](03-test-cases.md)
 
 API dùng tiền tố `/api`. Backend lấy danh tính từ phiên và kiểm quyền trên đối tượng ở mỗi thao tác. Các lệnh dưới đây mô tả giao diện chính của từng UC.
 
@@ -22,6 +22,8 @@ Ghép nội dung làng nghề, dữ liệu triển lãm và ba tin công khai m�
 **Dữ liệu liên quan** `shops`, `products`, `articles`.
 
 ## UC-07 — Quản lý thông tin gian hàng
+
+NT-UC07-01 chỉ gửi Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục.
 
 `PATCH /seller/shop` · `POST /seller/shop/change-requests`
 
@@ -62,6 +64,8 @@ Trả giá, ảnh và lô được liệt kê. Hành động mua dùng giỏ UC-
 **Dữ liệu liên quan** `products`, `shops`, `lots`.
 
 ## UC-12 — Quản lý phân loại
+
+Backend yêu cầu Trưởng BQL hoặc quyền Kiểm duyệt & Danh mục. Sai quyền trả ERR-UC12-03.
 
 `POST /admin/categories` · `PATCH /admin/categories/{id}`
 

@@ -3,17 +3,19 @@ title: "01 — Tài khoản — Đặc tả chức năng"
 code: SRS-01
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 01 — Tài khoản — Đặc tả chức năng
 
-[BRD 0.2.0](../../brd/01-account/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.4.0](../../brd/01-account/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
 ## UC-01 — Đăng ký bán hàng bằng tài khoản hiện có
+
+Khi gửi mới hoặc nộp lại, chỉ chụp Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục vào danh sách nhận.
 
 Buyer nhập thông tin xưởng, liên hệ và tải minh chứng hộ làng nghề; hệ thống ghi nhận hồ sơ ở trạng thái Chờ duyệt và báo cho Admin.
 
@@ -44,10 +46,12 @@ Lấy account_id từ phiên mua. Lưu từng lần gửi, khóa sửa ở Chờ
 
 | Thông báo | Người nhận |
 |---|---|
-| NT-UC01-01 | Mọi Admin |
-| NT-UC01-02 | Mọi Admin |
+| NT-UC01-01 | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục |
+| NT-UC01-02 | Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục |
 
 ## UC-02 — Kiểm duyệt hồ sơ bán hàng
+
+Mỗi thao tác cần Trưởng BQL hoặc quyền Kiểm duyệt & Danh mục, kể cả duyệt thay đổi địa chỉ và xác minh chứng nhận. Sai quyền trả ERR-UC04-06.
 
 Admin đối chiếu thông tin và minh chứng của hồ sơ bán hàng, rồi duyệt hoặc từ chối kèm lý do; người nộp được báo kết quả. Admin cũng duyệt yêu cầu đổi tên, địa chỉ xưởng và xác minh chứng nhận mà xưởng đăng trên gian hàng.
 
@@ -77,6 +81,8 @@ Quyết định có điều kiện theo trạng thái hiện tại. Duyệt lầ
 
 ## UC-03 — Đăng ký tài khoản mua hàng
 
+Chỉ Trưởng BQL được nạp sẵn. UC-34 tạo các tài khoản quản trị còn lại.
+
 Guest nhập họ tên, email, mật khẩu để tạo tài khoản Buyer; hệ thống tự đăng nhập và đưa Guest về thao tác đang làm.
 
 **Quyền và điều kiện** Người dùng chưa đăng nhập Email chưa được dùng cho tài khoản nào
@@ -101,6 +107,8 @@ Kiểm tra duy nhất email tại DB. Băm mật khẩu. Gộp giỏ Guest theo 
 
 ## UC-04 — Đăng nhập, đăng xuất
 
+Kiểm mật khẩu trước trạng thái khóa. Sai mật khẩu trả ERR-UC04-01. Đúng mật khẩu nhưng Admin đã khóa trả ERR-UC04-07. Khi thiếu URL đích, chọn mục đầu có quyền theo UC-34 BR-9.
+
 Người dùng nhập email và mật khẩu để vào hệ thống, được đưa về nơi đang làm hoặc khu vực đúng quyền; có thể đăng xuất bất kỳ lúc nào.
 
 **Quyền và điều kiện** Người dùng chưa đăng nhập (với đăng nhập) Người dùng đã có tài khoản
@@ -119,9 +127,12 @@ Tách quyền mua và quyền vào kênh bán theo hồ sơ duyệt. Thu hồi p
 | ERR-UC04-03 | Chưa có hồ sơ bán hàng |
 | ERR-UC04-04 | Hồ sơ chưa được duyệt |
 | ERR-UC04-05 | Phiên hết hạn |
-| ERR-UC04-06 | Không phải Admin mở Trang quản trị |
+| ERR-UC04-06 | Không phải Admin mở Trang quản trị, hoặc Admin thiếu nhóm quyền mở UC-02 |
+| ERR-UC04-07 | Tài khoản Admin đang Đã khóa |
 
 ## UC-05 — Quản lý thông tin tài khoản
+
+Admin tự sửa họ tên và mật khẩu ở đây. Trưởng BQL đặt lại mật khẩu cho Admin khác qua UC-34.
 
 Người dùng đã đăng nhập xem và sửa họ tên, số điện thoại, đổi mật khẩu của chính mình. (Mức Should)
 

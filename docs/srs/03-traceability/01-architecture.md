@@ -44,3 +44,7 @@ Mã hóa URL công khai theo token đã lưu. Chỉ tải PNG hoặc in khi lô 
 Tra token độc lập với trạng thái niêm yết sản phẩm. Xuất dữ liệu truy xuất theo UC-17, loại liên hệ Buyer và giá đơn.
 
 **Dữ liệu liên quan** `lots`, `lot_steps`, `corrections`, `shops`.
+
+## Liên kết với Trang quản trị
+
+UC-35 tra các lô theo đơn đặt riêng qua lots.order_id và lấy QR hiện có. Chi tiết giám sát chỉ đọc. Các quyền quản lý lô và điều kiện in tem tiếp tục kiểm tra tại UC-14 đến UC-16.

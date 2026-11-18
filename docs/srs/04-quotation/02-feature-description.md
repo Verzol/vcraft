@@ -3,17 +3,19 @@ title: "04 — Đặt hàng riêng — Đặc tả chức năng"
 code: SRS-04
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 04 — Đặt hàng riêng — Đặc tả chức năng
 
-[BRD 0.1.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.2.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
 ## UC-18 — Tạo, lưu nháp, xóa nháp và gửi yêu cầu báo giá
+
+Admin chỉ tra cứu RFQ đã gửi qua UC-35.
 
 Buyer soạn yêu cầu báo giá cho nhu cầu đặt riêng (mẫu, số lượng, hình thức nhận hàng, hạn), lưu nháp hoặc gửi. Yêu cầu gửi riêng một xưởng (từ trang sản phẩm hoặc trang gian hàng) hoặc gửi chung nhiều xưởng theo phân loại (từ Đặt hàng theo yêu cầu). Hệ thống chốt danh sách xưởng nhận, thông báo xưởng, theo dõi hạn, nhắc xưởng trước hạn; Buyer gia hạn hoặc tạo yêu cầu mới từ yêu cầu đã đóng.
 
@@ -104,6 +106,8 @@ Kiểm quyền đúng xưởng nhận. Lưu phiên bản kế tiếp, tính ti�
 
 ## UC-20 — So sánh và chấp nhận báo giá
 
+Quyền Giám sát giao dịch chỉ cho đọc qua UC-35. Chấp nhận báo giá vẫn thuộc Buyer.
+
 Buyer so sánh các báo giá của yêu cầu, chấp nhận một báo giá còn hiệu lực, thanh toán cọc (nếu có) để tạo đơn đặt riêng; khi báo giá hết hiệu lực mà vẫn muốn mua thì Yêu cầu cập nhật giá. Hệ thống tự cho báo giá hết hiệu lực và nhắc Buyer trước hạn.
 
 **Quyền và điều kiện** Đã đăng nhập, là chủ yêu cầu Yêu cầu ở Đang nhận báo giá (có ít nhất một báo giá Còn hiệu lực), hoặc Hết hạn khi dùng Yêu cầu cập nhật giá (Alt-08)
@@ -138,6 +142,8 @@ Buyer xác nhận phiên bản còn hiệu lực. Khóa cùng RFQ với UC-23. T
 | NT-UC20-05 | Xưởng được chọn |
 
 ## UC-21 — Xem yêu cầu, báo giá và đơn đặt riêng
+
+UC-35 dùng giao diện đọc riêng cho quản trị. Quyền xem tất cả phiên bản báo giá ở đó không mở rộng quyền của xưởng tại UC-21.
 
 Buyer xem danh sách và chi tiết yêu cầu báo giá, báo giá nhận được và đơn đặt riêng của mình. Xưởng xem danh sách yêu cầu nhận, báo giá của mình và đơn đặt riêng của xưởng. Mỗi bên chỉ thấy phạm vi của mình; báo giá là kín.
 

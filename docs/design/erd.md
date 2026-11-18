@@ -1,9 +1,10 @@
 # Mô hình dữ liệu vCraft
 
-Mô hình dữ liệu logic chính thức theo tám BRD tại `c70bcfe`. Sơ đồ thể hiện đường đi chính từ tài khoản đến đơn hàng. Từ điển bên dưới bổ sung dữ liệu hỗ trợ. [Hợp đồng giữa các nhóm](../srs/README.md)
+Mô hình dữ liệu logic chính thức theo chín BRD tại `7e4e64b`. Sơ đồ thể hiện đường đi chính từ tài khoản đến đơn hàng. Từ điển bên dưới bổ sung dữ liệu hỗ trợ. [Hợp đồng giữa các nhóm](../srs/README.md)
 
 ```mermaid
 erDiagram
+    accounts ||--o{ admin_grants : authorizes
     accounts ||--o{ applications : submits
     accounts ||--o| shops : owns
     shops ||--o{ products : lists
@@ -33,7 +34,8 @@ Mỗi thực thể có khóa chính `id`. Mũi tên chỉ khóa ngoại, dấu h
 
 | Bảng | Trường và liên kết | Điều kiện toàn vẹn |
 |---|---|---|
-| `accounts` | email unique, password_hash, full_name, phone, account_type, created_at | Tài khoản mua dùng tiếp khi bán. Admin được cấp riêng. |
+| `accounts` | email unique (không phân biệt hoa thường), password_hash, full_name, phone, account_type, admin_status, created_at | Tài khoản mua dùng tiếp khi bán. Trưởng BQL duy nhất được nạp sẵn. Admin thường có trạng thái Đang hoạt động hoặc Đã khóa. Khóa giữ nguyên các liên kết lịch sử. |
+| `admin_grants` | account_id → accounts, permission_group | Duy nhất theo (account_id, permission_group). Admin thường có ít nhất một trong ba nhóm cố định của UC-34. Chỉ Trưởng BQL cấp quyền. |
 | `sessions` | account_id → accounts, token_hash, last_active_at, revoked_at | Đổi mật khẩu thu hồi phiên khác. |
 | `applications` | account_id → accounts, revision, status, shop_name, proposed_address, private_phone, started_year, intro, decision_reason, reviewer_id → accounts, decided_at | Lưu từng lần gửi và quyết định. Một hồ sơ hiện hành mỗi tài khoản. |
 | `shops` | owner_id → accounts unique, application_id → applications, name, address, story, public_phones, status, accepts_requests, visit_mode, visit_note, latitude, longitude | Chỉ tạo gian hàng khi duyệt. Số điện thoại công khai do xưởng nhập riêng. |
@@ -44,7 +46,7 @@ Mỗi thực thể có khóa chính `id`. Mũi tên chỉ khóa ngoại, dấu h
 | `products` | shop_id → shops, category_id → categories, name, description, kind, price, available_qty, visibility, ever_published | Số còn bán nguyên không âm, quản lý theo sản phẩm. |
 | `weekly_hours` | shop_id → shops, weekday, opens, closes | Một khung giờ mỗi ngày cho một xưởng. |
 | `closures` | shop_id → shops, start_at, end_at, whole_day, private_reason | Lịch tắt ưu tiên trước lịch tuần. Lý do chỉ chủ xưởng xem. |
-| `rfqs` | buyer_id → accounts, source, target_shop_id → shops?, sample_product_id → products?, category_id → categories?, code, specifications, quantity, unit, recipient_snapshot, delivery_method, desired_date, deadline, status, extension_count | Lưu nguồn gửi chung, riêng hoặc từ sản phẩm. Chụp thông tin mẫu và người nhận khi gửi. |
+| `rfqs` | buyer_id → accounts, source, target_shop_id → shops?, sample_product_id → products?, category_id → categories?, code, specifications, quantity, unit, recipient_snapshot, delivery_method, desired_date, first_sent_at, deadline, status, extension_count | Lưu nguồn gửi chung, riêng hoặc từ sản phẩm. Chụp thông tin mẫu và người nhận khi gửi. |
 | `invitations` | rfq_id → rfqs, shop_id → shops, status, decline_reason, reminded_at, update_requested_at, update_deadline | Duy nhất (rfq_id, shop_id). Quyền đọc phản hồi thuộc Buyer và đúng xưởng. |
 | `quotes` | invitation_id → invitations, revision, unit_price, shipping_fee, lead_time, deposit_percent, valid_until, status, terms | Duy nhất (invitation_id, revision). Mỗi lời mời chỉ một phiên bản hiện hành. |
 | `orders` | buyer_id → accounts, shop_id → shops, kind, code unique, rfq_id → rfqs?, quote_id → quotes?, state, payment_state, recipient_snapshot, delivery_snapshot, amount, deposit_due, balance_collected_at, created_at, delivered_at | Đơn đặt riêng bắt buộc RFQ và phiên bản giá cùng lời mời trúng. RFQ duy nhất trong các đơn đặt riêng. Đơn mua tạo từ checkout một xưởng. |
@@ -69,3 +71,9 @@ Mỗi thực thể có khóa chính `id`. Mũi tên chỉ khóa ngoại, dấu h
 - Checkout khóa các sản phẩm theo thứ tự ID, kiểm lại giá, số còn bán và trạng thái xưởng, trừ tồn toàn bộ rồi tạo đơn và bỏ đúng các món đã đặt khỏi giỏ. Khóa thao tác lặp theo Buyer và yêu cầu checkout.
 - Callback thanh toán, hết hạn và hủy cùng khóa đơn. Khoản thu đến muộn gắn với đơn đã hủy để hoàn đúng giao dịch. Việc hoàn tồn ghi cùng thay đổi trạng thái đơn. Yêu cầu hoàn tiền được lưu bền vững trước khi gọi cổng sandbox.
 - Phát thông báo từ sự kiện đã commit. Khi đọc lại hoặc gửi bù, dùng khóa chống trùng của notifications. Trường hợp đơn đặt riêng đã hủy vẫn giữ lô, QR và lịch sử đã tạo.
+
+## Quyền quản trị và dữ liệu giám sát
+
+UC-34 thay tập quyền trong một giao dịch. Mỗi thao tác đọc quyền hiện tại. Khi khóa tài khoản hoặc đặt lại mật khẩu, thu hồi toàn bộ phiên của Admin trong cùng giao dịch. Mở khóa yêu cầu đăng nhập lại.
+
+UC-35 dùng truy vấn chỉ đọc trên dữ liệu nghiệp vụ. Lưu first_sent_at đúng một lần khi gửi RFQ lần đầu. Thống kê theo orders.created_at hoặc rfqs.first_sent_at và trạng thái hiện tại, dùng ngày Việt Nam. Truy vấn số đơn chờ hoàn đếm ID đơn phân biệt còn nghĩa vụ hoàn tiền trên toàn bộ lịch sử, kể cả đơn ngoài kỳ. Khi nối báo giá, lô và các lần thử thanh toán, tổng hợp từng đơn trước để tránh nhân doanh số.

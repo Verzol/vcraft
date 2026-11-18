@@ -3,13 +3,13 @@ title: "02 — Triển lãm số — Ca nghiệm thu"
 code: SRS-02
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 02 — Triển lãm số — Ca nghiệm thu
 
-[BRD 0.1.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
+[BRD 0.2.0](../../brd/02-showcase/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Đặc tả chức năng](02-feature-description.md)
 
 Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện hoặc API tương ứng khi có ứng dụng.
 
@@ -38,7 +38,7 @@ Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện ho�
 | TC-7.1 | UC-07-AC-01 · Main Flow | Artisan đã đăng nhập, gian hàng bất kỳ | Sửa mô tả và phương thức giao rồi chọn Lưu | Thay đổi được lưu, hiển thị ngay |
 | TC-7.2 | UC-07-AC-02 · Alt-01 | Artisan để trống tên xưởng | Chọn Lưu | Hiển thị ERR-UC07-01; dữ liệu đã nhập được giữ; không lưu |
 | TC-7.3 | UC-07-AC-03 · Alt-02 | Artisan chọn ảnh PDF hoặc lớn hơn 10 MB | Tải ảnh | Hiển thị ERR-UC07-02; ảnh không được nhận |
-| TC-7.4 | UC-07-AC-04 · Alt-03, BR-2 | Gian hàng đã duyệt, không có yêu cầu chờ | Đổi tên xưởng rồi Lưu | Tên cũ vẫn hiển thị công khai; yêu cầu chờ duyệt; Admin nhận NT-UC07-01 |
+| TC-7.4 | UC-07-AC-04 · Alt-03, BR-2 | Gian hàng đã duyệt, không có yêu cầu chờ | Đổi tên xưởng rồi Lưu | Tên cũ vẫn hiển thị công khai; yêu cầu chờ duyệt; Trưởng BQL và Admin có quyền Kiểm duyệt & Danh mục nhận NT-UC07-01 |
 | TC-7.5 | UC-07-AC-05 · Alt-04, BR-3 | Đang có yêu cầu đổi tên chờ duyệt | Đổi địa chỉ rồi Lưu | Hiển thị ERR-UC07-03; không tạo yêu cầu thứ hai |
 | TC-7.6 | UC-07-AC-06 · Alt-05, BR-6 | Gian hàng có sản phẩm có sẵn Hiển thị | Tắt cả ba phương thức giao | Hiển thị ERR-UC07-04; thiết lập cũ giữ nguyên |
 | TC-7.7 | UC-07-AC-07 · Alt-06, BR-1 | Tài khoản Buyer chưa có quyền bán, hoặc Artisan khác | Mở hoặc gửi thay đổi gian hàng này | Hiển thị ERR-UC07-05; dữ liệu không đổi |

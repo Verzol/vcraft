@@ -3,17 +3,19 @@ title: "04 — Đặt hàng riêng — Kiến trúc và giao diện"
 code: SRS-04
 type: srs
 status: official
-version: 0.3.0
+version: 0.4.0
 date: 2026-11-18
 ---
 
 # 04 — Đặt hàng riêng — Kiến trúc và giao diện
 
-[BRD 0.1.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Đặc tả chức năng](02-feature-description.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.2.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Đặc tả chức năng](02-feature-description.md) · [Ca nghiệm thu](03-test-cases.md)
 
 API dùng tiền tố `/api`. Backend lấy danh tính từ phiên và kiểm quyền trên đối tượng ở mỗi thao tác. Các lệnh dưới đây mô tả giao diện chính của từng UC.
 
 ## UC-18 — Tạo, lưu nháp, xóa nháp và gửi yêu cầu báo giá
+
+Admin chỉ tra cứu RFQ đã gửi qua UC-35.
 
 `POST /rfqs` · `PATCH, DELETE /rfqs/{id}` · `POST /rfqs/{id}/send`
 
@@ -31,6 +33,8 @@ Kiểm quyền đúng xưởng nhận. Lưu phiên bản kế tiếp, tính ti�
 
 ## UC-20 — So sánh và chấp nhận báo giá
 
+Quyền Giám sát giao dịch chỉ cho đọc qua UC-35. Chấp nhận báo giá vẫn thuộc Buyer.
+
 `GET /rfqs/{id}/comparison` · `POST /rfqs/{id}/accept`
 
 Buyer xác nhận phiên bản còn hiệu lực. Khóa cùng RFQ với UC-23. Tạo một đơn DR ngay lúc chấp nhận và đóng lựa chọn còn lại.
@@ -38,6 +42,8 @@ Buyer xác nhận phiên bản còn hiệu lực. Khóa cùng RFQ với UC-23. T
 **Dữ liệu liên quan** `rfqs`, `invitations`, `quotes`, `orders`, `order_lines`, `payment_attempts`, `events`.
 
 ## UC-21 — Xem yêu cầu, báo giá và đơn đặt riêng
+
+UC-35 dùng giao diện đọc riêng cho quản trị. Quyền xem tất cả phiên bản báo giá ở đó không mở rộng quyền của xưởng tại UC-21.
 
 `GET /me/rfqs` · `GET /rfqs/{id}` · `GET /me/custom-orders`
 

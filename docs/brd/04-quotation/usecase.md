@@ -3,8 +3,8 @@ title: "04 — Đặt hàng riêng"
 group: 04-quotation
 type: brd
 status: draft
-version: 0.2.0
-date: 2026-11-18
+version: 0.3.0
+date: 2026-11-25
 author: Khánh Chi
 ---
 
@@ -305,6 +305,7 @@ Resume: Kết thúc.
 | Đơn vị | Text; length 30 | Không để trống | Có | Ví dụ: "chiếc", "bộ" |
 | Ảnh mẫu | Ảnh JPG / PNG / WebP | 0–5 ảnh, mỗi ảnh ≤ 10 MB | Không | Ảnh sản phẩm mẫu hiện riêng, không tính vào 5 ảnh |
 | Ngày cần hàng | Date | Không ở quá khứ | Không | Chỉ là mong muốn; xưởng báo thời gian hoàn thành ở báo giá (UC-19) |
+| Hạn đặt cọc tối thiểu mong muốn | Number (ngày) | Số nguyên từ 1 đến 14; mặc định 3 | Có | Xưởng báo hạn cọc ≥ mức này khi tỷ lệ cọc > 0% (UC-19) |
 | Hình thức nhận hàng | Chọn một | Nhận tại xưởng hoặc Giao tận nơi | Có | Quyết định phí giao trong báo giá |
 | Địa chỉ nhận hàng | Tỉnh/thành, quận/huyện, phường/xã chọn theo danh mục; địa chỉ chi tiết text length 150 | Đủ bốn mục | Có điều kiện | Bắt buộc khi Giao tận nơi. Xưởng chỉ thấy đến quận/huyện trước khi báo giá được chấp nhận (BR-8) |
 | Số điện thoại người nhận | Text; length 10 | Số di động Việt Nam, 10 chữ số | Có điều kiện | Bắt buộc khi Giao tận nơi; điền sẵn từ tài khoản, được sửa. Xưởng chỉ thấy sau khi báo giá được chấp nhận. Ví dụ: 0912345678 |
@@ -552,6 +553,7 @@ Resume: Kết thúc.
 | Phí giao | Number (VND) | Số nguyên từ 0 đến 50.000.000; bằng 0 nếu Nhận tại xưởng | Có | Ví dụ: 150000 |
 | Thời gian hoàn thành | Number (ngày) | Số nguyên từ 1 đến 365 | Có | Tính từ lúc Buyer chấp nhận. Ví dụ: 21 |
 | Tỷ lệ cọc | Chọn một | 0%, 30% hoặc 50% | Có | Xưởng chọn (BR-4) |
+| Hạn đặt cọc | Number (ngày) | Số nguyên từ mức Buyer chọn (UC-18) đến 14 | Có điều kiện | Bắt buộc khi tỷ lệ cọc > 0%; bỏ qua khi cọc 0% |
 | Hiệu lực đến ngày | Date | Hết 23:59 ngày chọn; theo BR-5 | Có | Ví dụ: 2026-12-20 |
 | Ghi chú | Text; length 500 | — | Không | Chất liệu, quy cách, điều kiện |
 | Tổng giá trị | Number, chỉ xem | Đơn giá nhân số lượng, cộng phí giao | — | Hệ thống tính, hiển thị cho cả hai bên |
@@ -590,7 +592,7 @@ Resume: Kết thúc.
 | BR-1 | Chỉ xưởng nằm trong danh sách nhận (chốt lúc gửi) được xem, báo giá hoặc từ chối yêu cầu; gian hàng phải đang hoạt động khi gửi hoặc cập nhật báo giá. | Overview 3.4 |
 | BR-2 | Báo giá cho toàn bộ số lượng của yêu cầu, một xưởng làm cả đơn; không báo giá một phần, không chia đơn. | Overview mục 1; Đề bài |
 | BR-3 | Mỗi xưởng một báo giá cho mỗi yêu cầu; sửa bằng cách cập nhật thành phiên bản mới, không tạo báo giá thứ hai. | Overview 3.4 |
-| BR-4 | Báo giá gồm đơn giá, phí giao (theo hình thức nhận hàng Buyer đã chọn, bằng 0 khi nhận tại xưởng), thời gian hoàn thành, tỷ lệ cọc 0%, 30% hoặc 50% do xưởng chọn, hiệu lực. Tổng giá trị và số tiền cọc do hệ thống tính. | Overview 3.4; Chốt 2026-11-18 |
+| BR-4 | Báo giá gồm đơn giá, phí giao (theo hình thức nhận hàng Buyer đã chọn, bằng 0 khi nhận tại xưởng), thời gian hoàn thành, tỷ lệ cọc 0%, 30% hoặc 50% do xưởng chọn, hạn đặt cọc (ngày, bắt buộc trong [mức Buyer chọn, 14] khi cọc > 0%; bỏ qua khi cọc 0%), hiệu lực. Tổng giá trị và số tiền cọc do hệ thống tính. | Overview 3.4; Chốt 2026-11-18; Chốt 2026-11-25 |
 | BR-5 | Hiệu lực báo giá bắt buộc nhập ở mọi lần gửi hoặc cập nhật, để xưởng không chịu rủi ro biến động giá nguyên vật liệu và nhân công. Hiệu lực hết lúc 23:59 ngày chọn; chọn từ ngày mai đến tối đa 90 ngày. Không bắt buộc sau hạn của yêu cầu, để xưởng không phải giữ giá quá dài; hiệu lực sớm hơn hạn của yêu cầu thì giao diện cảnh báo xưởng "Báo giá sẽ hết hiệu lực trước khi yêu cầu đóng nhận báo giá". | Chốt 2026-11-18; ngưỡng 90 ngày chờ chốt G-05; quan hệ với hạn chờ chốt G-11 |
 | BR-6 | Xưởng chỉ gửi hoặc cập nhật báo giá đến hết ngày hạn của yêu cầu, khi báo giá chưa được chấp nhận. Ngoại lệ: trả lời Yêu cầu cập nhật giá trong 3 ngày, không phụ thuộc hạn của yêu cầu. | Chốt 2026-11-18 |
 | BR-7 | Cập nhật báo giá tạo phiên bản mới thay thế phiên bản cũ; Buyer chỉ chấp nhận đúng phiên bản đang xem. Lịch sử phiên bản được giữ. | Overview 3.4 |
@@ -832,7 +834,7 @@ Resume: Kết thúc.
 | BR-5 | Một đơn do đúng một xưởng làm toàn bộ số lượng; Buyer chọn một báo giá, không chia đơn. | Overview mục 1 |
 | BR-6 | Đơn đặt riêng chụp lại yêu cầu và báo giá lúc chấp nhận; trạng thái đơn khởi đầu là Chờ sản xuất, thanh toán Chưa thanh toán. | Overview mục 4 |
 | BR-7 | Cọc 0%, 30% hoặc 50% do xưởng chọn; cọc trả online qua ZaloPay sandbox (dự phòng VNPay sandbox) ngay sau khi chấp nhận; phần còn lại thu khi giao hoặc nhận hàng, xưởng xác nhận đã thu (UC-22). | Overview 3.4; Chốt 2026-11-18 |
-| BR-8 | Đơn tạo ngay lúc chấp nhận. Có cọc thì Buyer thanh toán cọc qua cổng và được thanh toán lại nhiều lần; xưởng chỉ bắt đầu sản xuất khi cọc đã thanh toán. Chưa đặt hạn thanh toán cọc: đơn chưa thanh toán giữ ở Chờ sản xuất cho đến khi Buyer thanh toán hoặc hủy qua UC-33. Cọc 0% không cần thanh toán trước. | Nhóm đề xuất; chưa có hạn cọc, xem G-07 |
+| BR-8 | Đơn tạo ngay lúc chấp nhận. Có cọc (> 0%) thì hệ thống chụp cứng hạn đặt cọc `deposit_due_at` bằng thời điểm tạo đơn cộng số ngày hạn đặt cọc trong báo giá; Buyer thanh toán cọc qua cổng và được thanh toán lại nhiều lần trong hạn; xưởng chỉ bắt đầu sản xuất khi cọc đã thanh toán. Quá hạn `deposit_due_at` mà chưa thanh toán thì hệ thống tự hủy đơn qua UC-33 (callback muộn tự hoàn cọc). Cọc 0% không cần thanh toán trước và không có hạn cọc. | Nhóm đề xuất; Chốt 2026-11-25 (G-07) |
 | BR-9 | Báo giá đã gửi trước khi xưởng Tạm ngừng vẫn được chấp nhận; xưởng Tạm ngừng không gửi hoặc cập nhật báo giá. | Overview 3.4; UC-13 BR-4 (BRD 02) |
 | BR-10 | Đến hạn nhận báo giá thì xưởng ngừng gửi và cập nhật, nhưng Buyer vẫn chốt báo giá còn hiệu lực. | Chốt 2026-11-18 |
 | BR-11 | Quá hiệu lực thì báo giá Hết hiệu lực và khóa nút chấp nhận; Buyer vẫn muốn mua thì chọn Yêu cầu cập nhật giá để xưởng xác nhận giá mới. Mỗi báo giá chỉ có một Yêu cầu cập nhật giá đang chờ. | Chốt 2026-11-18 |
@@ -1404,7 +1406,7 @@ Resume: Thử lại, tiếp tục bước đang thực hiện.
 | G-04 | Phần còn lại sau cọc thu khi giao hoặc nhận, xưởng đánh dấu đã thu; hệ thống không đối soát tiền. | UC-20 BR-7; UC-22 BR-4 | Đã chốt 2026-11-18: thu khi giao hoặc nhận |
 | G-05 | Các ngưỡng thời gian: hạn của yêu cầu chọn theo ngày, từ ngày mai đến tối đa 30 ngày, hết 23:59; nhắc xưởng 24 giờ trước hạn khi hạn cách ngày gửi từ 2 ngày; hiệu lực báo giá từ ngày mai đến tối đa 90 ngày; tự hoàn tất 7 ngày. Đang theo hướng: giữ các ngưỡng này. | UC-18 BR-9, BR-10, BR-14; UC-19 BR-5; UC-20 BR-8; UC-22 BR-5 | Open |
 | G-06 | Mô hình hạn hai chiều: đến hạn chỉ đóng nhận báo giá (nhãn "Chờ Buyer lựa chọn", không thêm trạng thái), báo giá còn hiệu lực vẫn chấp nhận được; Yêu cầu cập nhật giá xưởng có 3 ngày trả lời và yêu cầu giữ trạng thái trong thời gian chờ; gia hạn chỉ cho yêu cầu gửi riêng Quá hạn phản hồi, tối đa một lần; chuyển nhanh sang gửi chung bằng nháp mới. Đang theo hướng: như mô tả. | UC-18 BR-7, BR-11, Alt-12, Alt-14, Alt-15; UC-19 BR-11; UC-20 BR-10, BR-11 | Đã chốt 2026-11-18 về mô hình; Open về 3 ngày và gia hạn tối đa một lần |
-| G-07 | Hiện chưa đặt hạn thanh toán cọc: đơn tạo ngay lúc chấp nhận và giữ Chờ sản xuất đến khi Buyer thanh toán hoặc hủy qua UC-33. Rủi ro: (1) đơn chưa cọc treo vô thời hạn, xưởng không sản xuất được; (2) các báo giá khác đã Đã đóng, Buyer hủy thì phải tạo yêu cầu mới; (3) UC-14 (BRD 03) cho tạo lô với đơn chưa Đã hủy, kể cả đơn chưa cọc. Phương án khi cần: hạn thanh toán 24 giờ rồi tự hủy đơn, không hoàn tiền vì chưa thu, thống nhất với UC-33 (BRD 08); hoặc chỉ cho tạo lô khi đơn đã Đang sản xuất. Đang theo hướng: để không hạn trong MVP. | UC-20 BR-8; UC-22 BR-3; UC-14 BR-9 (BRD 03); UC-33 | Open |
+| G-07 | Hiện chưa đặt hạn thanh toán cọc: đơn tạo ngay lúc chấp nhận và giữ Chờ sản xuất đến khi Buyer thanh toán hoặc hủy qua UC-33. Rủi ro: (1) đơn chưa cọc treo vô thời hạn, xưởng không sản xuất được; (2) các báo giá khác đã Đã đóng, Buyer hủy thì phải tạo yêu cầu mới; (3) UC-14 (BRD 03) cho tạo lô với đơn chưa Đã hủy, kể cả đơn chưa cọc. Phương án khi cần: hạn thanh toán 24 giờ rồi tự hủy đơn, không hoàn tiền vì chưa thu, thống nhất với UC-33 (BRD 08); hoặc chỉ cho tạo lô khi đơn đã Đang sản xuất. Đang theo hướng: để không hạn trong MVP. | UC-18 Data Fields; UC-19 Data Fields, BR-4; UC-20 BR-8; UC-22 BR-3; UC-14 BR-9 (BRD 03); UC-33 | Đã chốt 2026-11-25: UC-18 bắt buộc nhập hạn cọc tối thiểu mong muốn (1–14 ngày, mặc định 3); UC-19 nhập hạn đặt cọc trong [mức Buyer chọn, 14] khi cọc > 0% (bỏ qua khi 0%); UC-20 chụp cứng deposit_due_at, quá hạn tự hủy ở UC-33; giữ UC-14 BR-9 chỉ tạo lô khi đơn Đang sản xuất |
 | G-08 | Hủy yêu cầu có thông báo cho xưởng chưa báo giá không? Đang theo hướng: không, chỉ thông báo xưởng đã báo giá. | UC-23 BR-4 | Open |
 | G-09 | Đơn đặt riêng bị hủy (UC-33) có mở lại yêu cầu không? Đang theo hướng: không, Buyer tạo yêu cầu mới từ yêu cầu cũ. | UC-23 BR-3; UC-33 | Open |
 | G-10 | Gửi chung khi chưa có xưởng đúng phân loại: gửi tới tất cả xưởng đang nhận (kèm cảnh báo) hay không cho gửi và gợi ý chọn phân loại khác? Đang theo hướng: giữ gửi tất cả kèm cảnh báo, vì yêu cầu đặt riêng thường không khớp phân loại sẵn có. | UC-18 BR-4, Alt-08 | Open |

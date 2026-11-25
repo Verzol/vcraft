@@ -3,8 +3,8 @@ title: "06 — Tin tức cộng đồng"
 group: 06-news
 type: brd
 status: draft
-version: 0.2.0
-date: 2026-11-18
+version: 0.2.1
+date: 2026-11-25
 author: Khánh Chi
 ---
 
@@ -517,7 +517,7 @@ Resume: Kết thúc.
 
 | ID | Question | Affects | Decision |
 |---|---|---|---|
-| G-01 | Thông báo tin mới gửi cho Artisan với mọi tin đã đăng hay chỉ tin nội bộ? Overview ghi sự kiện là "Tin nội bộ mới". Đang theo hướng: gửi cho mọi tin đã đăng (cả công khai), vì Artisan đọc cả hai loại trong Kênh người bán và tin công khai như lịch cúp điện cũng cần báo tới hộ. | UC-27 BR-7, NT-UC27-01; UC-29 (BRD 07) | Open |
+| G-01 | Thông báo tin mới gửi cho Artisan với mọi tin đã đăng hay chỉ tin nội bộ? Overview ghi sự kiện là "Tin nội bộ mới". Đang theo hướng: gửi cho mọi tin đã đăng (cả công khai), vì Artisan đọc cả hai loại trong Kênh người bán và tin công khai như lịch cúp điện cũng cần báo tới hộ. | UC-27 BR-7, NT-UC27-01; UC-29 (BRD 07) | Đã chốt 2026-11-25: gửi NT-UC27-01 cho mọi Artisan với cả tin công khai lẫn tin nội bộ ở lần đăng đầu |
 | G-02 | UC-06 hiện khối 3 tin công khai nhưng chưa có lối vào danh sách đầy đủ, nên tin cũ hơn 3 tin mới nhất không tới được. | UC-28 Main Flow, Alt-03, BR-5; UC-06 (BRD 02) | Đã chốt 2026-11-18: danh sách tin phân trang theo số trang (10 tin mỗi trang, Trước, các số trang, Sau), có mục Tin tức ở menu và nút Xem tất cả ở khối tin trang chủ. UC-06 ở BRD `02-showcase` đã có hai lối vào này |
 | G-03 | Tin có cần ngày hết hiệu lực hoặc tự ẩn (ví dụ lịch cắt điện đã qua ngày) không? | UC-27 phạm vi | Đã chốt 2026-11-18: không; Admin tự Ẩn |
 | G-04 | Admin được sửa tin đã đăng thì người đọc có cần được báo không? | UC-27 Alt-06, BR-9; UC-28 BR-9 | Đã chốt 2026-11-18: không gửi thông báo, chỉ hiện "Cập nhật lúc" trên tin |

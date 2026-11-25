@@ -1,167 +1,64 @@
 ---
-title: "SRS-01 — Tài khoản — Architecture"
+title: "01 — Tài khoản — Kiến trúc và giao diện"
 code: SRS-01
 type: srs
-status: draft
-version: 0.1.0
-date: 2026-10-30
-author: SA
+status: official
+version: 0.4.0
+date: 2026-11-18
 ---
 
-<!-- VÍ DỤ MẪU: chỉ đặc tả UC-01 (Đăng ký tài khoản Artisan). -->
+# 01 — Tài khoản — Kiến trúc và giao diện
 
-# Tài khoản — Architecture
+[BRD 0.4.0](../../brd/01-account/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Đặc tả chức năng](02-feature-description.md) · [Ca nghiệm thu](03-test-cases.md)
 
-> **Component:** account
-> **Scope:** Hộ làng nghề đăng ký tài khoản Artisan kèm minh chứng trên Frontend; Backend lưu hồ sơ, ảnh và đặt trạng thái chờ duyệt.
-> **Related:** [Feature Description](02-feature-description.md) · [Test Cases](03-test-cases.md) · [BRD 01-account](../../brd/01-account/usecase.md)
+API dùng tiền tố `/api`. Backend lấy danh tính từ phiên và kiểm quyền trên đối tượng ở mỗi thao tác. Các lệnh dưới đây mô tả giao diện chính của từng UC.
 
----
+## UC-01 — Đăng ký bán hàng bằng tài khoản hiện có
 
-## 0. Summary
+Khi gửi mới hoặc nộp lại, chỉ chụp Trưởng BQL và Admin đang hoạt động có quyền Kiểm duyệt & Danh mục vào danh sách nhận.
 
-Người đại diện hộ điền form trên Frontend và gửi kèm ảnh minh chứng, ảnh xưởng trong **một request multipart**. Backend kiểm tra dữ liệu, lưu ảnh vào object storage, rồi trong một transaction tạo `users` (role `ARTISAN`), `workshops` (`approval_status = PENDING_APPROVAL`), `media` và thông báo cho Admin.
+`POST /me/seller-applications`
 
-**In scope:**
+Lấy account_id từ phiên mua. Lưu từng lần gửi, khóa sửa ở Chờ duyệt. Nộp lại nối với hồ sơ Cần chỉnh sửa.
 
-- API đăng ký Artisan kèm upload ảnh.
-- Trang Trạng thái hồ sơ cho Artisan đang chờ duyệt.
-- Thông báo in-app `NT-UC01-01`.
+**Dữ liệu liên quan** `applications`, `assets`, `events`.
 
-**Out of scope:**
+## UC-02 — Kiểm duyệt hồ sơ bán hàng
 
-- Admin duyệt / từ chối (UC-02, chưa viết).
-- Đăng nhập, phiên làm việc.
+Mỗi thao tác cần Trưởng BQL hoặc quyền Kiểm duyệt & Danh mục, kể cả duyệt thay đổi địa chỉ và xác minh chứng nhận. Sai quyền trả ERR-UC04-06.
 
----
+`POST /admin/applications/{id}/decisions`
 
-## 1. System Context
+Quyết định có điều kiện theo trạng thái hiện tại. Duyệt lần đầu khởi tạo gian hàng Đang chuẩn bị. Xử lý thay đổi tên, địa chỉ và xác minh chứng nhận bằng lệnh riêng.
 
-| Actor / System | Role | Direction | Channel |
-|---|---|---|---|
-| **Guest (người đại diện hộ)** | Điền form, tải ảnh, gửi đăng ký | Inbound | HTTPS / Frontend |
-| **Frontend** | Form đăng ký, màn hình Chờ duyệt | Client | REST, multipart |
-| **Backend API** | Validate, lưu hồ sơ, tạo thông báo | Core | REST |
-| **Database** | Lưu `users`, `workshops`, `media`, `notifications` | Outbound | SQL |
-| **Object Storage** | Lưu ảnh: minh chứng ở vùng **private**, ảnh xưởng ở vùng public | Outbound | HTTPS |
+**Dữ liệu liên quan** `applications`, `shops`, `shop_changes`, `certificates`, `events`.
 
----
+## UC-03 — Đăng ký tài khoản mua hàng
 
-## 2. Module Structure
+Chỉ Trưởng BQL được nạp sẵn. UC-34 tạo các tài khoản quản trị còn lại.
 
-| Module | Trách nhiệm | Thành phần chính |
-|---|---|---|
-| `auth` (Backend) | Nhận request đăng ký, băm mật khẩu | `registerArtisan` |
-| `media` (Backend) | Kiểm tra định dạng, dung lượng; lưu storage | `saveImages` |
-| `notifications` (Backend) | Tạo thông báo theo template | `notify` |
-| Frontend | Form đăng ký, màn hình Chờ duyệt | `RegisterArtisanPage`, `PendingPage` |
+`POST /auth/register`
 
----
+Kiểm tra duy nhất email tại DB. Băm mật khẩu. Gộp giỏ Guest theo UC-30 và khôi phục điểm vào.
 
-## 3. Data Model
+**Dữ liệu liên quan** `accounts`, `sessions`, `cart_items`.
 
-```mermaid
-erDiagram
-    USERS ||--o| WORKSHOPS : "owns"
-    WORKSHOPS ||--o{ MEDIA : "has"
-    USERS ||--o{ NOTIFICATIONS : "receives"
+## UC-04 — Đăng nhập, đăng xuất
 
-    USERS {
-        uuid id PK
-        string email UK
-        string password_hash "bcrypt"
-        string full_name
-        string phone
-        string role "BUYER | ARTISAN | ADMIN"
-        datetime created_at
-    }
+Kiểm mật khẩu trước trạng thái khóa. Sai mật khẩu trả ERR-UC04-01. Đúng mật khẩu nhưng Admin đã khóa trả ERR-UC04-07. Khi thiếu URL đích, chọn mục đầu có quyền theo UC-34 BR-9.
 
-    WORKSHOPS {
-        uuid id PK
-        uuid owner_id FK "UNIQUE: 1 Artisan = 1 xưởng (BR-3)"
-        string name
-        string address
-        int started_year "nullable"
-        string approval_status "PENDING_APPROVAL | APPROVED | REJECTED"
-        datetime created_at
-    }
+`POST /auth/login` · `POST /auth/logout`
 
-    MEDIA {
-        uuid id PK
-        uuid workshop_id FK
-        string kind "EVIDENCE | WORKSHOP_PHOTO"
-        string storage_key
-        string visibility "PRIVATE | PUBLIC"
-    }
+Tách quyền mua và quyền vào kênh bán theo hồ sơ duyệt. Thu hồi phiên đăng xuất và gộp giỏ một lần khi xác thực thành công.
 
-    NOTIFICATIONS {
-        uuid id PK
-        uuid user_id FK
-        string template_id "NT-UC01-01"
-        json payload
-        datetime read_at "nullable"
-    }
-```
+**Dữ liệu liên quan** `accounts`, `sessions`, `cart_items`.
 
-Trạng thái duyệt đặt trên `workshops` chứ không trên `users`, vì chỉ Artisan cần duyệt và mỗi Artisan có đúng một xưởng.
+## UC-05 — Quản lý thông tin tài khoản
 
----
+Admin tự sửa họ tên và mật khẩu ở đây. Trưởng BQL đặt lại mật khẩu cho Admin khác qua UC-34.
 
-## 4. API Surface
+`PATCH /me` · `POST /me/password`
 
-| Method | Endpoint | Role | Description | UC |
-|---|---|---|---|---|
-| `POST` | `/api/auth/register-artisan` | Guest | Multipart: thông tin chủ hộ, xưởng, `evidence[]`, `photos[]`. Tạo tài khoản ở `PENDING_APPROVAL`. | UC-01 |
-| `GET` | `/api/me/application` | Artisan | Trả trạng thái hồ sơ cho trang Trạng thái hồ sơ. | UC-01 |
+Chỉ cập nhật trường được phép. Đổi mật khẩu kết thúc các phiên khác. Dùng bản chụp cho các giao dịch cũ.
 
-**Định dạng lỗi:** `{ "code": "ERR-UC01-01", "message": "..." }`
-
-| Code | HTTP |
-|---|---|
-| `ERR-UC01-01` Email đã được sử dụng | 409 |
-| `ERR-UC01-02` Thiếu minh chứng | 400 |
-| `ERR-UC01-03` Ảnh không hợp lệ | 400 |
-
----
-
-## 5. Technical Flows
-
-### 5.1 Đăng ký Artisan
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor G as Guest
-    participant FE as Frontend
-    participant BE as Backend
-    participant ST as Object Storage
-    participant DB as Database
-
-    G->>FE: Điền form, chọn ảnh, Gửi đăng ký
-    FE->>BE: POST /api/auth/register-artisan (multipart)
-    BE->>BE: Validate field, định dạng ảnh, dung lượng
-    alt Thiếu minh chứng / ảnh sai
-        BE-->>FE: 400 ERR-UC01-02 / ERR-UC01-03
-    else Email đã tồn tại
-        BE-->>FE: 409 ERR-UC01-01
-    else Hợp lệ
-        BE->>ST: Lưu evidence (private), photos (public)
-        BE->>DB: BEGIN
-        BE->>DB: INSERT users, workshops (PENDING_APPROVAL), media
-        BE->>DB: INSERT notifications (NT-UC01-01 cho mỗi Admin)
-        BE->>DB: COMMIT
-        BE-->>FE: 201 { status: PENDING_APPROVAL }
-        FE-->>G: Màn hình Chờ duyệt
-    end
-```
-
-Nếu ghi DB lỗi sau khi đã lưu ảnh, Backend xóa các ảnh vừa lưu để không để lại file rác.
-
----
-
-## 6. Security & Non-Functional
-
-1. **Mật khẩu:** băm bcrypt; không ghi log, không trả về trong response.
-2. **Minh chứng:** lưu vùng private, chỉ Admin xem được. Không bao giờ hiển thị công khai.
-3. **Upload:** Backend tự kiểm tra định dạng (JPG, PNG, WebP) và dung lượng (≤ 10 MB), không tin kiểm tra ở Frontend.
-4. **Artisan chưa duyệt (BR-1):** chỉ gọi được `/api/me/application`; các API khác của Portal trả 403. Xưởng `PENDING_APPROVAL` không xuất hiện ở API công khai.
+**Dữ liệu liên quan** `accounts`, `sessions`.

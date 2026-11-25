@@ -3,13 +3,13 @@ title: "04 — Đặt hàng riêng — Đặc tả chức năng"
 code: SRS-04
 type: srs
 status: official
-version: 0.4.0
-date: 2026-11-18
+version: 0.4.1
+date: 2026-11-25
 ---
 
 # 04 — Đặt hàng riêng — Đặc tả chức năng
 
-[BRD 0.2.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.3.0](../../brd/04-quotation/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
@@ -34,6 +34,7 @@ Phân biệt ba nguồn yêu cầu. Kiểm lại xưởng đủ điều kiện k
 | Đơn vị | Text; length 30 | Không để trống | Có | Ví dụ: "chiếc", "bộ" |
 | Ảnh mẫu | Ảnh JPG / PNG / WebP | 0–5 ảnh, mỗi ảnh ≤ 10 MB | Không | Ảnh sản phẩm mẫu hiện riêng, không tính vào 5 ảnh |
 | Ngày cần hàng | Date | Không ở quá khứ | Không | Chỉ là mong muốn; xưởng báo thời gian hoàn thành ở báo giá (UC-19) |
+| Hạn đặt cọc tối thiểu mong muốn | Number (ngày) | Số nguyên từ 1 đến 14; mặc định điền sẵn 3 | Có | Xưởng báo hạn cọc ≥ mức này nếu tỷ lệ cọc > 0% (UC-19) |
 | Hình thức nhận hàng | Chọn một | Nhận tại xưởng hoặc Giao tận nơi | Có | Quyết định phí giao trong báo giá |
 | Địa chỉ nhận hàng | Tỉnh/thành, quận/huyện, phường/xã chọn theo danh mục; địa chỉ chi tiết text length 150 | Đủ bốn mục | Có điều kiện | Bắt buộc khi Giao tận nơi. Xưởng chỉ thấy đến quận/huyện trước khi báo giá được chấp nhận (BR-8) |
 | Số điện thoại người nhận | Text; length 10 | Số di động Việt Nam, 10 chữ số | Có điều kiện | Bắt buộc khi Giao tận nơi; điền sẵn từ tài khoản, được sửa. Xưởng chỉ thấy sau khi báo giá được chấp nhận. Ví dụ: 0912345678 |
@@ -77,6 +78,7 @@ Kiểm quyền đúng xưởng nhận. Lưu phiên bản kế tiếp, tính ti�
 | Phí giao | Number (VND) | Số nguyên từ 0 đến 50.000.000; bằng 0 nếu Nhận tại xưởng | Có | Ví dụ: 150000 |
 | Thời gian hoàn thành | Number (ngày) | Số nguyên từ 1 đến 365 | Có | Tính từ lúc Buyer chấp nhận. Ví dụ: 21 |
 | Tỷ lệ cọc | Chọn một | 0%, 30% hoặc 50% | Có | Xưởng chọn (BR-4) |
+| Hạn đặt cọc | Number (ngày) | Số nguyên từ mức Buyer chọn ở UC-18 đến 14 | Có điều kiện | Bắt buộc khi tỷ lệ cọc > 0% (30% hoặc 50%); bỏ qua khi cọc 0% |
 | Hiệu lực đến ngày | Date | Hết 23:59 ngày chọn; theo BR-5 | Có | Ví dụ: 2026-12-20 |
 | Ghi chú | Text; length 500 | — | Không | Chất liệu, quy cách, điều kiện |
 | Tổng giá trị | Number, chỉ xem | Đơn giá nhân số lượng, cộng phí giao | — | Hệ thống tính, hiển thị cho cả hai bên |
@@ -116,9 +118,10 @@ Buyer xác nhận phiên bản còn hiệu lực. Khóa cùng RFQ với UC-23. T
 
 | Field | Format | Validation | Required | Ghi chú |
 |---|---|---|---|---|
-| Danh sách báo giá | Bảng, chỉ xem | Mọi báo giá của yêu cầu; xưởng, đơn giá, phí giao, tổng giá trị, thời gian hoàn thành, tỷ lệ cọc, số tiền cọc, hiệu lực, phiên bản, trạng thái | — | Sắp xếp theo giá hoặc thời gian hoàn thành |
+| Danh sách báo giá | Bảng, chỉ xem | Mọi báo giá của yêu cầu; xưởng, đơn giá, phí giao, tổng giá trị, thời gian hoàn thành, tỷ lệ cọc, hạn đặt cọc, số tiền cọc, hiệu lực, phiên bản, trạng thái | — | Sắp xếp theo giá hoặc thời gian hoàn thành |
 | Báo giá được chọn | Chọn một | Còn hiệu lực, đúng phiên bản đang xem | Có | |
 | Số tiền cọc | Number, chỉ xem | Tổng giá trị nhân tỷ lệ cọc, làm tròn đến đồng | — | Thanh toán qua ZaloPay sandbox |
+| Hạn thanh toán cọc | Date-time, chỉ xem | Thời điểm tạo đơn + số ngày hạn đặt cọc của báo giá | — | Chỉ có khi tỷ lệ cọc > 0%; quá hạn hệ thống tự hủy đơn (UC-33) |
 | Phần còn lại | Number, chỉ xem | Tổng giá trị trừ số tiền cọc | — | Thu khi giao hoặc nhận (UC-22) |
 | Mã đơn | Text | Hệ thống sinh, duy nhất | — | Ví dụ: "DR-2026-0001" |
 | Trạng thái thanh toán | Chỉ xem | Chưa thanh toán, Đã đặt cọc, Đã thanh toán, Đã hoàn tiền | — | |

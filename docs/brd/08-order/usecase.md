@@ -3,8 +3,8 @@ title: "08 — Mua hàng có sẵn"
 group: 08-order
 type: brd
 status: draft
-version: 0.2.0
-date: 2026-11-18
+version: 0.3.0
+date: 2026-11-25
 author: Khánh Chi
 ---
 
@@ -52,7 +52,7 @@ Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết 
 
 | ID | Tài liệu | Quan hệ |
 |---|---|---|
-| OV | [use-case-overview](../../overview/use-case-overview.md) | Khung use case, giỏ hàng, checkout, vòng đời đơn mua hàng, thanh toán và vận chuyển, quy tắc hủy đơn (v0.7.3). |
+| OV | [overview](../../overview.md) | Khung use case, giỏ hàng, checkout, vòng đời đơn mua hàng, thanh toán và vận chuyển, quy tắc hủy đơn. |
 | BRD-01 | [01-account](../01-account/usecase.md) | UC-03, UC-04 gộp giỏ Guest vào giỏ tài khoản và đưa người dùng quay lại thanh toán sau khi đăng nhập (UC-04, Alt-08, BR-3); UC-04 BR-6: Admin không mua. UC-05 cung cấp họ tên, số điện thoại điền sẵn. |
 | BRD-02 | [02-showcase](../02-showcase/usecase.md) | UC-11 có nút Thêm vào giỏ (hết hàng, xưởng Tạm ngừng, sản phẩm xưởng mình thì vô hiệu hoặc ẩn); UC-09 quản lý số còn bán, giá, cân nặng, kích thước, Ẩn sản phẩm; UC-07 cấu hình phương thức giao và phí giao (BR-6 luôn còn ít nhất một phương thức); UC-13 xưởng Tạm ngừng không nhận đơn mới nhưng vẫn xử lý đơn đang thực hiện (BR-4). |
 | BRD-03 | [03-traceability](../03-traceability/usecase.md) | Đơn mua hàng không gắn lô sản xuất; nguồn gốc sản phẩm xem ở UC-11 và UC-17. Lô đã tạo cho đơn đặt riêng bị hủy giữ nguyên (UC-14 BR-9). |
@@ -952,7 +952,7 @@ Resume: Quay lại luồng gọi.
 
 ##### Alt-09 — Thanh toán tới sau khi đơn đã hủy
 
-- At step: Sau Main Flow bước 4 hoặc UC-31 Alt-04 · Trigger: Cổng báo thanh toán thành công cho một đơn đã Đã hủy (hết hạn 15 phút hoặc Buyer đã hủy lúc Chờ thanh toán).
+- At step: Sau Main Flow bước 4 hoặc UC-31 Alt-04 · Trigger: Cổng báo thanh toán thành công cho một đơn đã Đã hủy (hết hạn 15 phút hoặc Buyer đã hủy lúc Chờ thanh toán với đơn mua, hoặc đơn đặt riêng tự hủy do quá hạn cọc `deposit_due_at`).
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
@@ -966,8 +966,9 @@ Resume: Kết thúc.
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
-| 1 | Hệ thống | Hệ thống giữ nguyên trạng thái thanh toán và tự thử hoàn tiền lại theo chu kỳ cho đến khi thành công (G-02); đơn vẫn Đã hủy hoặc Bị từ chối. | Việc hủy không bị chặn bởi lỗi hoàn tiền. |
-| 2 | Frontend | Frontend hiển thị ở chi tiết đơn của Buyer ERR-UC33-06 ("Đang xử lý hoàn tiền"). | Buyer biết khoản hoàn chưa về. |
+| 1 | Hệ thống | Hệ thống dùng idempotency key (`payment_id + reason`), tra trạng thái giao dịch tại cổng trước mỗi lần gọi lại và tự thử tối đa 5 lần theo lịch `1p → 5p → 15p → 1h → 6h` khi gặp lỗi tạm thời; đơn vẫn Đã hủy hoặc Bị từ chối và giữ nguyên `payment_state`. | Chống hoàn lặp và không chặn việc hủy. |
+| 2 | Hệ thống | Nếu gặp lỗi vĩnh viễn từ cổng hoặc hết 5 lần thử lại vẫn thất bại: hệ thống dừng retry, chuyển `refunds.state = FAILED` (giữ nguyên `orders.state` và `payment_state`) và tiếp tục ghi nhận đơn trong chỉ số tồn đọng hoàn tiền (`Hoàn tiền thất bại`) tại Trang quản trị (UC-35). | Admin theo dõi và xử lý ngoài hệ thống ở MVP1. |
+| 3 | Frontend | Khi đang retry hiển thị ERR-UC33-06 ("Đang xử lý hoàn tiền"); khi `refunds.state = FAILED` hiển thị ở chi tiết đơn của Buyer: "Hoàn tiền chưa thành công, vui lòng liên hệ Ban quản lý kèm mã đơn". | Buyer biết tình trạng hoàn tiền và cách liên hệ BQL. |
 
 Resume: Khi hoàn tiền thành công tiếp tục Alt-08 bước 2.
 
@@ -1115,7 +1116,7 @@ Resume: Quay lại nhập số lượng trả về.
 | BR-8 | Hủy đơn là thao tác một chiều: đơn Đã hủy không khôi phục được. Muốn mua lại thì đặt đơn mới (nút Mua lại); với đơn đặt riêng thì tạo yêu cầu mới từ yêu cầu cũ (UC-18, Alt-15). Lô sản xuất đã tạo cho đơn đặt riêng bị hủy giữ nguyên. | Nhóm đề xuất; UC-14 BR-9 (BRD 03) |
 | BR-9 | Trạng thái thanh toán chuyển Đã hoàn tiền chỉ khi cổng xác nhận hoàn thành công; xưởng giữ cọc thì giữ nguyên Đã đặt cọc. | Overview mục 4 |
 | BR-10 | Thanh toán tới sau khi đơn đã hủy (hết hạn hoặc Buyer đã hủy) thì đơn không khôi phục và khoản tiền được hoàn đủ tự động. | Nhóm đề xuất |
-| BR-11 | Hoàn tiền thất bại không chặn việc hủy: đơn vẫn Đã hủy; hệ thống tự thử lại; trạng thái thanh toán giữ nguyên cho đến khi hoàn thành công; Buyer thấy "Đang xử lý hoàn tiền". MVP1 không có màn hình xử lý tay cho Admin. | Nhóm đề xuất (G-02) |
+| BR-11 | Hoàn tiền thất bại không chặn việc hủy: đơn vẫn Đã hủy hoặc Bị từ chối; dùng idempotency key (`payment_id + reason`), tra trạng thái cổng trước khi gửi lại, retry tối đa 5 lần (`1p → 5p → 15p → 1h → 6h`). Hết 5 lần hoặc gặp lỗi vĩnh viễn thì dừng, chuyển `refunds.state = FAILED` (giữ nguyên `orders.state` và `payment_state`), báo Buyer liên hệ BQL kèm mã đơn và đưa vào tồn đọng hoàn tiền ở UC-35. | Chốt 2026-11-25 (G-02) |
 | BR-12 | Chỉ Buyer của đơn và xưởng của đơn được hủy theo đúng trạng thái; Admin không hủy hay can thiệp đơn. Kiểm tra quyền và trạng thái ở mọi thao tác; hủy và xác nhận cùng lúc thì chỉ một thao tác thắng. | Overview mục 1, mục 8 (An ninh) |
 | BR-13 | Xưởng Tạm ngừng vẫn hủy đơn và phản hồi yêu cầu hủy của đơn đang thực hiện. | UC-13 BR-4 (BRD 02) |
 | BR-14 | Nội dung thông báo không chứa họ tên, số điện thoại, địa chỉ nhận của Buyer. | UC-29 BR-11 (BRD 07) |
@@ -1165,7 +1166,7 @@ Resume: Quay lại nhập số lượng trả về.
 | ID | Question | Status | Ghi chú |
 |---|---|---|---|
 | G-01 | Buyer có được tự hủy đơn online đang Chờ thanh toán không? Overview chỉ cho đơn này tự hủy khi quá 15 phút. | Đã chốt | Chốt: Buyer được tự hủy đơn Chờ thanh toán (UC-33, Alt-02): đơn Đã hủy, hoàn số lượng, không có tiền để hoàn, đóng giao dịch đang mở nếu cổng cho phép; thanh toán tới muộn thì hoàn tiền (Alt-09). |
-| G-02 | Hoàn tiền qua cổng thất bại thì xử lý thế nào khi MVP1 không có đối soát và Admin không xem đơn? | Open | Đang theo hướng: hệ thống tự thử lại theo chu kỳ cho đến khi thành công, Buyer thấy "Đang xử lý hoàn tiền" (UC-33, Alt-10); chưa có màn hình xử lý tay. Cần chốt số lần và chu kỳ thử lại ở SRS. |
+| G-02 | Hoàn tiền qua cổng thất bại thì xử lý thế nào khi MVP1 không có đối soát và Admin không xem đơn? | Đã chốt | Chốt 2026-11-25: dùng idempotency key (`payment_id + reason`), tra trạng thái cổng trước khi gọi lại, retry tối đa 5 lần (`1p → 5p → 15p → 1h → 6h`). Hết ngưỡng hoặc lỗi vĩnh viễn dừng retry, đặt `refunds.state = FAILED` (giữ nguyên `orders.state` và `payment_state`), báo Buyer liên hệ BQL kèm mã đơn và đưa vào tồn đọng hoàn tiền ở UC-35. |
 | G-03 | Yêu cầu hủy đơn đặt riêng đang sản xuất: xưởng có hạn phản hồi không; Buyer gửi lại được sau khi bị từ chối không? | Open | Đang theo hướng: không có hạn phản hồi; Buyer rút được; bị từ chối thì được gửi yêu cầu mới, mỗi lần một yêu cầu đang chờ. Rủi ro: yêu cầu treo lâu hoặc gửi liên tục. |
 | G-04 | Lý do hủy: bắt buộc với bên nào? Overview chỉ nêu bắt buộc với xưởng hủy đơn mua. | Open | Đang theo hướng: bắt buộc khi xưởng hủy bất kỳ đơn nào, xưởng từ chối yêu cầu hủy và Buyer gửi yêu cầu hủy; Buyer hủy đơn mua hoặc đơn Chờ sản xuất thì không bắt buộc (BR-7). |
 | G-05 | Đơn Nhận tại xưởng: ai bấm chuyển sang Đã giao? | Open | Đang theo hướng: xưởng bấm Đã bàn giao tại xưởng khi Buyer đến lấy (UC-32, Alt-02); Buyer vẫn xác nhận đã nhận hoặc đơn tự hoàn tất sau 7 ngày. Đơn không có bước Đang giao. |
@@ -1173,4 +1174,4 @@ Resume: Quay lại nhập số lượng trả về.
 | G-07 | Hết hạn xác nhận 3 ngày của đơn online đã thanh toán: tính từ lúc tạo đơn hay lúc thanh toán thành công? | Open | Đang theo hướng: từ lúc đơn vào Chờ xác nhận (thanh toán thành công với đơn online) để xưởng đủ 3 ngày. |
 | G-08 | Giỏ hàng có thời hạn lưu không? | Open | Đang theo hướng: không thời hạn; giỏ Guest lưu đến khi xóa dữ liệu trình duyệt (UC-30 BR-10). |
 | G-09 | Hoàn số lượng khi sản phẩm của đơn bị hủy đã Ẩn hoặc đổi giá: có cộng lại số còn bán không? | Open | Đang theo hướng: luôn cộng lại vào sản phẩm gốc, kể cả khi sản phẩm đang Ẩn; sản phẩm Ẩn lên lại thì số còn bán đã đúng. |
-| G-10 | Danh mục thông báo của BRD 07 cần khai báo NT-UC31-01 đến NT-UC31-03, NT-UC32-01 đến NT-UC32-08, NT-UC33-01 đến NT-UC33-09 (G-01 của BRD 07). | Open | Đang theo hướng: cập nhật bảng Danh mục thông báo của BRD 07 theo các mã trên và đóng G-01 của BRD 07. |
+| G-10 | Danh mục thông báo của BRD 07 cần khai báo NT-UC31-01 đến NT-UC31-03, NT-UC32-01 đến NT-UC32-08, NT-UC33-01 đến NT-UC33-09 (G-01 của BRD 07). | Đã chốt | Chốt 2026-11-25: đồng bộ trạng thái đóng với G-01 của BRD `07-notification` (đã khai báo đủ NT-UC31 đến NT-UC33). |

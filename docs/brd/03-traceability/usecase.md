@@ -3,8 +3,8 @@ title: "03 — Truy xuất nguồn gốc"
 group: 03-traceability
 type: brd
 status: draft
-version: 0.1.0
-date: 2026-11-18
+version: 0.1.1
+date: 2026-11-25
 author: Khánh Chi
 ---
 
@@ -792,7 +792,7 @@ Resume: Tiếp tục bước 3.
 | G-01 | Lô Đang thực hiện có công khai trên trang QR không? Đang theo hướng: xem được, kèm nhãn trạng thái. | UC-17 BR-9; UC-11 | Open |
 | G-02 | Lô đã từng mở lại có cần dòng ghi ngày "cập nhật lại" ở đầu trang ngoài nhãn từng mốc không? Đề xuất: có, để việc xóa mốc sau khi mở lại không mất dấu vết. | UC-17 BR-5, Alt-06 | Open |
 | G-03 | Số tem in mặc định bằng số lượng lô, tối đa 1000, có phù hợp không? | UC-16 Data Fields | Open |
-| G-04 | Lô của đơn đặt riêng tạo được khi nào? Đang theo hướng: chỉ khi đơn Đang sản xuất (cọc, nếu có, đã thanh toán); không tạo cho đơn Chờ sản xuất, và không thêm lô sau khi đơn đã sang Đang giao, Đã giao, Hoàn tất hoặc Đã hủy. Lô đã tạo vẫn xử lý tiếp bình thường. | UC-14 BR-9; UC-22 BR-3 (BRD 04) | Open |
+| G-04 | Lô của đơn đặt riêng tạo được khi nào? Đang theo hướng: chỉ khi đơn Đang sản xuất (cọc, nếu có, đã thanh toán); không tạo cho đơn Chờ sản xuất, và không thêm lô sau khi đơn đã sang Đang giao, Đã giao, Hoàn tất hoặc Đã hủy. Lô đã tạo vẫn xử lý tiếp bình thường. | UC-14 BR-9; UC-22 BR-3 (BRD 04) | Đã chốt 2026-11-25: giữ rule chỉ tạo lô khi đơn Đang sản xuất (cọc đã thanh toán), đã đồng bộ với G-07 của BRD 04 |
 | G-05 | Quan hệ UC-14 và UC-24 (cũ UC-23). | UC-14; UC-24 | Đã chốt 2026-11-17: UC-14 tạo lô cho sản phẩm hoặc đơn; UC-24 chỉ còn Buyer xem nhật ký lô của đơn |
 | G-06 | Một đơn có nhiều lô không? | UC-14 BR-2 | Đã chốt 2026-11-17: được |
 | G-07 | Có cho xóa và sửa nhật ký, mở lại lô, xử lý lô đã xuất xưởng như thế nào? | UC-14, UC-15 | Đã chốt 2026-11-18: ba trạng thái lô; Đang thực hiện sửa xóa tự do; Hoàn thành khóa nhưng mở lại được; Đã xuất xưởng khóa cứng, chỉ thêm ghi chú đính chính; Admin không mở khóa trong MVP1 |

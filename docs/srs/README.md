@@ -33,10 +33,10 @@ Bản SRS chính thức ngày 18/11/2026 dựa trên chín BRD tại commit `7e4
 
 ## Các điểm cần thống nhất trước khi triển khai
 
-- **Điều kiện tạo lô đặt riêng.** UC-14 BR-9 hiện yêu cầu đơn Đang sản xuất. G-07 của nhóm 04 vẫn mô tả khả năng tạo lô cho đơn chưa cọc. SRS áp dụng điều kiện ở UC-14 và UC-22 BR-3. Lô đã tạo tiếp tục được quản lý khi trạng thái đơn đổi.
-- **Phạm vi thông báo tin mới.** G-01 nhóm 06 còn mở giữa chỉ tin nội bộ và mọi tin đăng lần đầu. Tạm dùng UC-27 BR-7 cho cả hai phạm vi và chỉ gửi tới Artisan tại thời điểm đăng.
-- **Thông báo đơn và tiến độ.** G-10 nhóm 08 vẫn ghi Open dù danh mục UC-29 đã có các mẫu UC-31/32/33. Đã đối chiếu mã khai báo tại UC nguồn với danh mục UC-29. Riêng sự kiện đơn đặt riêng bắt đầu sản xuất chưa có mẫu riêng, theo G-04 nhóm 07.
-- **Thời hạn thanh toán và hoàn tiền.** Hạn 15 phút áp dụng cho đơn mua online. Hạn cọc đơn đặt riêng còn mở tại G-07 nhóm 04. Với G-02 nhóm 08, SRS đề xuất thử hoàn sau 1, 5 và 15 phút rồi mỗi giờ khi còn lỗi tạm thời. Mỗi lần tra lại cùng mã hoàn ở cổng trước khi gửi lại. Nhóm cần duyệt lịch này và cách xử lý lỗi vĩnh viễn.
+- **Điều kiện tạo lô đặt riêng (Đã chốt 25/11/2026).** Giữ `UC-14 BR-9` và `UC-22 BR-3` — chỉ tạo lô khi đơn đặt riêng ở trạng thái Đang sản xuất (đã cọc xong với đơn có cọc); đã đóng G-07 (BRD 04) và G-04 (BRD 03). Lô đã tạo tiếp tục được quản lý khi trạng thái đơn đổi.
+- **Phạm vi thông báo tin mới (Đã chốt 25/11/2026).** Áp dụng `UC-27 BR-7` gửi `NT-UC27-01` cho mọi Artisan ở lần đăng đầu với cả tin công khai lẫn tin nội bộ; đã đóng G-01 (BRD 06).
+- **Thông báo đơn và tiến độ (Đã chốt 25/11/2026).** Đã đóng G-10 (BRD 08) đồng bộ với danh mục UC-29; giữ nguyên không gửi thông báo riêng khi đơn đặt riêng chuyển Đang sản xuất (đã đóng G-04 BRD 07).
+- **Thời hạn thanh toán và hoàn tiền (Đã chốt 25/11/2026).** Đơn mua online giữ hạn 15 phút. Đơn đặt riêng: Buyer bắt buộc nhập hạn cọc tối thiểu mong muốn (1–14 ngày, mặc định 3) ở UC-18; xưởng nhập hạn đặt cọc trong `[mức Buyer chọn, 14]` ngày khi cọc > 0% ở UC-19 (cọc 0% bỏ qua); UC-20 chụp cứng `deposit_due_at`, quá hạn tự hủy đơn ở UC-33 (callback muộn tự hoàn cọc). Hoàn tiền (G-02 BRD 08): dùng idempotency key theo `(payment_id, reason)`, tra trạng thái cổng trước khi gọi lại, retry tối đa 5 lần (1p → 5p → 15p → 1h → 6h); gặp lỗi vĩnh viễn hoặc hết ngưỡng thì dừng, đặt `refunds.state = FAILED` (không đổi `orders.state`/`payment_state`), báo Buyer liên hệ BQL kèm mã đơn, vẫn tính vào chỉ số tồn đọng hoàn tiền ở UC-35.
 
 ## Cách đối chiếu
 

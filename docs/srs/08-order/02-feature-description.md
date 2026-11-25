@@ -3,13 +3,13 @@ title: "08 — Mua hàng có sẵn — Đặc tả chức năng"
 code: SRS-08
 type: srs
 status: official
-version: 0.4.0
-date: 2026-11-18
+version: 0.4.1
+date: 2026-11-25
 ---
 
 # 08 — Mua hàng có sẵn — Đặc tả chức năng
 
-[BRD 0.2.0](../../brd/08-order/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
+[BRD 0.3.0](../../brd/08-order/usecase.md) · [ERD](../../design/erd.md) · [Phụ thuộc liên nhóm](../README.md) · [Kiến trúc và giao diện](01-architecture.md) · [Ca nghiệm thu](03-test-cases.md)
 
 Giới hạn dữ liệu và mã lỗi theo phiên bản BRD trên. Các phương án đang mở trong mục Open Questions cần nhóm xác nhận.
 
@@ -131,7 +131,7 @@ Buyer hoặc xưởng hủy đơn theo trạng thái của đơn. Đơn mua hàn
 
 **Quyền và điều kiện** Đã đăng nhập Đơn thuộc tài khoản Buyer hoặc gian hàng của xưởng Đơn đang ở trạng thái cho phép hủy với người thao tác (BR-1, BR-2)
 
-Phân nhánh theo loại đơn, bên yêu cầu, trạng thái và cọc đã thu. Hoàn tồn đơn mua đúng lượng được trả. Callback muộn chỉ hoàn tiền, không khôi phục đơn.
+Phân nhánh theo loại đơn, bên yêu cầu, trạng thái và cọc đã thu. Hoàn tồn đơn mua đúng lượng được trả. Callback muộn (gồm cả đơn đặt riêng quá hạn cọc đã tự hủy) chỉ hoàn tiền, không khôi phục đơn. Hoàn tiền thất bại dùng idempotency key theo `(payment_id, reason)`, tra trạng thái cổng trước mỗi lần thử lại tối đa 5 lần (`1p → 5p → 15p → 1h → 6h`); gặp lỗi vĩnh viễn hoặc hết ngưỡng đặt `refunds.state = FAILED` (giữ nguyên trạng thái đơn và `payment_state`) và vẫn tính vào chỉ số tồn đọng của UC-35.
 
 | Field | Format | Validation | Required | Ghi chú |
 |---|---|---|---|---|

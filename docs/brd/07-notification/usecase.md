@@ -3,8 +3,8 @@ title: "07 — Trung tâm thông báo"
 group: 07-notification
 type: brd
 status: draft
-version: 0.2.0
-date: 2026-11-18
+version: 0.2.1
+date: 2026-11-25
 author: Khánh Chi
 ---
 
@@ -341,5 +341,5 @@ Danh mục tổng hợp các mẫu thông báo đã khai báo trong các BRD; ti
 | G-01 | Mẫu thông báo của nhóm `08-order` (đơn mua hàng, thanh toán, hoàn tiền, hủy đơn và yêu cầu hủy). | Danh mục thông báo; UC-29 AC-25, AC-26 | Đã chốt 2026-11-18: BRD `08-order` đã khai báo NT-UC31-01 đến NT-UC31-03, NT-UC32-01 đến NT-UC32-08, NT-UC33-01 đến NT-UC33-09; đã đưa vào Danh mục thông báo |
 | G-02 | Chu kỳ làm mới số chưa đọc khi trang đang mở. Đang theo hướng: khoảng 60 giây, không đẩy thời gian thực, vì thông báo chỉ hỗ trợ, trạng thái chính nằm ở màn hình nghiệp vụ. | UC-29 Alt-08, BR-7 | Open |
 | G-03 | Thời hạn lưu thông báo và có cho người dùng xóa không. Đang theo hướng: MVP1 không cho xóa và không tự xóa; danh sách đã phân trang nên chưa ảnh hưởng hiệu năng. | UC-29 BR-15; phạm vi | Open |
-| G-04 | Đơn đặt riêng chuyển Đang sản xuất hiện không có thông báo riêng (BRD `04-quotation`, UC-22 bước 3), trong khi overview ghi sự kiện chung "Đơn đặt riêng đổi trạng thái". Đang theo hướng: giữ như BRD `04-quotation`; Buyer thấy trạng thái mới ở chi tiết đơn. | Danh mục thông báo; UC-22 (BRD 04) | Open |
+| G-04 | Đơn đặt riêng chuyển Đang sản xuất hiện không có thông báo riêng (BRD `04-quotation`, UC-22 bước 3), trong khi overview ghi sự kiện chung "Đơn đặt riêng đổi trạng thái". Đang theo hướng: giữ như BRD `04-quotation`; Buyer thấy trạng thái mới ở chi tiết đơn. | Danh mục thông báo; UC-22 (BRD 04) | Đã chốt 2026-11-25: giữ như BRD `04-quotation`, không gửi thông báo riêng khi đơn đặt riêng chuyển Đang sản xuất (Buyer theo dõi tại chi tiết đơn) |
 | G-05 | Artisan có cả thông báo mua và bán trong cùng một chuông. Đang theo hướng: một chuông, mỗi dòng có nhãn khu vực, bấm thông báo khu vực khác thì chuyển khu vực không đăng nhập lại; chưa tách hai chuông. | UC-29 BR-8, Data Fields | Open |

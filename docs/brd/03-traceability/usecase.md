@@ -762,7 +762,7 @@ Resume: Tiếp tục bước 3.
 | BR-5 | Mốc sửa hoặc thêm sau khi lô đã từng Hoàn thành hiện nhãn "đã chỉnh sửa"; trang còn hiện dòng ngày lô được cập nhật lại. | Overview 3.3; Nhóm đề xuất (dòng cập nhật lại) |
 | BR-6 | Ghi chú đính chính hiển thị kèm ngày giờ, không thay đổi mốc cũ. | Chốt 2026-11-18 |
 | BR-7 | Trang ưu tiên điện thoại, ảnh lớn, tải từng phần. | Đề bài §1 (tiêu chí 3, 4) |
-| BR-8 | URL của lô cố định, dùng mã lô, không đổi khi tên sản phẩm hay tên lô đổi. | Đề bài §1 (tiêu chí 8); Overview 3.3 |
+| BR-8 | URL của lô cố định, dùng mã token QR riêng (`qr_token`, tách khỏi mã lô hiển thị tuần tự để chống dò đoán), không đổi khi tên sản phẩm hay tên lô đổi. | Đề bài §1 (tiêu chí 8); Overview 3.3; SRS-03 |
 | BR-9 | Lô Đang thực hiện vẫn xem được, kèm nhãn trạng thái. | Nhóm đề xuất (G-01) |
 
 #### Acceptance Criteria

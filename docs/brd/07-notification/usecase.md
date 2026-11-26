@@ -333,6 +333,8 @@ Danh mục tổng hợp các mẫu thông báo đã khai báo trong các BRD; ti
 | NT-UC33-07 | Đơn đặt riêng bị hủy trực tiếp | Bên còn lại: Buyer nếu xưởng hủy, xưởng nếu Buyer hủy | Chi tiết đơn đặt riêng Đã hủy (UC-22) phía của mình | Mua hàng với Buyer; Bán hàng với xưởng | UC-33 |
 | NT-UC33-08 | Hoàn tiền thành công | Buyer của đơn | Chi tiết đơn mua hàng (UC-32) hoặc đơn đặt riêng (UC-22), trạng thái thanh toán Đã hoàn tiền | Mua hàng | UC-33 |
 | NT-UC33-09 | Hoàn tiền thành công, xưởng đã được báo về đơn | Xưởng của đơn | Chi tiết đơn mua hàng (UC-32) hoặc đơn đặt riêng (UC-22) ở phía xưởng | Bán hàng | UC-33 |
+| NT-UC33-10 | Đơn đặt riêng tự hủy do quá hạn đặt cọc (`deposit_due_at`) | Buyer và Xưởng của đơn | Chi tiết đơn đặt riêng Đã hủy (UC-22) phía của mình | Mua hàng với Buyer; Bán hàng với xưởng | UC-33 |
+| NT-UC33-11 | Hoàn tiền thất bại sau số lần thử lại tối đa (`refunds.state = FAILED`) | Buyer của đơn | Chi tiết đơn mua hàng (UC-32) hoặc đơn đặt riêng (UC-22), hướng dẫn liên hệ BQL kèm mã đơn | Mua hàng | UC-33 |
 
 ## IV. Open Questions
 

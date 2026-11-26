@@ -7,24 +7,28 @@
 
 ```text
 docs/
-├── overview/problem-statement.md      # đề bài
-├── brd/                               # yêu cầu nghiệp vụ — mỗi nhóm chức năng một thư mục
-│   ├── _template/                     # MẪU: copy khi viết nhóm chức năng mới
-│   │   ├── usecase.md
-│   │   └── CHANGELOG.md
-│   └── 01-account/                    # VÍ DỤ: UC-01 viết hoàn chỉnh
+├── overview.md                        # tổng quan hệ thống + 8 sơ đồ tuần tự draw.io
+├── overview/problem-statement.md      # đề bài & tiêu chí chấm điểm
+├── brd/                               # yêu cầu nghiệp vụ — 9 nhóm (01-account .. 09-portal) + _template/
+│   ├── _template/
+│   └── 01-account/ .. 09-portal/
 │       ├── usecase.md
 │       └── CHANGELOG.md
-├── srs/                               # đặc tả kỹ thuật — đi cặp với BRD
-│   ├── _template/                     # MẪU
-│   │   ├── 01-architecture.md
-│   │   ├── 02-feature-description.md
-│   │   └── 03-test-cases.md
-│   └── 01-account/                    # VÍ DỤ: cùng tên thư mục với BRD
+├── srs/                               # đặc tả kỹ thuật — 9 nhóm đi cặp với BRD + README.md (hợp đồng liên nhóm)
+│   ├── README.md
+│   ├── _template/
+│   └── 01-account/ .. 09-portal/
 │       ├── 01-architecture.md
 │       ├── 02-feature-description.md
 │       └── 03-test-cases.md
-└── design/                            # kiến trúc tổng + quyết định công nghệ, ERD, API, design system, CI/CD
+└── design/                            # thiết kế kỹ thuật dùng chung toàn hệ thống
+    ├── architecture.md                # kiến trúc high-level, design patterns & quyết định công nghệ (ADR)
+    ├── erd.md                         # sơ đồ quan hệ thực thể & ranh giới giao dịch
+    ├── data-dictionary.md             # từ điển dữ liệu chi tiết (28 bảng, 35 enum, privacy DTOs)
+    ├── api.md                         # quy ước REST (/api/v1) & danh mục đầy đủ endpoint 9 module
+    ├── error-codes.md                 # danh mục 159 mã lỗi nghiệp vụ + 4 mã lỗi hệ thống & HTTP status
+    ├── design-system.md               # màu sắc, typography, spacing & UI components
+    └── ci-cd.md                       # quy trình nhánh, PR & kiểm tra tự động GitHub Actions
 ```
 
 ### Quy tắc đặt tên

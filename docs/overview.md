@@ -7,7 +7,7 @@ date: 2026-11-18
 
 # Overview hệ thống VCraft
 
-Tài liệu tổng quan được tổng hợp từ BRD trong [docs/brd](brd/). Sơ đồ tuần tự ở dạng draw.io (mxGraph XML).
+Tài liệu tổng quan được tổng hợp từ BRD trong [docs/brd](brd/), đối chiếu với [SRS](srs/README.md) và [Thiết kế kỹ thuật](design/architecture.md). Sơ đồ tuần tự ở dạng draw.io (mxGraph XML).
 
 > [!NOTE]
 > Mỗi sơ đồ là file `.drawio.png`: mở bằng draw.io (desktop, app.diagrams.net, VS Code Draw.io Integration) để sửa rồi lưu lại, ảnh tự cập nhật.
@@ -44,7 +44,7 @@ VCraft là sàn thương mại số của làng nghề: mỗi xưởng có gian 
 
 - Mỗi người dùng một tài khoản, một phiên đăng nhập; quyền bán là quyền thêm vào tài khoản mua hàng sau khi BQL duyệt.
 - Mỗi đơn do đúng một xưởng thực hiện toàn bộ số lượng; MVP1 không thu phí sàn, không đối soát tiền.
-- Thanh toán: COD hoặc ZaloPay (sandbox); hạn thanh toán online 15 phút; xưởng xác nhận trong 72 giờ.
+- Thanh toán: COD hoặc ZaloPay (sandbox, dự phòng VNPay sandbox); hạn thanh toán online đơn mua 15 phút; hạn đặt cọc đơn đặt riêng 1–14 ngày (`deposit_due_at`); xưởng xác nhận đơn mua trong 72 giờ; hoàn tiền lỗi tự thử lại tối đa 5 lần trước khi đánh dấu `FAILED`.
 - Báo giá kín: Buyer thấy mọi báo giá, xưởng chỉ thấy báo giá của mình.
 - Admin không can thiệp giao dịch, chỉ giám sát chỉ đọc (UC-35).
 - Thông báo chỉ nằm trong hệ thống; sự kiện phát thông báo do từng use case khai báo.

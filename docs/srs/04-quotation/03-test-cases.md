@@ -89,7 +89,7 @@ Các ca dưới đây truy vết tới AC của BRD. Chạy qua giao diện ho�
 | TC-20.8 | UC-20-AC-08 · Alt-03, BR-11 | Báo giá hết hiệu lực lúc Buyer đang xem | Chọn Xác nhận chấp nhận | Hiển thị ERR-UC20-01; nút chấp nhận khóa; hiện Yêu cầu cập nhật giá |
 | TC-20.9 | UC-20-AC-09 · Alt-04, BR-3 | Xưởng cập nhật báo giá khi Buyer đang xem phiên bản 1 | Buyer xác nhận chấp nhận | Hiển thị ERR-UC20-02; tải phiên bản 2; chấp nhận phiên bản 2 thành công |
 | TC-20.10 | UC-20-AC-10 · Alt-05 | Yêu cầu đã Đã hủy | Buyer chấp nhận | Hiển thị ERR-UC20-03 |
-| TC-20.11 | UC-20-AC-11 · Alt-06, BR-8 | Buyer đóng cổng ZaloPay | Quay lại | Hiển thị ERR-UC20-04; đơn giữ Chờ sản xuất, thanh toán Chưa thanh toán; có Thanh toán lại; Buyer thanh toán lại được bất cứ lúc nào |
+| TC-20.11 | UC-20-AC-11 · Alt-06, BR-8 | Buyer đóng cổng ZaloPay khi đơn còn trong hạn `deposit_due_at` | Quay lại | Hiển thị ERR-UC20-04; đơn giữ Chờ sản xuất, thanh toán Chưa thanh toán; có nút Thanh toán lại trong hạn `deposit_due_at` (quá hạn tự hủy qua UC-33) |
 | TC-20.12 | UC-20-AC-12 · Alt-07 | Báo giá cọc 0% | Buyer chấp nhận | Không chuyển sang cổng thanh toán; đơn tạo ngay; thanh toán Chưa thanh toán |
 | TC-20.13 | UC-20-AC-13 · Alt-08, BR-11 | Báo giá Hết hiệu lực | Buyer chọn Yêu cầu cập nhật giá | Báo giá hiện "Đang chờ xưởng cập nhật giá"; xưởng nhận NT-UC20-04; yêu cầu Hết hạn giữ nguyên trạng thái, hiện nhãn "Đang chờ cập nhật giá"; xưởng gửi giá mới thì yêu cầu về Đang nhận báo giá |
 | TC-20.14 | UC-20-AC-14 · Alt-12, BR-11 | Báo giá đang chờ cập nhật giá | Buyer chọn Yêu cầu cập nhật giá lần nữa, hoặc báo giá còn hiệu lực | Hiển thị ERR-UC20-06 |

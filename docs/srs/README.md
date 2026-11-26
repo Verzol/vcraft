@@ -1,6 +1,6 @@
 # SRS vCraft và các phụ thuộc liên nhóm
 
-Bản SRS chính thức ngày 18/11/2026 dựa trên chín BRD tại commit `7e4e64b`. Mỗi nhóm quy định API, dữ liệu vào, quyền và lỗi nghiệp vụ. Cột nghiệm thu dẫn tới các ca cần chạy khi có ứng dụng. [ERD và từ điển dữ liệu](../design/erd.md)
+Bản SRS chính thức dựa trên chín BRD (đã đồng bộ ngày 26/11/2026). Mỗi nhóm quy định API, dữ liệu vào, quyền và lỗi nghiệp vụ. Cột nghiệm thu dẫn tới các ca cần chạy khi có ứng dụng. [ERD](../design/erd.md) · [Từ điển dữ liệu](../design/data-dictionary.md) · [Đặc tả API](../design/api.md) · [Danh mục mã lỗi](../design/error-codes.md)
 
 | Nhóm | UC | Nghiệp vụ | Thiết kế | Chi tiết | Nghiệm thu |
 |---|---|---|---|---|---|
@@ -36,7 +36,7 @@ Bản SRS chính thức ngày 18/11/2026 dựa trên chín BRD tại commit `7e4
 - **Điều kiện tạo lô đặt riêng (Đã chốt 25/11/2026).** Giữ `UC-14 BR-9` và `UC-22 BR-3` — chỉ tạo lô khi đơn đặt riêng ở trạng thái Đang sản xuất (đã cọc xong với đơn có cọc); đã đóng G-07 (BRD 04) và G-04 (BRD 03). Lô đã tạo tiếp tục được quản lý khi trạng thái đơn đổi.
 - **Phạm vi thông báo tin mới (Đã chốt 25/11/2026).** Áp dụng `UC-27 BR-7` gửi `NT-UC27-01` cho mọi Artisan ở lần đăng đầu với cả tin công khai lẫn tin nội bộ; đã đóng G-01 (BRD 06).
 - **Thông báo đơn và tiến độ (Đã chốt 25/11/2026).** Đã đóng G-10 (BRD 08) đồng bộ với danh mục UC-29; giữ nguyên không gửi thông báo riêng khi đơn đặt riêng chuyển Đang sản xuất (đã đóng G-04 BRD 07).
-- **Thời hạn thanh toán và hoàn tiền (Đã chốt 25/11/2026).** Đơn mua online giữ hạn 15 phút. Đơn đặt riêng: Buyer bắt buộc nhập hạn cọc tối thiểu mong muốn (1–14 ngày, mặc định 3) ở UC-18; xưởng nhập hạn đặt cọc trong `[mức Buyer chọn, 14]` ngày khi cọc > 0% ở UC-19 (cọc 0% bỏ qua); UC-20 chụp cứng `deposit_due_at`, quá hạn tự hủy đơn ở UC-33 (callback muộn tự hoàn cọc). Hoàn tiền (G-02 BRD 08): dùng idempotency key theo `(payment_id, reason)`, tra trạng thái cổng trước khi gọi lại, retry tối đa 5 lần (1p → 5p → 15p → 1h → 6h); gặp lỗi vĩnh viễn hoặc hết ngưỡng thì dừng, đặt `refunds.state = FAILED` (không đổi `orders.state`/`payment_state`), báo Buyer liên hệ BQL kèm mã đơn, vẫn tính vào chỉ số tồn đọng hoàn tiền ở UC-35.
+- **Thời hạn thanh toán và hoàn tiền (Cập nhật 26/11/2026).** Đơn mua online giữ hạn 15 phút. Đơn đặt riêng: xưởng tự đặt hạn đặt cọc (1–14 ngày, mặc định 3) khi cọc > 0% ở UC-19 (cọc 0% bỏ qua, không bắt Buyer nhập ở UC-18); UC-20 chụp cứng `deposit_due_at`, quá hạn tự hủy đơn ở UC-33 (callback muộn tự hoàn cọc). Hoàn tiền (G-02 BRD 08): dùng idempotency key theo `(payment_id, reason)`, tra trạng thái cổng trước khi gọi lại, retry tối đa 5 lần (1p → 5p → 15p → 1h → 6h); gặp lỗi vĩnh viễn hoặc hết ngưỡng thì dừng, đặt `refunds.state = FAILED` (không đổi `orders.state`/`payment_state`), báo Buyer liên hệ BQL kèm mã đơn, vẫn tính vào chỉ số tồn đọng hoàn tiền ở UC-35.
 
 ## Cách đối chiếu
 
@@ -44,11 +44,11 @@ Bản SRS chính thức ngày 18/11/2026 dựa trên chín BRD tại commit `7e4
 
 ## Giao diện dùng chung
 
-Backend kiểm tra phiên và quyền trên tài nguyên trước khi trả dữ liệu. Lỗi nghiệp vụ trả JSON gồm `code` theo bảng ERR của UC và `message` hiển thị. Dùng HTTP 401 khi cần đăng nhập, 403 khi thiếu quyền, 404 khi nội dung công khai không khả dụng, 409 cho phiên bản hoặc trạng thái đã thay đổi và 422 cho dữ liệu không hợp lệ. Dữ liệu danh sách được lọc quyền trước khi đếm và phân trang.
+Backend kiểm tra phiên và quyền trên tài nguyên trước khi trả dữ liệu. Lỗi nghiệp vụ trả JSON gồm `code` theo bảng ERR của UC ([error-codes.md](../design/error-codes.md)) và `message` hiển thị. Dùng HTTP 401 khi cần đăng nhập, 403 khi thiếu quyền, 404 khi nội dung công khai không khả dụng, 409 cho phiên bản hoặc trạng thái đã thay đổi, 422 cho dữ liệu không hợp lệ, 429 khi vượt ngưỡng thử lại và 502/503 khi dịch vụ ngoài gián đoạn. Dữ liệu danh sách được lọc quyền trước khi đếm và phân trang.
 
 | Thao tác | Request tối thiểu | Kết quả có thể kiểm chứng |
 |---|---|---|
-| Chấp nhận báo giá | `POST /api/rfqs/{id}/accept` với `quoteId`, `revision`, khóa chống gửi lặp | 201 kèm `orderId`, mã DR, trạng thái Chờ sản xuất và số tiền cọc. Lệnh lặp cùng khóa và dữ liệu trả đơn đã ghi. Nếu phiên bản đã đổi, trả lỗi của UC-20 để Buyer xem lại. |
-| Checkout | `POST /api/checkout` với các dòng giỏ đã chọn, số lượng, phương thức giao và thanh toán, thông tin nhận hàng theo phương thức, khóa chống gửi lặp | Backend tính lại giá và phí theo UC-31. 201 kèm mã đơn, tổng tiền và bước tiếp theo. Nếu một món không đủ hàng, báo lỗi cho toàn bộ lần đặt. |
+| Chấp nhận báo giá | `POST /api/v1/rfqs/{id}/accept` với `quoteId`, `revision`, header `Idempotency-Key` | 201 kèm `orderId`, mã DR, trạng thái Chờ sản xuất, số tiền cọc, `depositDueAt` và URL cổng thanh toán (nếu cọc > 0%). Lệnh lặp cùng khóa và dữ liệu trả đơn đã ghi. Nếu phiên bản đã đổi, trả lỗi của UC-20 để Buyer xem lại. |
+| Checkout | `POST /api/v1/checkout` với các dòng giỏ đã chọn, số lượng, phương thức giao và thanh toán, thông tin nhận hàng theo phương thức, header `Idempotency-Key` | Backend tính lại giá và phí theo UC-31. 201 kèm mã đơn, tổng tiền và bước tiếp theo. Nếu một món không đủ hàng, báo lỗi cho toàn bộ lần đặt. |
 | Callback thanh toán | Bộ tích hợp sandbox xác minh giao dịch, số tiền và chữ ký, ánh xạ mã giao dịch về đúng lần thanh toán | Ghi chuyển trạng thái một lần. Callback lặp không phát lại thông báo. Tiền đến sau khi hủy chuyển sang xử lý hoàn. |
 | Mở thông báo | Lấy đích từ dòng của chính tài khoản, gửi yêu cầu đánh dấu đọc rồi mở màn hình theo khu vực | Mở lại cùng dòng không giảm lần nữa số chưa đọc. Màn hình đích kiểm quyền theo trạng thái hiện tại kể cả khi đánh dấu đọc bị lỗi. |

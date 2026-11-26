@@ -34,7 +34,6 @@ Phân biệt ba nguồn yêu cầu. Kiểm lại xưởng đủ điều kiện k
 | Đơn vị | Text; length 30 | Không để trống | Có | Ví dụ: "chiếc", "bộ" |
 | Ảnh mẫu | Ảnh JPG / PNG / WebP | 0–5 ảnh, mỗi ảnh ≤ 10 MB | Không | Ảnh sản phẩm mẫu hiện riêng, không tính vào 5 ảnh |
 | Ngày cần hàng | Date | Không ở quá khứ | Không | Chỉ là mong muốn; xưởng báo thời gian hoàn thành ở báo giá (UC-19) |
-| Hạn đặt cọc tối thiểu mong muốn | Number (ngày) | Số nguyên từ 1 đến 14; mặc định điền sẵn 3 | Có | Xưởng báo hạn cọc ≥ mức này nếu tỷ lệ cọc > 0% (UC-19) |
 | Hình thức nhận hàng | Chọn một | Nhận tại xưởng hoặc Giao tận nơi | Có | Quyết định phí giao trong báo giá |
 | Địa chỉ nhận hàng | Tỉnh/thành, quận/huyện, phường/xã chọn theo danh mục; địa chỉ chi tiết text length 150 | Đủ bốn mục | Có điều kiện | Bắt buộc khi Giao tận nơi. Xưởng chỉ thấy đến quận/huyện trước khi báo giá được chấp nhận (BR-8) |
 | Số điện thoại người nhận | Text; length 10 | Số di động Việt Nam, 10 chữ số | Có điều kiện | Bắt buộc khi Giao tận nơi; điền sẵn từ tài khoản, được sửa. Xưởng chỉ thấy sau khi báo giá được chấp nhận. Ví dụ: 0912345678 |
@@ -78,7 +77,7 @@ Kiểm quyền đúng xưởng nhận. Lưu phiên bản kế tiếp, tính ti�
 | Phí giao | Number (VND) | Số nguyên từ 0 đến 50.000.000; bằng 0 nếu Nhận tại xưởng | Có | Ví dụ: 150000 |
 | Thời gian hoàn thành | Number (ngày) | Số nguyên từ 1 đến 365 | Có | Tính từ lúc Buyer chấp nhận. Ví dụ: 21 |
 | Tỷ lệ cọc | Chọn một | 0%, 30% hoặc 50% | Có | Xưởng chọn (BR-4) |
-| Hạn đặt cọc | Number (ngày) | Số nguyên từ mức Buyer chọn ở UC-18 đến 14 | Có điều kiện | Bắt buộc khi tỷ lệ cọc > 0% (30% hoặc 50%); bỏ qua khi cọc 0% |
+| Hạn đặt cọc | Number (ngày) | Số nguyên từ 1 đến 14 (mặc định 3) | Có điều kiện | Do xưởng tự đặt; bắt buộc khi tỷ lệ cọc > 0% (30% hoặc 50%); bỏ qua khi cọc 0% |
 | Hiệu lực đến ngày | Date | Hết 23:59 ngày chọn; theo BR-5 | Có | Ví dụ: 2026-12-20 |
 | Ghi chú | Text; length 500 | — | Không | Chất liệu, quy cách, điều kiện |
 | Tổng giá trị | Number, chỉ xem | Đơn giá nhân số lượng, cộng phí giao | — | Hệ thống tính, hiển thị cho cả hai bên |

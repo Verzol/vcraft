@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vCraft Phú Vinh — Triển lãm số Mây tre đan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ==========================================================================
+       vCRAFT DESIGN SYSTEM — Flagship Exhibition × Arc UI Interactions
+       ========================================================================== */
+    :root,
+    [data-theme="light"] {
+      --bg-canvas: #F8F6F2;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F1EDE5;
+      --bg-hover: #E9E3D8;
+
+      --cta-bg: #1C1917;
+      --cta-hover: #2E2926;
+      --cta-fg: #FFFFFF;
+
+      --bamboo: #2D5A43;
+      --bamboo-soft: #ECF4EF;
+      --bamboo-border: #C6DED0;
+
+      --rattan: #9A5B25;
+      --rattan-soft: #FAF1E7;
+      --rattan-border: #E8D0B6;
+
+      --text-primary: #1C1917;
+      --text-secondary: #57534E;
+      --text-muted: #6B645E;
+
+      --border: #E6E0D6;
+      --border-strong: #D3CBBF;
+
+      --ok-fg: #1F6442;
+      --ok-bg: #ECF6F0;
+      --ok-border: #C7E4D3;
+
+      --warn-fg: #9A580C;
+      --warn-bg: #FEF6E7;
+      --warn-border: #F3D7A2;
+
+      --err-fg: #B42318;
+      --err-bg: #FEF1F0;
+      --err-border: #F5C5C1;
+
+      --info-fg: #1E4E8C;
+      --info-bg: #EEF4FC;
+      --info-border: #C4DBF5;
+
+      --r-xs: 6px;
+      --r-sm: 10px;
+      --r-md: 14px;
+      --r-lg: 20px;
+
+      --shadow-xs: 0 1px 2px rgba(28, 25, 23, 0.04);
+      --shadow-sm: 0 4px 14px -4px rgba(28, 25, 23, 0.07), 0 1px 3px rgba(28, 25, 23, 0.04);
+      --shadow-menu: 0 12px 36px -8px rgba(28, 25, 23, 0.16), 0 2px 8px rgba(28, 25, 23, 0.05);
+      --spring: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-canvas: #121110;
+      --bg-surface: #1B1917;
+      --bg-subtle: #24211E;
+      --bg-hover: #2E2A26;
+
+      --cta-bg: #F5F2EC;
+      --cta-hover: #E5E0D7;
+      --cta-fg: #121110;
+
+      --bamboo: #63A884;
+      --bamboo-soft: #182920;
+      --bamboo-border: #264234;
+
+      --rattan: #DC9454;
+      --rattan-soft: #2B2016;
+      --rattan-border: #473320;
+
+      --text-primary: #F5F2EC;
+      --text-secondary: #B2ABA2;
+      --text-muted: #827B74;
+
+      --border: #2D2925;
+      --border-strong: #3F3A34;
+
+      --ok-fg: #70D8A2;
+      --ok-bg: #15291E;
+      --ok-border: #234634;
+
+      --warn-fg: #F4C26E;
+      --warn-bg: #2D2210;
+      --warn-border: #4D391A;
+
+      --err-fg: #F69890;
+      --err-bg: #2E1615;
+      --err-border: #4F2422;
+
+      --info-fg: #8DBBF6;
+      --info-bg: #162338;
+      --info-border: #253C5E;
+
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+      --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.4);
+      --shadow-menu: 0 18px 44px rgba(0, 0, 0, 0.65);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-canvas);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    h1, h2, h3, h4, .heading {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      letter-spacing: -0.028em;
+      color: var(--text-primary);
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 0.9em;
+    }
+    .price {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+    }
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    svg.lucide { width: 18px; height: 18px; stroke-width: 1.6; flex-shrink: 0; }
+
+    /* ==========================================================================
+       HEADER & ARC UI DROPDOWN MENU (Gliding Hover Highlight + Spring Reveal)
+       ========================================================================== */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--bg-surface) 90%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+    .brand-mark {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--bamboo);
+      color: #FFFFFF;
+      display: grid; place-items: center;
+      font-size: 16px; font-weight: 700;
+    }
+
+    .nav-center { display: flex; align-items: center; gap: 6px; }
+    .nav-link-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .nav-link-btn:hover, .nav-link-btn.active {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    /* Arc UI Dropdown Container */
+    .arc-dd { position: relative; display: inline-flex; }
+    .arc-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 268px;
+      padding: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-menu);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(0.97);
+      transform-origin: top left;
+      transition: opacity 180ms var(--spring), transform 220ms var(--spring), visibility 180ms;
+      z-index: 140;
+    }
+    .arc-menu.align-right { left: auto; right: 0; transform-origin: top right; }
+    .arc-dd.open .arc-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+    .arc-menu-list { position: relative; display: flex; flex-direction: column; gap: 2px; }
+    /* Gliding highlight pill (Arc UI signature) */
+    .arc-glide {
+      position: absolute;
+      left: 0; right: 0;
+      border-radius: 8px;
+      background: var(--bg-subtle);
+      pointer-events: none;
+      opacity: 0;
+      transition: transform 200ms var(--spring), height 200ms var(--spring), opacity 150ms ease;
+      z-index: 0;
+    }
+    .arc-item {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: inherit;
+      text-align: left;
+      padding: 9px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 140ms ease;
+    }
+    .arc-item-main { display: flex; align-items: center; gap: 10px; }
+    .arc-item-icon {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .arc-item-sub { font-size: 12.5px; color: var(--text-muted); font-weight: 400; display: block; line-height: 1.35; }
+    .arc-item-kbd { font-size: 11.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .arc-item.danger { color: var(--err-fg); }
+    .arc-item.danger .arc-item-icon { color: var(--err-fg); background: var(--err-bg); border-color: var(--err-border); }
+    .arc-divider { height: 1px; background: var(--border); margin: 5px 6px; }
+    .arc-group-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); padding: 6px 11px 4px; }
+
+    /* ==========================================================================
+       REDESIGNED NOTIFICATION CENTER (Spacious, Readable, Zero Clutter)
+       ========================================================================== */
+    .notif-panel {
+      width: 420px;
+      max-width: 94vw;
+      padding: 0;
+      overflow: hidden;
+    }
+    .notif-head {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .notif-head-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .notif-tabs {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+    .notif-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .notif-tab.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-xs);
+    }
+    .notif-feed { max-height: 360px; overflow-y: auto; }
+    .notif-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 150ms ease;
+    }
+    .notif-card:last-child { border-bottom: none; }
+    .notif-card:hover { background: var(--bg-canvas); }
+    .notif-card.is-unread { background: color-mix(in srgb, var(--bamboo-soft) 55%, var(--bg-surface)); }
+    .notif-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      display: grid; place-items: center;
+      color: var(--text-primary);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .notif-avatar.bamboo { background: var(--bamboo-soft); border-color: var(--bamboo-border); color: var(--bamboo); }
+    .notif-avatar.rattan { background: var(--rattan-soft); border-color: var(--rattan-border); color: var(--rattan); }
+    .notif-unread-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--bamboo);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .notif-foot {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-canvas);
+      text-align: center;
+    }
+
+    /* ==========================================================================
+       BUTTONS, BADGES, INPUTS (Generous Sizing)
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 500;
+      height: 44px;
+      padding: 0 20px;
+      border-radius: var(--r-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 160ms var(--ease);
+    }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-sm { height: 36px; padding: 0 14px; font-size: 13.5px; }
+    .btn-icon { width: 40px; height: 40px; padding: 0; position: relative; }
+
+    .btn-primary { background: var(--cta-bg); color: var(--cta-fg); }
+    .btn-primary:hover:not(:disabled) { background: var(--cta-hover); }
+    .btn-light { background: #FFFFFF; color: #1C1917; }
+    .btn-light:hover { background: #F4EFE7; }
+    .btn-glass-dark { background: rgba(255, 255, 255, 0.14); color: #FFFFFF; border-color: rgba(255, 255, 255, 0.28); backdrop-filter: blur(8px); }
+    .btn-glass-dark:hover { background: rgba(255, 255, 255, 0.24); }
+    .btn-bamboo { background: var(--bamboo); color: #FFFFFF; }
+    .btn-bamboo:hover:not(:disabled) { opacity: 0.92; }
+    .btn-outline { background: var(--bg-surface); color: var(--text-primary); border-color: var(--border-strong); }
+    .btn-outline:hover:not(:disabled) { background: var(--bg-subtle); }
+    .btn-ghost { background: transparent; color: var(--text-secondary); }
+    .btn-ghost:hover:not(:disabled) { background: var(--bg-subtle); color: var(--text-primary); }
+    .btn-danger { background: var(--err-bg); color: var(--err-fg); border-color: var(--err-border); }
+    .btn-danger:hover:not(:disabled) { background: var(--err-fg); color: #FFFFFF; }
+
+    .counter-dot {
+      position: absolute;
+      top: 2px; right: 2px;
+      min-width: 18px; height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--rattan);
+      color: #fff;
+      font-size: 11px; font-weight: 600;
+      display: grid; place-items: center;
+      border: 2px solid var(--bg-surface);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: var(--r-xs);
+      border: 1px solid transparent;
+      line-height: 1.45;
+    }
+    .badge-ok { color: var(--ok-fg); background: var(--ok-bg); border-color: var(--ok-border); }
+    .badge-warn { color: var(--warn-fg); background: var(--warn-bg); border-color: var(--warn-border); }
+    .badge-err { color: var(--err-fg); background: var(--err-bg); border-color: var(--err-border); }
+    .badge-info { color: var(--info-fg); background: var(--info-bg); border-color: var(--info-border); }
+    .badge-rattan { color: var(--rattan); background: var(--rattan-soft); border-color: var(--rattan-border); }
+    .badge-neutral { color: var(--text-secondary); background: var(--bg-subtle); border-color: var(--border); }
+
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .label { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .input {
+      font-family: inherit;
+      font-size: 15px;
+      height: 44px;
+      padding: 0 14px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .input:focus { border-color: var(--bamboo); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bamboo) 16%, transparent); }
+    .input.error { border-color: var(--err-fg); background: var(--err-bg); }
+
+    /* ==========================================================================
+       LANDING PAGE SECTIONS — DRAMATIC, HIGH-IMPACT EXHIBITION
+       ========================================================================== */
+    .container { max-width: 1240px; margin: 0 auto; padding: 28px 24px 96px; }
+    .view { display: none; animation: fadeIn 220ms var(--spring); }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Full-Width Immersive Exhibition Hero */
+    .hero-banner {
+      position: relative;
+      min-height: 560px;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px 52px 36px;
+      color: #FFFFFF;
+      box-shadow: var(--shadow-sm);
+      background: #1C1917;
+    }
+    .hero-banner-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.86);
+      transform: scale(1.01);
+    }
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(95deg, rgba(20, 17, 14, 0.84) 0%, rgba(20, 17, 14, 0.56) 52%, rgba(20, 17, 14, 0.16) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin-top: 20px;
+    }
+    .hero-content h1 {
+      color: #FFFFFF;
+      font-size: clamp(38px, 4.6vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      letter-spacing: -0.03em;
+    }
+    .hero-content p {
+      font-size: 17.5px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 50ch;
+      margin-bottom: 30px;
+    }
+    .hero-stats-bar {
+      position: relative;
+      z-index: 2;
+      margin-top: 44px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-stat { display: flex; align-items: baseline; gap: 10px; }
+    .hero-stat strong { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 700; color: #FFFFFF; }
+    .hero-stat span { font-size: 14px; color: rgba(255, 255, 255, 0.78); }
+
+    @media (max-width: 760px) {
+      .hero-banner { padding: 30px 24px; min-height: 480px; }
+    }
+
+    /* Section Headings (Bigger & Clearer) */
+    .sec-head {
+      margin: 76px 0 26px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .sec-head h2 { font-size: clamp(26px, 2.8vw, 34px); font-weight: 700; line-height: 1.2; }
+    .sec-head p { font-size: 16px; color: var(--text-secondary); margin-top: 6px; max-width: 56ch; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 26px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 24px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* Large Editorial Product Cards */
+    .p-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 240ms var(--spring), box-shadow 240ms var(--spring), border-color 200ms ease;
+    }
+    .p-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-sm);
+      border-color: var(--border-strong);
+    }
+    .p-media {
+      position: relative;
+      aspect-ratio: 4 / 4.5;
+      overflow: hidden;
+      background: var(--bg-subtle);
+    }
+    .p-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 520ms var(--spring);
+    }
+    .p-card:hover .p-media img { transform: scale(1.04); }
+    .p-hover-cta {
+      position: absolute;
+      left: 14px; right: 14px; bottom: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 220ms var(--spring);
+    }
+    .p-card:hover .p-hover-cta { opacity: 1; transform: translateY(0); }
+    .p-body { padding: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .p-title { font-size: 18px; font-weight: 600; line-height: 1.35; }
+    .p-price { font-size: 17px; font-weight: 600; }
+
+    /* Dark Heritage Feature Band (Breaks monotony, elevates landing page) */
+    .heritage-band {
+      margin-top: 84px;
+      background: #1C1917;
+      color: #F5F2EC;
+      border-radius: var(--r-lg);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 44px;
+      align-items: center;
+    }
+    @media (max-width: 900px) { .heritage-band { grid-template-columns: 1fr; padding: 30px 24px; } }
+    .heritage-band h2 { color: #FFFFFF; font-size: clamp(26px, 3vw, 36px); line-height: 1.18; margin-bottom: 14px; }
+    .heritage-card {
+      background: #26221F;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--r-md);
+      padding: 26px;
+      color: #F5F2EC;
+    }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .timeline::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1.5px; background: rgba(255, 255, 255, 0.18); }
+    .tl-item { position: relative; }
+    .tl-dot { position: absolute; left: -23px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: #63A884; box-shadow: 0 0 0 4px rgba(99, 168, 132, 0.2); }
+
+    /* Table */
+    .table-wrap { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+    th { text-align: left; padding: 14px 18px; font-size: 13px; font-weight: 600; color: var(--text-muted); background: var(--bg-subtle); border-bottom: 1px solid var(--border); }
+    td { padding: 16px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tbody tr.best { background: var(--bamboo-soft); }
+
+    /* Portal Shell */
+    .portal-layout { display: grid; grid-template-columns: 256px 1fr; gap: 26px; align-items: start; }
+    @media (max-width: 880px) { .portal-layout { grid-template-columns: 1fr; } }
+    .sidebar { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; display: flex; flex-direction: column; gap: 3px; }
+    .side-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; font-size: 14.5px; color: var(--text-secondary); cursor: pointer; }
+    .side-link:hover, .side-link.active { background: var(--bg-subtle); color: var(--text-primary); }
+    .side-link.active { font-weight: 600; }
+    .side-left { display: flex; align-items: center; gap: 10px; }
+
+    /* Top-Center Rich Toast Stack (Phương án 1 — @uiarc/toast-stack) */
+    .toast-region {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 220;
+      width: 448px;
+      max-width: 94vw;
+      pointer-events: none;
+    }
+    .toast-stack {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: auto;
+    }
+    .toast {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      background: color-mix(in srgb, var(--bg-surface) 97%, transparent);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-md);
+      padding: 13px 15px;
+      box-shadow: var(--shadow-menu);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-size: 14px;
+      transition: transform 300ms var(--spring), opacity 240ms ease, margin 300ms var(--spring);
+      animation: stackEnter 280ms var(--spring);
+    }
+    /* Tuck behind cleanly when stacked, fan out on hover */
+    .toast + .toast { margin-top: -54px; transform: scale(0.95); opacity: 0.86; }
+    .toast + .toast + .toast { margin-top: -56px; transform: scale(0.90); opacity: 0.68; }
+    .toast-stack:hover .toast + .toast,
+    .toast-stack:hover .toast + .toast + .toast {
+      margin-top: 10px;
+      transform: scale(1);
+      opacity: 1;
+    }
+    .toast-main { display: flex; align-items: flex-start; gap: 11px; min-width: 0; flex: 1; }
+    .toast-icon { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; margin-top: 1px; }
+    .toast-icon.loading { background: var(--bg-subtle); color: var(--text-secondary); }
+    .toast-icon.loading svg { animation: spin 0.85s linear infinite; }
+    .toast-icon.ok { background: var(--ok-bg); color: var(--ok-fg); }
+    .toast-icon.warn { background: var(--warn-bg); color: var(--warn-fg); }
+    .toast-icon.err { background: var(--err-bg); color: var(--err-fg); }
+    .toast-title { font-weight: 600; font-size: 14px; color: var(--text-primary); line-height: 1.35; }
+    .toast-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.4; margin-top: 2px; }
+    .toast-action {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 140ms ease;
+    }
+    .toast-action:hover { background: var(--bg-subtle); }
+    .toast-progress {
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 2px;
+      width: 100%;
+      background: var(--bamboo);
+      transform-origin: left;
+      animation: shrinkBar var(--toast-ms, 2500ms) linear forwards;
+    }
+    .toast.is-warn .toast-progress { background: var(--warn-fg); }
+    .toast.is-err .toast-progress { background: var(--err-fg); }
+    .toast-stack:hover .toast-progress { animation-play-state: paused; }
+    @keyframes stackEnter {
+      from { opacity: 0; transform: translateY(-16px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes shrinkBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(18, 17, 16, 0.5); backdrop-filter: blur(5px); z-index: 180; place-items: center; padding: 16px; }
+    .modal-bg.open { display: grid; }
+    .modal { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px; width: 100%; max-width: 540px; box-shadow: var(--shadow-menu); animation: fadeIn 200ms var(--spring); overflow: visible; }
+    .banner { padding: 14px 18px; border-radius: var(--r-sm); border: 1px solid; display: flex; align-items: flex-start; gap: 12px; font-size: 14.5px; }
+
+    /* ==========================================================================
+       ARC UI COMPLETE COMPONENT SET (Calendar, NumberField, Switch, RadioCards,
+       Tabs, ChipGroup, Upload, Pagination, Skeleton)
+       ========================================================================== */
+    /* Custom Vietnamese Calendar Date Picker (@uiarc/calendar) */
+    .arc-cal-panel {
+      width: 304px;
+      padding: 14px;
+    }
+    .cal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .cal-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 14.5px; }
+    .cal-nav { display: flex; gap: 4px; }
+    .cal-nav button {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      display: grid; place-items: center;
+      cursor: pointer;
+    }
+    .cal-nav button:hover { background: var(--bg-subtle); }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; }
+    .cal-dow { font-size: 12px; font-weight: 500; color: var(--text-muted); padding: 4px 0 6px; }
+    .cal-day {
+      height: 34px;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 140ms ease, color 140ms ease, transform 120ms ease;
+    }
+    .cal-day:hover:not(:disabled) { background: var(--bg-subtle); }
+    .cal-day.is-out { color: var(--text-muted); opacity: 0.45; }
+    .cal-day.is-today { border: 1px solid var(--bamboo); color: var(--bamboo); font-weight: 600; }
+    .cal-day.is-selected { background: var(--cta-bg); color: var(--cta-fg); font-weight: 600; }
+    .cal-day:disabled { opacity: 0.28; cursor: not-allowed; }
+    .cal-foot {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Bounded Number Field (@uiarc/number-field) */
+    .num-field {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      background: var(--bg-surface);
+      height: 44px;
+      overflow: hidden;
+    }
+    .num-field button {
+      width: 38px; height: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: background 140ms ease, color 140ms ease;
+    }
+    .num-field button:hover:not(:disabled) { background: var(--bg-subtle); color: var(--text-primary); }
+    .num-field button:disabled { opacity: 0.35; cursor: not-allowed; }
+    .num-field input {
+      width: 72px;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    /* Animated Switch (@uiarc/switch) */
+    .arc-switch-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      cursor: pointer; user-select: none;
+    }
+    .arc-switch {
+      width: 44px; height: 24px;
+      border-radius: 999px;
+      background: var(--border-strong);
+      position: relative;
+      transition: background 200ms var(--spring);
+      flex-shrink: 0;
+    }
+    .arc-switch::after {
+      content: "";
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+      transition: transform 220ms var(--spring);
+    }
+    .arc-switch.on { background: var(--bamboo); }
+    .arc-switch.on::after { transform: translateX(20px); }
+
+    /* Custom Checkbox */
+    .arc-check {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 14.5px; cursor: pointer; user-select: none;
+    }
+    .arc-check-box {
+      width: 18px; height: 18px;
+      border-radius: 5px;
+      border: 1.5px solid var(--border-strong);
+      background: var(--bg-surface);
+      display: grid; place-items: center;
+      color: #FFFFFF;
+      transition: all 160ms var(--spring);
+    }
+    .arc-check.checked .arc-check-box { background: var(--bamboo); border-color: var(--bamboo); }
+
+    /* Radio Cards (@uiarc/radio-cards) */
+    .radio-card {
+      border: 1px solid var(--border-strong);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      background: var(--bg-surface);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+    .radio-card:hover { background: var(--bg-canvas); }
+    .radio-card.selected {
+      border-color: var(--bamboo);
+      background: var(--bamboo-soft);
+      box-shadow: 0 0 0 1px var(--bamboo);
+    }
+
+    /* Sliding Tabs (@uiarc/tabs) */
+    .arc-tabs {
+      position: relative;
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+    }
+    .arc-tab-slider {
+      position: absolute;
+      top: 4px; bottom: 4px;
+      border-radius: 7px;
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-xs);
+      transition: transform 240ms var(--spring), width 240ms var(--spring);
+      z-index: 0;
+    }
+    .arc-tab-btn {
+      position: relative; z-index: 1;
+      border: none; background: transparent;
+      color: var(--text-secondary);
+      font-family: inherit; font-size: 13.5px; font-weight: 500;
+      padding: 7px 16px; cursor: pointer;
+      transition: color 160ms ease;
+    }
+    .arc-tab-btn.active { color: var(--text-primary); font-weight: 600; }
+
+    /* Chip Group (@uiarc/chip-group) */
+    .chip {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-family: inherit; font-size: 13.5px; font-weight: 500;
+      padding: 6px 14px; border-radius: 999px; cursor: pointer;
+      transition: all 160ms var(--spring);
+    }
+    .chip:hover { background: var(--bg-subtle); color: var(--text-primary); }
+    .chip.selected { background: var(--cta-bg); color: var(--cta-fg); border-color: var(--cta-bg); }
+
+    /* Dropzone, Pagination, Skeleton */
+    .dropzone {
+      border: 1.5px dashed var(--border-strong);
+      border-radius: var(--r-md);
+      padding: 24px 20px;
+      text-align: center;
+      background: var(--bg-canvas);
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+    }
+    .dropzone:hover { border-color: var(--bamboo); background: var(--bamboo-soft); }
+
+    .pagination { display: inline-flex; align-items: center; gap: 4px; }
+    .page-btn {
+      min-width: 36px; height: 36px; padding: 0 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border-radius: 8px; font-size: 13.5px; font-weight: 500;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    }
+    .page-btn:hover { background: var(--bg-subtle); }
+    .page-btn.active { background: var(--cta-bg); color: var(--cta-fg); border-color: var(--cta-bg); }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-subtle) 25%, var(--bg-hover) 50%, var(--bg-subtle) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    /* ==========================================================================
+       GLOBAL SKELETON / WIREFRAME MODE (Inspect Layout Blueprint Without Content)
+       ========================================================================== */
+    [data-skeleton="true"] .hero-banner-img,
+    [data-skeleton="true"] .p-media img {
+      opacity: 0 !important;
+    }
+    [data-skeleton="true"] .hero-banner,
+    [data-skeleton="true"] .p-media,
+    [data-skeleton="true"] .heritage-band {
+      background: var(--bg-subtle) !important;
+      color: var(--text-primary) !important;
+      border: 1.5px dashed var(--border-strong) !important;
+    }
+    [data-skeleton="true"] .hero-scrim { display: none !important; }
+    [data-skeleton="true"] .heritage-card {
+      background: var(--bg-surface) !important;
+      border: 1px dashed var(--border-strong) !important;
+    }
+    [data-skeleton="true"] h1,
+    [data-skeleton="true"] h2,
+    [data-skeleton="true"] h3,
+    [data-skeleton="true"] p,
+    [data-skeleton="true"] td,
+    [data-skeleton="true"] .p-price,
+    [data-skeleton="true"] .hero-stat strong,
+    [data-skeleton="true"] .hero-stat span {
+      color: transparent !important;
+      background: linear-gradient(90deg, var(--bg-subtle) 25%, var(--bg-hover) 50%, var(--bg-subtle) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+      border-radius: 6px;
+      user-select: none;
+    }
+    [data-skeleton="true"] .card,
+    [data-skeleton="true"] .p-card,
+    [data-skeleton="true"] .sidebar,
+    [data-skeleton="true"] .table-wrap {
+      box-shadow: none !important;
+      border: 1.5px dashed var(--border-strong) !important;
+    }
+    [data-skeleton="true"] .badge,
+    [data-skeleton="true"] .btn-primary,
+    [data-skeleton="true"] .btn-bamboo,
+    [data-skeleton="true"] .btn-light,
+    [data-skeleton="true"] .btn-glass-dark {
+      background: var(--bg-hover) !important;
+      color: var(--text-muted) !important;
+      border-color: var(--border-strong) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION WITH ARC UI GLIDING DROPDOWNS -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#storefront" onclick="showView('storefront'); return false;">
+        <span class="brand-mark">v</span>
+        <span>vCraft <span style="font-weight:400; color:var(--text-muted);">Phú Vinh</span></span>
+      </a>
+
+      <nav class="nav-center">
+        <button class="nav-link-btn active" id="nav-storefront" onclick="showView('storefront')">Triển lãm</button>
+
+        <!-- Arc UI Dropdown Menu #1: Khám phá -->
+        <div class="arc-dd" data-dropdown>
+          <button class="nav-link-btn" onclick="toggleDropdown(this)">
+            <span>Khám phá</span>
+            <i data-lucide="chevron-down" style="width:15px;height:15px;"></i>
+          </button>
+          <div class="arc-menu" style="min-width:300px;">
+            <div class="arc-group-label">Làng nghề Phú Vinh</div>
+            <div class="arc-menu-list" data-glide-list>
+              <div class="arc-glide"></div>
+              <button class="arc-item" onclick="closeAllDropdowns(); document.getElementById('sec-products').scrollIntoView({behavior:'smooth'})">
+                <span class="arc-item-main">
+                  <span class="arc-item-icon"><i data-lucide="shopping-bag"></i></span>
+                  <span>Sản phẩm thủ công<span class="arc-item-sub">Giỏ mây, đèn tre, khay trà có sẵn</span></span>
+                </span>
+              </button>
+              <button class="arc-item" onclick="closeAllDropdowns(); document.getElementById('sec-heritage').scrollIntoView({behavior:'smooth'})">
+                <span class="arc-item-main">
+                  <span class="arc-item-icon"><i data-lucide="qr-code"></i></span>
+                  <span>Truy xuất nguồn gốc QR<span class="arc-item-sub">Nhật ký từng công đoạn chế tác</span></span>
+                </span>
+              </button>
+              <button class="arc-item" onclick="closeAllDropdowns(); document.getElementById('sec-map').scrollIntoView({behavior:'smooth'})">
+                <span class="arc-item-main">
+                  <span class="arc-item-icon"><i data-lucide="map-pin"></i></span>
+                  <span>Bản đồ đón khách<span class="arc-item-sub">18 xưởng đang mở cửa hôm nay</span></span>
+                </span>
+              </button>
+              <div class="arc-divider"></div>
+              <button class="arc-item" onclick="closeAllDropdowns(); openModal()">
+                <span class="arc-item-main">
+                  <span class="arc-item-icon" style="color:var(--rattan); background:var(--rattan-soft); border-color:var(--rattan-border);"><i data-lucide="file-pen-line"></i></span>
+                  <span>Đặt đan theo yêu cầu<span class="arc-item-sub">Gửi báo giá kín tới các hộ nghề</span></span>
+                </span>
+                <span class="arc-item-kbd">RFQ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-link-btn" id="nav-seller" onclick="showView('seller')">Kênh nghệ nhân</button>
+        <button class="nav-link-btn" id="nav-admin" onclick="showView('admin')">Trang BQL</button>
+        <button class="nav-link-btn" id="nav-tokens" onclick="showView('tokens')">Design System</button>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button class="btn btn-outline btn-sm" style="height:36px;" id="skelBtn" onclick="toggleSkeleton()" title="Bật/tắt chế độ xem khung xương Layout">
+          <i data-lucide="layout-template" style="width:15px;height:15px;"></i>
+          <span>Skeleton</span>
+        </button>
+
+        <button class="btn btn-ghost btn-icon" title="Giỏ hàng" onclick="showToast('Giỏ hàng', 'Đang có 3 món thủ công từ 2 xưởng trong giỏ hàng.')">
+          <i data-lucide="shopping-bag"></i>
+          <span class="counter-dot">3</span>
+        </button>
+
+        <!-- Redesigned Notification Center (UC-29) -->
+        <div class="arc-dd" data-dropdown>
+          <button class="btn btn-ghost btn-icon" title="Thông báo" onclick="toggleDropdown(this)">
+            <i data-lucide="bell"></i>
+            <span class="counter-dot" id="bellCount" style="background:var(--bamboo);">2</span>
+          </button>
+          <div class="arc-menu align-right notif-panel">
+            <div class="notif-head">
+              <div class="notif-head-top">
+                <span class="heading" style="font-size:16px; font-weight:700;">Thông báo</span>
+                <button class="btn btn-sm btn-ghost" style="height:30px; font-size:13px;" onclick="markAllRead()">Đánh dấu đã đọc</button>
+              </div>
+              <div class="notif-tabs">
+                <button class="notif-tab active" onclick="filterNotifs('all', this)">Tất cả</button>
+                <button class="notif-tab" onclick="filterNotifs('unread', this)">Chưa đọc (<span id="unreadTabNum">2</span>)</button>
+              </div>
+            </div>
+            <div class="notif-feed" id="notifFeed">
+              <div class="notif-card is-unread" data-unread="true" onclick="readOne(this)">
+                <div class="notif-avatar bamboo"><i data-lucide="file-text"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:14.5px; font-weight:600; line-height:1.35;">Xưởng Bình An vừa gửi báo giá mới</div>
+                  <div style="font-size:13.5px; color:var(--text-secondary); margin-top:3px;">Yêu cầu YC-2026-0012 · Tổng 42.500.000 ₫, hiệu lực đến 20/12.</div>
+                  <div style="font-size:12.5px; color:var(--text-muted); margin-top:5px;">Khu mua hàng · 5 phút trước</div>
+                </div>
+                <span class="notif-unread-dot"></span>
+              </div>
+              <div class="notif-card is-unread" data-unread="true" onclick="readOne(this)">
+                <div class="notif-avatar rattan"><i data-lucide="package"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:14.5px; font-weight:600; line-height:1.35;">Có đơn mua hàng mới MH-2026-0042</div>
+                  <div style="font-size:13.5px; color:var(--text-secondary); margin-top:3px;">Khách đã thanh toán online · Xác nhận trong 72 giờ.</div>
+                  <div style="font-size:12.5px; color:var(--text-muted); margin-top:5px;">Kênh người bán · 18 phút trước</div>
+                </div>
+                <span class="notif-unread-dot"></span>
+              </div>
+              <div class="notif-card" data-unread="false" onclick="readOne(this)">
+                <div class="notif-avatar"><i data-lucide="megaphone"></i></div>
+                <div style="flex:1;">
+                  <div style="font-size:14.5px; font-weight:500; line-height:1.35;">Bảng giá nguyên liệu song mây tháng 11</div>
+                  <div style="font-size:13.5px; color:var(--text-secondary); margin-top:3px;">Ban quản lý làng nghề vừa đăng thông báo nội bộ mới.</div>
+                  <div style="font-size:12.5px; color:var(--text-muted); margin-top:5px;">Kênh người bán · Hôm qua lúc 08:30</div>
+                </div>
+              </div>
+            </div>
+            <div class="notif-foot">
+              <button class="btn btn-sm btn-ghost" style="width:100%; font-size:13.5px;" onclick="closeAllDropdowns(); showToast('Trang Thông báo', 'Mở toàn bộ lịch sử thông báo (20 dòng mỗi lần tải).')">
+                Xem tất cả thông báo <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arc UI User Dropdown Menu -->
+        <div class="arc-dd" data-dropdown>
+          <button class="btn btn-outline btn-sm" style="height:40px; padding:0 12px;" onclick="toggleDropdown(this)">
+            <span style="width:24px; height:24px; border-radius:50%; background:var(--bamboo-soft); color:var(--bamboo); font-weight:600; font-size:12px; display:grid; place-items:center;">M</span>
+            <span>Minh</span>
+            <i data-lucide="chevron-down" style="width:15px;height:15px; color:var(--text-muted);"></i>
+          </button>
+          <div class="arc-menu align-right" style="min-width:240px;">
+            <div style="padding:10px 12px;">
+              <div style="font-weight:600; font-size:14px;">Giang Tuấn Minh</div>
+              <div style="font-size:12.5px; color:var(--text-muted);">Buyer · Chủ Xưởng Bình An</div>
+            </div>
+            <div class="arc-divider"></div>
+            <div class="arc-menu-list" data-glide-list>
+              <div class="arc-glide"></div>
+              <button class="arc-item" onclick="closeAllDropdowns(); showView('seller')">
+                <span class="arc-item-main"><i data-lucide="store"></i><span>Kênh người bán</span></span>
+                <span class="arc-item-kbd">⌘S</span>
+              </button>
+              <button class="arc-item" onclick="closeAllDropdowns(); showView('admin')">
+                <span class="arc-item-main"><i data-lucide="shield"></i><span>Trang quản trị BQL</span></span>
+              </button>
+              <button class="arc-item" onclick="toggleTheme()">
+                <span class="arc-item-main"><i data-lucide="moon"></i><span id="themeText">Chế độ tối</span></span>
+              </button>
+              <div class="arc-divider"></div>
+              <button class="arc-item danger" onclick="closeAllDropdowns(); showToast('Đăng xuất', 'Đã thu hồi phiên hiện tại an toàn.')">
+                <span class="arc-item-main"><i data-lucide="log-out"></i><span>Đăng xuất</span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOP-CENTER TOAST STACK (Phương án 1 — @uiarc/toast-stack) -->
+  <div class="toast-region">
+    <div class="toast-stack" id="toastStack"></div>
+  </div>
+
+  <!-- ========================================================================
+       VIEW 1: FLAGSHIP LANDING PAGE (STOREFRONT)
+       ======================================================================== -->
+  <main class="container view active" id="view-storefront">
+
+    <!-- Dramatic Full-Width Editorial Hero -->
+    <section class="hero-banner">
+      <img class="hero-banner-img" src="./mockup-assets/hero-weaving.jpg" alt="Nghệ nhân làng nghề mây tre đan Phú Vinh" />
+      <div class="hero-scrim"></div>
+
+      <div style="position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <span style="display:inline-flex; align-items:center; gap:7px; font-size:13.5px; font-weight:500; background:rgba(255,255,255,0.14); backdrop-filter:blur(8px); padding:6px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.2);">
+          <i data-lucide="map-pin" style="width:15px;height:15px;"></i>
+          Làng nghề mây tre đan Phú Vinh · Chương Mỹ, Hà Nội
+        </span>
+      </div>
+
+      <div class="hero-content">
+        <h1>Tinh hoa mây tre Phú Vinh, kể bằng từng công đoạn thật.</h1>
+        <p>
+          Không gian triển lãm số của từng hộ nghệ nhân. Chọn sản phẩm thủ công có sẵn, đặt chế tác riêng qua báo giá kín và quét QR để xem trọn nhật ký sản xuất từng lô.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-light" onclick="document.getElementById('sec-products').scrollIntoView({behavior:'smooth'})">
+            <span>Khám phá tác phẩm</span>
+            <i data-lucide="arrow-down"></i>
+          </button>
+          <button class="btn btn-glass-dark" onclick="openModal()">
+            <i data-lucide="file-pen-line"></i>
+            <span>Đặt chế tác theo yêu cầu</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-stats-bar">
+        <div class="hero-stat"><strong>18</strong><span>xưởng đang mở cửa đón khách hôm nay</span></div>
+        <div class="hero-stat"><strong>340+</strong><span>sản phẩm gắn tem truy xuất QR</span></div>
+        <div class="hero-stat"><strong>400 năm</strong><span>di sản đan lát thủ công</span></div>
+      </div>
+    </section>
+
+    <!-- Curated Products + Arc UI Sort Dropdown -->
+    <div class="sec-head" id="sec-products">
+      <div>
+        <h2>Tác phẩm mới từ các hộ nghệ nhân</h2>
+        <p>Mỗi sản phẩm được chế tác trực tiếp tại hộ gia đình, cập nhật tồn kho và giá minh bạch theo thời gian thực.</p>
+      </div>
+
+      <!-- Arc UI Custom Select Dropdown -->
+      <div class="arc-dd" data-dropdown>
+        <button class="btn btn-outline btn-sm" style="height:40px; padding:0 14px;" onclick="toggleDropdown(this)">
+          <i data-lucide="arrow-up-down" style="width:15px;height:15px; color:var(--text-muted);"></i>
+          <span id="sortLabel">Sắp xếp: Mới nhất</span>
+          <i data-lucide="chevron-down" style="width:15px;height:15px; color:var(--text-muted);"></i>
+        </button>
+        <div class="arc-menu align-right" style="min-width:220px;">
+          <div class="arc-menu-list" data-glide-list>
+            <div class="arc-glide"></div>
+            <button class="arc-item" onclick="pickSort('Mới nhất')"><span>Mới nhất</span><i data-lucide="check" style="width:15px;height:15px; color:var(--bamboo);"></i></button>
+            <button class="arc-item" onclick="pickSort('Giá tăng dần')"><span>Giá tăng dần</span></button>
+            <button class="arc-item" onclick="pickSort('Giá giảm dần')"><span>Giá giảm dần</span></button>
+            <div class="arc-divider"></div>
+            <button class="arc-item" onclick="pickSort('Chỉ nhận đặt riêng')"><span>Chỉ nhận đặt riêng</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <article class="p-card">
+        <div class="p-media">
+          <img src="./mockup-assets/product-basket.jpg" alt="Giỏ mây đan mắt cáo" />
+          <div class="p-hover-cta">
+            <button class="btn btn-primary" style="width:100%;" onclick="showToast('Đang thêm vào giỏ...', 'Kiểm tra tồn kho tại Xưởng Bình An', { morphTo: 'Đã thêm vào giỏ hàng', morphDesc: 'Giỏ mây đan mắt cáo (+1) · Nhóm Xưởng Bình An', actionLabel: 'Xem giỏ' })">
+              <i data-lucide="plus"></i> Thêm vào giỏ hàng
+            </button>
+          </div>
+        </div>
+        <div class="p-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13.5px; color:var(--text-muted);">Xưởng Mây Tre Bình An</span>
+            <span class="badge badge-ok">Còn 12</span>
+          </div>
+          <h3 class="p-title">Giỏ mây đan mắt cáo phơi sương</h3>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;">
+            <span class="price p-price">285.000 ₫</span>
+            <button class="btn btn-sm btn-ghost" onclick="openModal()">Đặt sỉ theo mẫu</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card">
+        <div class="p-media">
+          <img src="./mockup-assets/product-lamp.jpg" alt="Đèn thả trần song mây" />
+          <div class="p-hover-cta">
+            <button class="btn btn-primary" style="width:100%;" onclick="openModal()">
+              <i data-lucide="file-pen-line"></i> Gửi yêu cầu báo giá
+            </button>
+          </div>
+        </div>
+        <div class="p-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13.5px; color:var(--text-muted);">Xưởng Phú Vinh Xưa</span>
+            <span class="badge badge-rattan">Chỉ đặt riêng</span>
+          </div>
+          <h3 class="p-title">Đèn thả trần song mây uốn lượn Ø80cm</h3>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;">
+            <span style="font-size:15px; font-weight:600; color:var(--rattan);">Theo báo giá</span>
+            <button class="btn btn-sm btn-outline" onclick="openModal()">Nhận báo giá</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-card">
+        <div class="p-media">
+          <img src="./mockup-assets/product-tray.jpg" alt="Khay trà tre hun khói" />
+        </div>
+        <div class="p-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13.5px; color:var(--text-muted);">Xưởng Tre Việt</span>
+            <span class="badge badge-neutral">Hết hàng</span>
+          </div>
+          <h3 class="p-title">Khay trà tre hun khói ghép mộng thủ công</h3>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;">
+            <span class="price p-price" style="color:var(--text-muted);">420.000 ₫</span>
+            <button class="btn btn-sm btn-outline" onclick="openModal()">Đặt làm riêng</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Dramatic Dark Heritage Band (QR Traceability Story) -->
+    <section class="heritage-band" id="sec-heritage">
+      <div>
+        <span style="display:inline-flex; align-items:center; gap:6px; font-size:13px; color:#DC9454; font-weight:600; margin-bottom:14px;">
+          <i data-lucide="qr-code"></i> Truy xuất nguồn gốc không cần đăng nhập
+        </span>
+        <h2>Quét một mã QR, nhìn thấy trọn hành trình của nghệ nhân.</h2>
+        <p style="font-size:16px; color:rgba(245,242,236,0.78); margin-bottom:26px;">
+          Mỗi lô sản phẩm đều có URL truy xuất cố định theo <span class="mono">qr_token</span>. Lô đã xuất xưởng được khóa nguyên trạng và chỉ cho phép thêm ghi chú đính chính bất biến.
+        </p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-light" onclick="showToast('Trang QR công khai', 'DTO riêng biệt: ẩn hoàn toàn thông tin Buyer, giá đơn đặt riêng và sản phẩm mẫu.')">
+            <span>Xem trang QR mẫu</span>
+            <i data-lucide="external-link"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="heritage-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:20px;">
+          <div>
+            <div style="font-size:13px; color:#DC9454; font-weight:500;">Sản xuất theo đơn đặt riêng · Giỏ &amp; Làn</div>
+            <h3 style="color:#FFFFFF; font-size:20px; margin-top:2px;">Lô quà tặng hội nghị tre hun</h3>
+            <div style="font-size:13.5px; color:rgba(245,242,236,0.62); margin-top:2px;">
+              <span class="mono">LO-2026-0018</span> · Bắt đầu 02/11/2026 · 300 chiếc
+            </div>
+          </div>
+          <span class="badge" style="background:rgba(99,168,132,0.18); color:#8AE2B5; border-color:rgba(99,168,132,0.3);">Đã xuất xưởng</span>
+        </div>
+
+        <div class="timeline" style="margin-bottom:20px;">
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <div style="font-size:13px; color:rgba(245,242,236,0.58);">03/11/2026</div>
+            <div style="font-weight:600; font-size:15px; color:#FFFFFF;">Chọn tre bánh tẻ &amp; chẻ nan phơi đủ 5 nắng</div>
+            <p style="font-size:14px; color:rgba(245,242,236,0.74);">Tre già 3 năm tuổi phơi tự nhiên tại sân thôn Phú Vinh.</p>
+          </div>
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:13px; color:rgba(245,242,236,0.58);">10/11/2026</span>
+              <span style="font-size:11.5px; padding:1px 8px; border-radius:4px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);">đã chỉnh sửa</span>
+            </div>
+            <div style="font-weight:600; font-size:15px; color:#FFFFFF;">Đan mắt cáo &amp; hun khói rơm nếp 48 giờ</div>
+            <p style="font-size:14px; color:rgba(245,242,236,0.74);">Tạo sắc nâu mật tự nhiên và chống mối mọt không hóa chất.</p>
+          </div>
+        </div>
+
+        <div style="background:rgba(220,148,84,0.12); border:1px solid rgba(220,148,84,0.28); border-radius:10px; padding:12px 14px; font-size:13.5px; color:rgba(245,242,236,0.88);">
+          <strong style="color:#F0AD6E;">Đính chính (20/11/2026 14:15):</strong> Bổ sung kết quả đo độ ẩm (&lt; 12%) trước khi xuất xưởng.
+        </div>
+      </div>
+    </section>
+
+    <!-- Workshop Visiting + Quote Comparison -->
+    <div class="sec-head" id="sec-map">
+      <div>
+        <h2>Ghé thăm xưởng &amp; So sánh báo giá kín</h2>
+        <p>Giờ mở cửa tính động theo giờ Việt Nam (UTC+7) và bảng so sánh báo giá minh bạch từ các hộ nghệ nhân.</p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:28px;">
+      <div class="card" style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <span class="badge badge-rattan"><i data-lucide="badge-check" style="width:14px;height:14px;"></i> BQL đã xác minh</span>
+              <span style="font-size:13px; color:var(--text-muted);">Truyền nghề từ 1985</span>
+            </div>
+            <h3 style="font-size:21px; font-weight:700;">Xưởng Mây Tre Bình An</h3>
+            <div style="font-size:14.5px; color:var(--text-secondary); margin-top:4px;">Thôn Phú Vinh, Xã Phú Nghĩa, Chương Mỹ, Hà Nội</div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-subtle); border:1px solid var(--border); border-radius:10px; padding:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="const w=document.getElementById('hours7'); w.style.display=w.style.display==='none'?'grid':'none'">
+            <div style="display:flex; align-items:center; gap:8px; font-size:15px;">
+              <i data-lucide="clock" style="color:var(--ok-fg);"></i>
+              <strong style="color:var(--ok-fg);">Đang đón khách</strong>
+              <span style="color:var(--text-secondary);">· Đóng cửa lúc 17:00</span>
+            </div>
+            <span style="font-size:13.5px; font-weight:500; display:inline-flex; align-items:center; gap:4px;">Lịch 7 ngày <i data-lucide="chevron-down" style="width:15px;height:15px;"></i></span>
+          </div>
+          <p style="font-size:14px; color:var(--text-secondary); margin-top:8px;">Có góc trải nghiệm đan giỏ mây nhỏ cho du khách vào cuối tuần.</p>
+          <div id="hours7" class="tabular" style="display:none; gap:8px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); font-size:14px;">
+            <div style="display:flex; justify-content:space-between; font-weight:600;"><span>Thứ Năm 26/11 (Hôm nay)</span><span>08:00–12:00, 13:30–17:00</span></div>
+            <div style="display:flex; justify-content:space-between; color:var(--text-secondary);"><span>Thứ Sáu 27/11</span><span>08:00–17:00</span></div>
+            <div style="display:flex; justify-content:space-between; color:var(--warn-fg);"><span>Thứ Bảy 28/11 (Đã trừ lịch nghỉ)</span><span>08:00–11:30</span></div>
+            <div style="display:flex; justify-content:space-between; color:var(--text-muted);"><span>Chủ Nhật 29/11</span><span>Nghỉ</span></div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:auto;">
+          <button class="btn btn-primary">Xem gian hàng</button>
+          <a class="btn btn-outline" href="https://www.google.com/maps?q=20.900000,105.700000" target="_blank" rel="noreferrer">
+            <i data-lucide="navigation"></i> Chỉ đường
+          </a>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; gap:16px;">
+        <div>
+          <span class="badge badge-info" style="margin-bottom:10px;">Bản tin làng nghề · Công khai</span>
+          <h3 style="font-size:21px; font-weight:700; margin-bottom:8px;">Triển lãm sản phẩm thủ công Phú Vinh Thu Đông 2026</h3>
+          <p style="font-size:15px; color:var(--text-secondary);">
+            Hội làng nghề mở cửa đón khách tham quan quy trình chẻ nan, hun khói rơm và giao lưu trực tiếp với hơn 20 hộ nghệ nhân lâu năm trong làng.
+          </p>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-top:14px; border-top:1px solid var(--border);">
+          <span style="font-size:13.5px; color:var(--text-muted);">Đăng ngày 24/11/2026</span>
+          <button class="btn btn-sm btn-ghost">Đọc bài viết <i data-lucide="arrow-right" style="width:15px;height:15px;"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Xưởng báo giá (YC-2026-0012)</th>
+            <th>Phiên bản</th>
+            <th>Đơn giá</th>
+            <th>Tổng giá trị</th>
+            <th>Hoàn thành</th>
+            <th>Cọc &amp; Hạn cọc</th>
+            <th>Trạng thái</th>
+            <th style="text-align:right;">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="best">
+            <td><strong>Xưởng Mây Tre Bình An</strong></td>
+            <td class="mono">v2</td>
+            <td class="price">82.000 ₫</td>
+            <td class="price" style="font-weight:700;">42.500.000 ₫</td>
+            <td>18 ngày</td>
+            <td>30% (<span class="price">12.750.000 ₫</span>)<br/><span style="font-size:12.5px; color:var(--text-muted);">Hạn cọc: 5 ngày</span></td>
+            <td><span class="badge badge-ok">Còn hiệu lực</span></td>
+            <td style="text-align:right;"><button class="btn btn-sm btn-primary" onclick="showToast('Chấp nhận báo giá', 'Tạo đơn DR-2026-0008, chụp cứng hạn cọc (+5 ngày) và mở ZaloPay Sandbox.')">Chấp nhận</button></td>
+          </tr>
+          <tr>
+            <td><strong>Xưởng Phú Vinh Xưa</strong></td>
+            <td class="mono">v1</td>
+            <td class="price">88.000 ₫</td>
+            <td class="price">45.000.000 ₫</td>
+            <td>14 ngày</td>
+            <td>50% (<span class="price">22.500.000 ₫</span>)<br/><span style="font-size:12.5px; color:var(--text-muted);">Hạn cọc: 3 ngày</span></td>
+            <td><span class="badge badge-neutral">Hết hiệu lực</span></td>
+            <td style="text-align:right;"><button class="btn btn-sm btn-outline" onclick="showToast('Yêu cầu cập nhật giá', 'Đã gửi yêu cầu (hạn phản hồi 3 ngày) tới Xưởng Phú Vinh Xưa.')">Xin giá mới</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       VIEW 2: KÊNH NGHỆ NHÂN (SELLER PORTAL)
+       ======================================================================== -->
+  <section class="container view" id="view-seller">
+    <div class="portal-layout">
+      <aside class="sidebar">
+        <div style="padding:8px 12px 14px; border-bottom:1px solid var(--border); margin-bottom:8px;">
+          <div style="font-size:12.5px; color:var(--text-muted);">Kênh người bán</div>
+          <div style="font-weight:700; font-size:16px; margin:2px 0 8px;">Xưởng Mây Tre Bình An</div>
+          <span class="badge badge-ok">Đang hoạt động</span>
+        </div>
+        <div class="side-link active"><span class="side-left"><i data-lucide="check-circle-2"></i> Tổng quan</span><span class="mono" style="font-size:12px;">7/7</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="store"></i> Hồ sơ gian hàng</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="map-pin"></i> Vị trí &amp; Đón khách</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="package"></i> Sản phẩm</span><span class="mono" style="font-size:12px;">14</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="qr-code"></i> Lô sản xuất &amp; QR</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="file-text"></i> Yêu cầu báo giá</span><span class="badge badge-warn">2</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="clipboard-list"></i> Đơn hàng</span><span class="badge badge-rattan">1</span></div>
+      </aside>
+
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <div>
+            <h2 style="font-size:21px; font-weight:700;">Checklist mở xưởng (7/7 tiêu chí)</h2>
+            <p style="font-size:14.5px; color:var(--text-secondary); margin-top:4px;">Gian hàng đã đủ điều kiện hiển thị công khai và nhận giao dịch.</p>
+          </div>
+          <button class="btn btn-sm btn-outline" onclick="showToast('Tạm ngừng nhận đơn', 'Xưởng vẫn hiển thị trên bản đồ và xử lý tiếp các đơn đang có.')">Tạm ngừng nhận đơn mới</button>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="display:flex; flex-direction:column; gap:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="mono" style="font-weight:600; font-size:15px;">MH-2026-0042</span>
+              <span class="badge badge-warn">Chờ xác nhận · Còn 68h</span>
+            </div>
+            <p style="font-size:15px;">2 × Giỏ mây đan mắt cáo · <strong class="price">600.000 ₫</strong> (Đã thanh toán ZaloPay)</p>
+            <div style="display:flex; gap:10px; margin-top:auto;">
+              <button class="btn btn-sm btn-bamboo" onclick="showToast('Đã xác nhận đơn', 'Đơn MH-2026-0042 chuyển sang Đang chuẩn bị.')">Xác nhận đơn</button>
+              <button class="btn btn-sm btn-danger">Từ chối</button>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; flex-direction:column; gap:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="mono" style="font-weight:600; font-size:15px;">LO-2026-0018</span>
+              <span class="badge badge-ok">Hoàn thành · Sẵn sàng in QR</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input class="input mono" type="number" value="200" style="width:110px; height:36px;" />
+              <button class="btn btn-sm btn-primary" onclick="showToast('Xuất bản in QR', 'Chuẩn bị 200 tem trỏ cố định về /trace/9f8a7b6c.')"><i data-lucide="printer"></i> In tem QR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VIEW 3: TRANG QUẢN TRỊ BQL (ADMIN PORTAL)
+       ======================================================================== -->
+  <section class="container view" id="view-admin">
+    <div class="portal-layout">
+      <aside class="sidebar">
+        <div style="padding:8px 12px 14px; border-bottom:1px solid var(--border); margin-bottom:8px;">
+          <div style="font-size:12.5px; color:var(--text-muted);">Trang quản trị</div>
+          <div style="font-weight:700; font-size:16px; margin:2px 0 8px;">Trưởng BQL</div>
+          <span class="badge badge-info">Super Admin</span>
+        </div>
+        <div class="side-link active"><span class="side-left"><i data-lucide="bar-chart-3"></i> Giám sát giao dịch</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="shield-check"></i> Kiểm duyệt hồ sơ</span><span class="badge badge-warn">3</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="tags"></i> Phân loại</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="newspaper"></i> Tin tức cộng đồng</span></div>
+        <div class="side-link"><span class="side-left"><i data-lucide="users"></i> Quản trị viên</span></div>
+      </aside>
+
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        <div class="grid-4">
+          <div class="card" style="padding:18px;">
+            <div style="font-size:13px; color:var(--text-muted);">Đơn MH / DR / YC (30 ngày)</div>
+            <div class="mono" style="font-size:22px; font-weight:700; margin:6px 0 2px;">128 / 19 / 34</div>
+          </div>
+          <div class="card" style="padding:18px;">
+            <div style="font-size:13px; color:var(--text-muted);">Xử lý / Hoàn tất / Hủy</div>
+            <div class="mono" style="font-size:22px; font-weight:700; margin:6px 0 2px;">31 / 102 / 14</div>
+          </div>
+          <div class="card" style="padding:18px;">
+            <div style="font-size:13px; color:var(--text-muted);">Giá trị đơn hoàn tất</div>
+            <div class="price" style="font-size:22px; font-weight:700; margin:6px 0 2px;">386.450.000 ₫</div>
+          </div>
+          <div class="card" style="padding:18px; background:var(--err-bg); border-color:var(--err-border);">
+            <div style="font-size:13px; color:var(--err-fg); font-weight:600;">Tồn đọng hoàn tiền</div>
+            <div class="mono" style="font-size:22px; font-weight:700; color:var(--err-fg); margin:6px 0 2px;">2 đơn</div>
+            <div style="font-size:12.5px; color:var(--err-fg);">1 retry · 1 FAILED</div>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:10px;"><span class="badge badge-info">Đổi địa chỉ kèm ghim</span><strong style="font-size:16px;">Xưởng Phú Vinh Xưa</strong></div>
+            <span style="font-size:13px; color:var(--text-muted);">Hôm nay · 08:10</span>
+          </div>
+          <div class="grid-2">
+            <div style="background:var(--bg-subtle); border:1px solid var(--border); border-radius:10px; padding:14px;">
+              <div style="font-size:12px; color:var(--text-muted);">Địa chỉ &amp; ghim hiện tại</div>
+              <div style="font-weight:500; margin-top:4px;">Xóm Thượng, Thôn Phú Vinh</div>
+              <div class="mono" style="font-size:13px; color:var(--text-muted);">20.898120, 105.694500</div>
+            </div>
+            <div style="background:var(--bamboo-soft); border:1px solid var(--bamboo-border); border-radius:10px; padding:14px;">
+              <div style="font-size:12px; color:var(--bamboo); font-weight:600;">Đề nghị cập nhật đồng thời</div>
+              <div style="font-weight:600; margin-top:4px;">Số 18 Đường Làng Phú Vinh, Xã Phú Nghĩa</div>
+              <div class="mono" style="font-size:13px; color:var(--bamboo);">20.901340, 105.698210</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-sm btn-primary" onclick="showToast('Đã duyệt đổi địa chỉ', 'Địa chỉ chữ và ghim bản đồ đã cập nhật cùng một giao dịch.')">Duyệt thay đổi</button>
+            <button class="btn btn-sm btn-outline">Từ chối</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       VIEW 4: COMPLETE ARC UI COMPONENT LIBRARY FOR vCRAFT
+       ======================================================================== -->
+  <section class="container view" id="view-tokens">
+    <div class="sec-head" style="margin-top:8px;">
+      <div>
+        <h2>Thư viện Component đầy đủ (Arc UI × vCraft)</h2>
+        <p>Mọi component tương tác sẽ dùng xuyên suốt 35 UC — không dùng native datepicker hay native select thô của trình duyệt.</p>
+      </div>
+    </div>
+
+    <!-- 1. Selects, Calendar Date Picker & Special Inputs -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card" style="display:flex; flex-direction:column; gap:18px;">
+        <h3 style="font-size:17px;">1. Animated Select, Calendar Date Picker &amp; Combobox</h3>
+
+        <!-- Custom Select (@uiarc/select) -->
+        <div class="field">
+          <label class="label">Phân loại sản phẩm (<code>@uiarc/select</code>)</label>
+          <div class="arc-dd" data-dropdown style="width:100%;">
+            <button type="button" class="input" style="width:100%; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="toggleDropdown(this)">
+              <span id="dsCatVal">Giỏ &amp; Làn mây đan</span>
+              <i data-lucide="chevron-down" style="color:var(--text-muted);"></i>
+            </button>
+            <div class="arc-menu" style="width:100%;">
+              <div class="arc-menu-list" data-glide-list>
+                <div class="arc-glide"></div>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('dsCatVal', 'Giỏ & Làn mây đan')"><span>Giỏ &amp; Làn mây đan</span><span class="arc-item-kbd">42 SP</span></button>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('dsCatVal', 'Đèn thả song mây')"><span>Đèn thả song mây</span><span class="arc-item-kbd">19 SP</span></button>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('dsCatVal', 'Khay trà & Hộp quà')"><span>Khay trà &amp; Hộp quà</span><span class="arc-item-kbd">28 SP</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Vietnamese Calendar Date Picker (@uiarc/calendar) -->
+        <div class="field">
+          <label class="label">Chọn ngày tiếng Việt (<code>@uiarc/calendar</code> — thay native datepicker)</label>
+          <div class="arc-dd" data-dropdown style="width:100%;">
+            <button type="button" class="input mono" style="width:100%; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="toggleDropdown(this)">
+              <span id="dsDateVal">20/12/2026</span>
+              <i data-lucide="calendar" style="color:var(--text-muted);"></i>
+            </button>
+            <div class="arc-menu arc-cal-panel" data-cal-target="dsDateVal"></div>
+          </div>
+        </div>
+
+        <!-- Chip Group (@uiarc/chip-group) -->
+        <div class="field">
+          <label class="label">Bộ lọc nhanh (<code>@uiarc/chip-group</code>)</label>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="chip selected" onclick="this.classList.toggle('selected')">Đang đón khách</button>
+            <button type="button" class="chip" onclick="this.classList.toggle('selected')">Có sẵn hàng</button>
+            <button type="button" class="chip" onclick="this.classList.toggle('selected')">Có tem QR</button>
+            <button type="button" class="chip" onclick="this.classList.toggle('selected')">BQL đã xác minh</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Special Inputs: Number Field, Money Input, Phone Input -->
+      <div class="card" style="display:flex; flex-direction:column; gap:18px;">
+        <h3 style="font-size:17px;">2. Special Inputs (<code>@uiarc/number-field</code>, Tiền VND, SĐT)</h3>
+
+        <div class="field">
+          <label class="label">Số lượng giỏ / tem QR (Bounded Stepper 1–1.000)</label>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="num-field">
+              <button type="button" onclick="stepNum('dsQty', -1, 1, 1000)"><i data-lucide="minus" style="width:15px;height:15px;"></i></button>
+              <input id="dsQty" value="12" readonly />
+              <button type="button" onclick="stepNum('dsQty', 1, 1, 1000)"><i data-lucide="plus" style="width:15px;height:15px;"></i></button>
+            </div>
+            <span style="font-size:13px; color:var(--text-muted);">Giới hạn theo tồn kho / 1.000 tem</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:12px;">
+          <div class="field">
+            <label class="label">Đơn giá (Money Input VND)</label>
+            <div style="position:relative;">
+              <input class="input price" style="width:100%; padding-right:42px;" value="285.000" />
+              <span style="position:absolute; right:14px; top:10px; font-size:14px; color:var(--text-muted);">₫</span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Số điện thoại VN (10 số)</label>
+            <input class="input mono" value="0912 345 678" />
+          </div>
+        </div>
+
+        <!-- File Upload Dropzone -->
+        <div class="field">
+          <label class="label">Tải ảnh sản phẩm / minh chứng (JPG, PNG, WebP ≤ 10MB)</label>
+          <div class="dropzone" onclick="showToast('Tải ảnh lên', 'Backend tự validate MIME thực và sinh thumbnail WebP.')">
+            <i data-lucide="upload-cloud" style="width:24px;height:24px; color:var(--bamboo); margin-bottom:6px;"></i>
+            <div style="font-size:14px; font-weight:500;">Kéo thả ảnh vào đây hoặc <span style="color:var(--bamboo); text-decoration:underline;">chọn tệp</span></div>
+            <div style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">Tối đa 10 ảnh · Tự động tạo ảnh thu nhỏ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Toggles, Radio Cards & Sliding Tabs -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card" style="display:flex; flex-direction:column; gap:18px;">
+        <h3 style="font-size:17px;">3. Toggles (<code>@uiarc/switch</code>, Checkbox, <code>@uiarc/radio-cards</code>)</h3>
+
+        <div class="arc-switch-row" onclick="this.querySelector('.arc-switch').classList.toggle('on')">
+          <div>
+            <div style="font-weight:500; font-size:14.5px;">Mở cửa đón khách tham quan (UC-25)</div>
+            <div style="font-size:13px; color:var(--text-muted);">Tự động bật/tắt theo lịch tuần và lịch nghỉ UTC+7</div>
+          </div>
+          <div class="arc-switch on"></div>
+        </div>
+
+        <div class="arc-check checked" onclick="this.classList.toggle('checked')">
+          <span class="arc-check-box"><i data-lucide="check" style="width:13px;height:13px;"></i></span>
+          <span>Tôi đồng ý với Điều khoản sử dụng vCraft (UC-03)</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="radio-card selected" onclick="selectRadioCard(this)">
+            <div>
+              <div style="font-weight:600; font-size:14px;">Thanh toán COD</div>
+              <div style="font-size:12.5px; color:var(--text-secondary);">Thu tiền khi nhận hàng</div>
+            </div>
+            <i data-lucide="banknote" style="color:var(--bamboo);"></i>
+          </div>
+          <div class="radio-card" onclick="selectRadioCard(this)">
+            <div>
+              <div style="font-weight:600; font-size:14px;">ZaloPay Sandbox</div>
+              <div style="font-size:12.5px; color:var(--text-secondary);">Hạn thanh toán 15 phút</div>
+            </div>
+            <i data-lucide="credit-card" style="color:var(--text-muted);"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Sliding Tabs, Pagination & Skeleton -->
+      <div class="card" style="display:flex; flex-direction:column; gap:18px;">
+        <h3 style="font-size:17px;">4. Sliding Tabs (<code>@uiarc/tabs</code>), Pagination &amp; Skeleton</h3>
+
+        <div>
+          <div class="arc-tabs" id="demoTabs">
+            <div class="arc-tab-slider" id="demoTabSlider"></div>
+            <button type="button" class="arc-tab-btn active" onclick="moveTabSlider(this, 'Đơn mua hàng (128)')">Đơn mua hàng</button>
+            <button type="button" class="arc-tab-btn" onclick="moveTabSlider(this, 'Đơn đặt riêng (19)')">Đơn đặt riêng</button>
+            <button type="button" class="arc-tab-btn" onclick="moveTabSlider(this, 'Yêu cầu báo giá (34)')">Yêu cầu báo giá</button>
+          </div>
+          <div id="demoTabPanel" style="margin-top:10px; font-size:14px; color:var(--text-secondary);">Đang xem: <strong>Đơn mua hàng (128)</strong></div>
+        </div>
+
+        <div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">Phân trang đồng bộ URL (UC-28, UC-35)</div>
+          <div class="pagination">
+            <button type="button" class="page-btn"><i data-lucide="chevron-left" style="width:15px;height:15px;"></i></button>
+            <button type="button" class="page-btn active">1</button>
+            <button type="button" class="page-btn">2</button>
+            <button type="button" class="page-btn">3</button>
+            <span style="padding:0 6px; color:var(--text-muted);">…</span>
+            <button type="button" class="page-btn">12</button>
+            <button type="button" class="page-btn"><i data-lucide="chevron-right" style="width:15px;height:15px;"></i></button>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">Skeleton tải độc lập từng khối (UC-06 BR-3)</div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div class="skeleton" style="width:52px; height:52px; flex-shrink:0;"></div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+              <div class="skeleton" style="height:14px; width:65%;"></div>
+              <div class="skeleton" style="height:12px; width:42%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Messages, Toast Stack & 4 Error Patterns -->
+    <div class="grid-2">
+      <div class="card" style="display:flex; flex-direction:column; gap:16px;">
+        <h3 style="font-size:17px;">5. 4 kiểu hiển thị lỗi (<code>error-codes.md</code>)</h3>
+        <div class="field">
+          <label class="label">Số lượng trả về kho (Inline)</label>
+          <input class="input error" value="5" />
+          <span style="font-size:13.5px; color:var(--err-fg);">ERR-UC33-07: Số lượng trả về phải là số nguyên từ 0 đến 2.</span>
+        </div>
+        <div class="banner" style="background:var(--warn-bg); color:var(--warn-fg); border-color:var(--warn-border);">
+          <i data-lucide="refresh-cw" style="margin-top:2px;"></i>
+          <div><strong>ERR-UC33-06:</strong> Khoản hoàn <span class="mono">530.000 ₫</span> đang được thử lại tự động (lần 2/5).</div>
+        </div>
+        <div class="banner" style="background:var(--err-bg); color:var(--err-fg); border-color:var(--err-border);">
+          <i data-lucide="alert-circle" style="margin-top:2px;"></i>
+          <div><strong>ERR-UC33-08:</strong> Hoàn tiền chưa thành công, vui lòng liên hệ BQL kèm mã đơn <span class="mono">MH-2026-0019</span>.</div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex; flex-direction:column; gap:18px;">
+        <h3 style="font-size:17px;">6. Buttons, <code>@uiarc/toast-stack</code> &amp; Status Badges</h3>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-sm btn-primary" onclick="showToast('Đang lưu thay đổi...', 'Đồng bộ tồn kho tại Xưởng Bình An', { morphTo: 'Đã cập nhật sản phẩm', morphDesc: 'Thay đổi có hiệu lực ngay trên triển lãm.', actionLabel: 'Hoàn tác' })">Thử OK (1.8s)</button>
+          <button class="btn btn-sm btn-outline" onclick="showToast('Đơn MH-2026-0045 chờ thanh toán', 'Còn 14 phút trước khi đơn tự hủy và hoàn tồn.', { type: 'warn', actionLabel: 'Thanh toán' })">Thử Warning (3.5s)</button>
+          <button class="btn btn-sm btn-danger" onclick="showToast('ERR-UC20-02 · Phiên bản mới', 'Xưởng vừa cập nhật báo giá lên v2, vui lòng xem lại.', { type: 'err', actionLabel: 'Tải lại' })">Thử Error (6.0s)</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-primary">Primary CTA</button>
+          <button class="btn btn-bamboo">Xác nhận</button>
+          <button class="btn btn-outline">Outline</button>
+          <button class="btn btn-danger">Hủy đơn</button>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="badge badge-ok">Đang đón khách</span>
+          <span class="badge badge-warn">Chờ thanh toán · 14:20</span>
+          <span class="badge badge-info">Đang sản xuất</span>
+          <span class="badge badge-err">Hoàn tiền FAILED</span>
+          <span class="badge badge-rattan">BQL đã xác minh</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RFQ MODAL (100% Custom Arc UI Controls — ZERO Native Datepicker/Select) -->
+  <div class="modal-bg" id="rfqModal" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h3 style="font-size:20px; font-weight:700;">Gửi yêu cầu đặt chế tác riêng</h3>
+        <button class="btn btn-ghost btn-icon" onclick="closeModal()"><i data-lucide="x"></i></button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div class="field">
+          <label class="label">Phân loại sản phẩm</label>
+          <div class="arc-dd" data-dropdown style="width:100%;">
+            <button type="button" class="input" style="width:100%; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="toggleDropdown(this)">
+              <span id="modalCatVal">Giỏ &amp; Làn mây đan</span>
+              <i data-lucide="chevron-down" style="color:var(--text-muted);"></i>
+            </button>
+            <div class="arc-menu" style="width:100%;">
+              <div class="arc-menu-list" data-glide-list>
+                <div class="arc-glide"></div>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('modalCatVal', 'Giỏ & Làn mây đan')"><span>Giỏ &amp; Làn mây đan</span></button>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('modalCatVal', 'Đèn thả song mây')"><span>Đèn thả song mây</span></button>
+                <button type="button" class="arc-item" onclick="pickCustomSelect('modalCatVal', 'Hộp quà doanh nghiệp')"><span>Hộp quà doanh nghiệp</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Mô tả mẫu &amp; quy cách</label>
+          <input class="input" value="Giỏ quà Tết mây đan tự nhiên kèm thẻ tre khắc logo, 35×25×18cm" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="field">
+            <label class="label">Số lượng</label>
+            <div class="num-field" style="width:100%; justify-content:space-between;">
+              <button type="button" onclick="stepNum('modalQty', -50, 1, 1000000)"><i data-lucide="minus" style="width:15px;height:15px;"></i></button>
+              <input id="modalQty" value="300" readonly />
+              <button type="button" onclick="stepNum('modalQty', 50, 1, 1000000)"><i data-lucide="plus" style="width:15px;height:15px;"></i></button>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Ngày cần hàng mong muốn</label>
+            <div class="arc-dd" data-dropdown style="width:100%;">
+              <button type="button" class="input mono" style="width:100%; display:flex; align-items:center; justify-content:space-between; cursor:pointer;" onclick="toggleDropdown(this)">
+                <span id="modalDateVal">20/12/2026</span>
+                <i data-lucide="calendar" style="color:var(--text-muted);"></i>
+              </button>
+              <div class="arc-menu align-right arc-cal-panel" data-cal-target="modalDateVal"></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;">
+          <button class="btn btn-outline" onclick="closeModal(); showToast('Đã lưu bản nháp', 'Bản nháp chỉ hiển thị trong tài khoản của bạn.')">Lưu nháp</button>
+          <button class="btn btn-primary" onclick="closeModal(); showToast('Đang gửi yêu cầu...', 'Khóa danh sách xưởng phù hợp', { morphTo: 'Đã gửi YC-2026-0015', morphDesc: 'Đã mời 6 hộ nghệ nhân phù hợp gửi báo giá.', actionLabel: 'Xem YC' })">Gửi yêu cầu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    /* Arc UI Gliding Hover Pill inside every dropdown list */
+    document.querySelectorAll('[data-glide-list]').forEach(list => {
+      const glide = list.querySelector('.arc-glide');
+      const items = list.querySelectorAll('.arc-item');
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          glide.style.opacity = '1';
+          glide.style.height = item.offsetHeight + 'px';
+          glide.style.transform = 'translateY(' + item.offsetTop + 'px)';
+        });
+      });
+      list.addEventListener('mouseleave', () => { glide.style.opacity = '0'; });
+    });
+
+    function toggleDropdown(trigger) {
+      const dd = trigger.closest('[data-dropdown]');
+      const isOpen = dd.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) dd.classList.add('open');
+    }
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('[data-dropdown].open').forEach(d => d.classList.remove('open'));
+    }
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('[data-dropdown]')) closeAllDropdowns();
+    });
+
+    function showView(id) {
+      closeAllDropdowns();
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + id).classList.add('active');
+      document.querySelectorAll('.nav-link-btn').forEach(b => b.classList.remove('active'));
+      const activeNav = document.getElementById('nav-' + id);
+      if (activeNav) activeNav.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function pickCustomSelect(targetId, val) {
+      document.getElementById(targetId).textContent = val;
+      closeAllDropdowns();
+    }
+
+    function stepNum(id, delta, min, max) {
+      const inp = document.getElementById(id);
+      const next = Math.min(max, Math.max(min, (parseInt(inp.value, 10) || min) + delta));
+      inp.value = next;
+    }
+
+    function selectRadioCard(card) {
+      card.parentElement.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+
+    function moveTabSlider(btn, panelText) {
+      const wrap = btn.parentElement;
+      const slider = wrap.querySelector('.arc-tab-slider');
+      wrap.querySelectorAll('.arc-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      slider.style.width = btn.offsetWidth + 'px';
+      slider.style.transform = 'translateX(' + (btn.offsetLeft - 4) + 'px)';
+      document.getElementById('demoTabPanel').innerHTML = 'Đang xem: <strong>' + panelText + '</strong>';
+    }
+
+    /* Interactive Vietnamese Calendar (@uiarc/calendar style) */
+    function renderCalendar(container, year, month, selectedStr) {
+      const targetId = container.dataset.calTarget;
+      const firstDow = (new Date(year, month, 1).getDay() + 6) % 7; /* Monday = 0 */
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const prevDays = new Date(year, month, 0).getDate();
+      const pad = n => String(n).padStart(2, '0');
+
+      let html =
+        '<div class="cal-head">' +
+          '<span class="cal-title">Tháng ' + (month + 1) + ', ' + year + '</span>' +
+          '<div class="cal-nav">' +
+            '<button type="button" data-cal-prev><i data-lucide="chevron-left" style="width:15px;height:15px;"></i></button>' +
+            '<button type="button" data-cal-next><i data-lucide="chevron-right" style="width:15px;height:15px;"></i></button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cal-grid">' +
+          '<div class="cal-dow">T2</div><div class="cal-dow">T3</div><div class="cal-dow">T4</div><div class="cal-dow">T5</div><div class="cal-dow">T6</div><div class="cal-dow">T7</div><div class="cal-dow">CN</div>';
+
+      for (let i = firstDow - 1; i >= 0; i--) {
+        html += '<button type="button" class="cal-day is-out" disabled>' + (prevDays - i) + '</button>';
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const str = pad(d) + '/' + pad(month + 1) + '/' + year;
+        const isSel = str === selectedStr;
+        const isToday = year === 2026 && month === 10 && d === 26;
+        const cls = 'cal-day' + (isSel ? ' is-selected' : '') + (isToday ? ' is-today' : '');
+        html += '<button type="button" class="' + cls + '" data-pick="' + str + '">' + d + '</button>';
+      }
+      html += '</div>' +
+        '<div class="cal-foot">' +
+          '<button type="button" class="btn btn-sm btn-ghost" style="height:28px;font-size:12.5px;" data-pick="26/11/2026">Hôm nay (26/11)</button>' +
+          '<span class="mono" style="font-size:12px; color:var(--text-muted);">' + selectedStr + '</span>' +
+        '</div>';
+
+      container.innerHTML = html;
+      lucide.createIcons();
+
+      container.querySelector('[data-cal-prev]').onclick = e => {
+        e.stopPropagation();
+        const prev = new Date(year, month - 1, 1);
+        renderCalendar(container, prev.getFullYear(), prev.getMonth(), selectedStr);
+      };
+      container.querySelector('[data-cal-next]').onclick = e => {
+        e.stopPropagation();
+        const next = new Date(year, month + 1, 1);
+        renderCalendar(container, next.getFullYear(), next.getMonth(), selectedStr);
+      };
+      container.querySelectorAll('[data-pick]').forEach(btn => {
+        btn.onclick = e => {
+          e.stopPropagation();
+          const picked = btn.dataset.pick;
+          document.getElementById(targetId).textContent = picked;
+          const [dd, mm, yy] = picked.split('/').map(Number);
+          renderCalendar(container, yy, mm - 1, picked);
+          closeAllDropdowns();
+        };
+      });
+    }
+
+    document.querySelectorAll('[data-cal-target]').forEach(el => {
+      renderCalendar(el, 2026, 11, document.getElementById(el.dataset.calTarget).textContent.trim());
+    });
+
+    /* Init sliding tab indicator when switching to Design System view */
+    const origShowView = showView;
+    showView = function(id) {
+      origShowView(id);
+      if (id === 'tokens') {
+        const activeBtn = document.querySelector('#demoTabs .arc-tab-btn.active');
+        if (activeBtn) {
+          const slider = document.getElementById('demoTabSlider');
+          slider.style.width = activeBtn.offsetWidth + 'px';
+          slider.style.transform = 'translateX(' + (activeBtn.offsetLeft - 4) + 'px)';
+        }
+      }
+    };
+
+    function pickSort(label) {
+      document.getElementById('sortLabel').textContent = 'Sắp xếp: ' + label;
+      closeAllDropdowns();
+      showToast('Đã sắp xếp danh sách', 'Hiển thị sản phẩm theo: ' + label);
+    }
+
+    /* Notification Center Interactions */
+    function updateUnreadCounts() {
+      const count = document.querySelectorAll('.notif-card[data-unread="true"]').length;
+      const badge = document.getElementById('bellCount');
+      document.getElementById('unreadTabNum').textContent = count;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'grid' : 'none';
+    }
+
+    function readOne(card) {
+      if (card.dataset.unread === 'true') {
+        card.dataset.unread = 'false';
+        card.classList.remove('is-unread');
+        const dot = card.querySelector('.notif-unread-dot');
+        if (dot) dot.remove();
+        updateUnreadCounts();
+      }
+      showToast('Mở đối tượng thông báo', 'Điều hướng đúng khu vực mà không cần đăng nhập lại.');
+    }
+
+    function markAllRead() {
+      document.querySelectorAll('.notif-card[data-unread="true"]').forEach(c => {
+        c.dataset.unread = 'false';
+        c.classList.remove('is-unread');
+        const dot = c.querySelector('.notif-unread-dot');
+        if (dot) dot.remove();
+      });
+      updateUnreadCounts();
+    }
+
+    function filterNotifs(mode, btn) {
+      document.querySelectorAll('.notif-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.notif-card').forEach(c => {
+        c.style.display = (mode === 'unread' && c.dataset.unread !== 'true') ? 'none' : 'flex';
+      });
+    }
+
+    function toggleSkeleton() {
+      const root = document.documentElement;
+      const isOn = root.getAttribute('data-skeleton') === 'true';
+      root.setAttribute('data-skeleton', isOn ? 'false' : 'true');
+      const btn = document.getElementById('skelBtn');
+      btn.querySelector('span').textContent = isOn ? 'Skeleton' : 'Xem thật';
+      btn.classList.toggle('btn-primary', !isOn);
+      btn.classList.toggle('btn-outline', isOn);
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeText').textContent = isDark ? 'Chế độ tối' : 'Chế độ sáng';
+    }
+
+    function openModal() { document.getElementById('rfqModal').classList.add('open'); }
+    function closeModal() { document.getElementById('rfqModal').classList.remove('open'); }
+
+    function showToast(title, msg, opts = {}) {
+      const stack = document.getElementById('toastStack');
+      const el = document.createElement('div');
+      const type = opts.type || 'ok';
+      const isMorph = Boolean(opts.morphTo);
+      const actionLabel = opts.actionLabel || 'Đóng';
+      const duration = opts.duration || (type === 'err' ? 6000 : type === 'warn' ? 3500 : 1800);
+
+      el.className = 'toast' + (type === 'warn' ? ' is-warn' : type === 'err' ? ' is-err' : '');
+      el.style.setProperty('--toast-ms', duration + 'ms');
+      const iconName = isMorph ? 'loader-2' : type === 'warn' ? 'clock' : type === 'err' ? 'alert-circle' : 'check';
+      const iconCls = isMorph ? 'loading' : type;
+
+      el.innerHTML =
+        '<div class="toast-main">' +
+          '<span class="toast-icon ' + iconCls + '"><i data-lucide="' + iconName + '" style="width:16px;height:16px;"></i></span>' +
+          '<div style="min-width:0;">' +
+            '<div class="toast-title">' + title + '</div>' +
+            (msg ? '<div class="toast-desc">' + msg + '</div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<button class="toast-action" onclick="this.parentElement.remove()">' + actionLabel + '</button>' +
+        '<div class="toast-progress"></div>';
+
+      stack.prepend(el);
+      lucide.createIcons();
+
+      if (isMorph) {
+        setTimeout(() => {
+          const ico = el.querySelector('.toast-icon');
+          if (ico) {
+            ico.className = 'toast-icon ok';
+            ico.innerHTML = '<i data-lucide="check" style="width:16px;height:16px;"></i>';
+          }
+          const t = el.querySelector('.toast-title');
+          const d = el.querySelector('.toast-desc');
+          if (t) t.textContent = opts.morphTo;
+          if (d && opts.morphDesc) d.textContent = opts.morphDesc;
+          lucide.createIcons();
+        }, 350);
+      }
+
+      /* Giữ tối đa 3 thẻ xếp chồng trong stack */
+      while (stack.children.length > 3) stack.lastElementChild.remove();
+      setTimeout(() => {
+        if (!stack.matches(':hover')) {
+          el.style.opacity = '0';
+          setTimeout(() => el.remove(), 200);
+        }
+      }, duration);
+    }
+  </script>
+</body>
+</html>

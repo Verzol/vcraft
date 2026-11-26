@@ -560,7 +560,7 @@ Resume: Quay lại bước 3 hoặc 4 để bổ sung.
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
 | 1 | Artisan | Artisan sửa thông tin và chọn Lưu. | Backend kiểm tra theo ERR-UC09-01, ERR-UC09-02; sản phẩm Hiển thị mà thiếu thông tin thì báo ERR-UC09-03. |
-| 2 | Backend | Backend lưu thay đổi. | Thay đổi có hiệu lực ngay; đơn và giỏ đã tạo không đổi giá chụp lúc tạo. |
+| 2 | Backend | Backend lưu thay đổi. | Thay đổi có hiệu lực ngay; đơn hàng đã tạo không đổi giá chụp lúc tạo (giỏ hàng luôn lấy lại giá và tồn hiện tại khi xem/checkout). |
 
 Resume: Kết thúc.
 

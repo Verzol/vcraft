@@ -317,18 +317,18 @@ Resume: Admin nhập lại lý do, quay lại bước 4.
 
 Resume: Quay lại bước 1.
 
-##### Alt-05 — Xử lý yêu cầu đổi tên xưởng hoặc địa chỉ
+##### Alt-05 — Xử lý yêu cầu đổi tên xưởng hoặc địa chỉ (kèm ghim bản đồ)
 
-- At step: 1 · Trigger: Artisan đã gửi yêu cầu đổi tên xưởng hoặc địa chỉ từ UC-07.
+- At step: 1 · Trigger: Artisan đã gửi yêu cầu đổi tên xưởng hoặc địa chỉ (kèm ghim bản đồ đề nghị theo UC-25) từ UC-07.
 
 | Step | Actor / System | Action | Result |
 |---|---|---|---|
-| 1 | Admin | Admin chọn yêu cầu loại "Đổi thông tin xưởng" trong danh sách. | Chi tiết hiển thị giá trị hiện tại và giá trị đề nghị cạnh nhau. |
+| 1 | Admin | Admin chọn yêu cầu loại "Đổi thông tin xưởng" trong danh sách. | Chi tiết hiển thị giá trị hiện tại và giá trị đề nghị cạnh nhau (với đổi địa chỉ kèm bản đồ đối chiếu ghim cũ và ghim đề nghị). |
 | 2 | Admin | Admin chọn Duyệt, hoặc chọn Từ chối và nhập lý do (kiểm tra theo Alt-03). | Quyết định được gửi. |
-| 3 | Hệ thống | Hệ thống kiểm tra yêu cầu còn đang chờ. Duyệt thì áp dụng thông tin mới cho gian hàng; từ chối thì giữ thông tin cũ. | Thông tin gian hàng cập nhật hoặc giữ nguyên. |
+| 3 | Hệ thống | Hệ thống kiểm tra yêu cầu còn đang chờ. Duyệt thì áp dụng thông tin mới cho gian hàng (đổi địa chỉ sẽ cập nhật đồng thời địa chỉ chữ và tọa độ ghim trong cùng giao dịch); từ chối thì giữ thông tin cũ và mở khóa chỉnh ghim ở UC-25. | Thông tin gian hàng và ghim bản đồ cập nhật hoặc giữ nguyên. |
 | 4 | Hệ thống | Hệ thống thông báo cho Artisan. | NT-UC02-04 (duyệt) hoặc NT-UC02-05 (từ chối). |
 
-Resume: Quay lại bước 7. Trong lúc yêu cầu chờ duyệt, gian hàng vẫn hiện thông tin cũ.
+Resume: Quay lại bước 7. Trong lúc yêu cầu chờ duyệt, gian hàng và bản đồ (UC-26) vẫn hiện thông tin và ghim cũ.
 
 ##### Alt-06 — Xác minh chứng nhận của xưởng
 

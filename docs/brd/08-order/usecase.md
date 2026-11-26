@@ -46,7 +46,7 @@ Nhóm chức năng cho luồng mua sản phẩm có sẵn (có giá niêm yết 
 | Xưởng xác nhận hoặc từ chối đơn, chuẩn bị, giao, xác nhận đã thu COD; Buyer theo dõi và xác nhận đã nhận | Kênh người bán, Khu mua hàng | UC-32 |
 | Hủy đơn mua hàng và đơn đặt riêng, yêu cầu hủy, hoàn số lượng và hoàn tiền | Khu mua hàng, Kênh người bán | UC-33 |
 
-**Ngoài phạm vi:** Mã giảm giá, thanh toán một phần hoặc trả góp; thanh toán nhiều xưởng trong một lần; giữ hàng khi thêm giỏ; giỏ cho sản phẩm chỉ nhận đặt riêng (đi qua UC-18); biến thể kích thước, màu (Should, chưa mô tả); sửa đơn sau khi đã tạo (muốn đổi địa chỉ hoặc số lượng thì hủy rồi đặt lại); sổ địa chỉ nhiều địa chỉ; đổi trả, tranh chấp, khiếu nại giao thiếu hoặc hỏng (EN-17); thanh toán thật và đối soát tiền cho xưởng (EN-15); thu phí sàn; tích hợp vận chuyển thật, nhiều hãng (EN-16) và chi tiết vận đơn, webhook GHN (mức Should, chưa mô tả ngoài phần tính phí ở UC-31); hóa đơn; đánh giá sau giao dịch (EN-09); thông báo qua email (EN-05); Admin hủy hoặc can thiệp đơn (theo dõi chỉ xem ở Trang quản trị thuộc UC-35, nhóm `09-portal`); hạn thanh toán cọc của đơn đặt riêng (G-07 của `04-quotation`).
+**Ngoài phạm vi:** Mã giảm giá, thanh toán một phần hoặc trả góp; thanh toán nhiều xưởng trong một lần; giữ hàng khi thêm giỏ; giỏ cho sản phẩm chỉ nhận đặt riêng (đi qua UC-18); biến thể kích thước, màu (Should, chưa mô tả); sửa đơn sau khi đã tạo (muốn đổi địa chỉ hoặc số lượng thì hủy rồi đặt lại); sổ địa chỉ nhiều địa chỉ; đổi trả, tranh chấp, khiếu nại giao thiếu hoặc hỏng (EN-17); thanh toán thật và đối soát tiền cho xưởng (EN-15); thu phí sàn; tích hợp vận chuyển thật, nhiều hãng (EN-16) và chi tiết vận đơn, webhook GHN (mức Should, chưa mô tả ngoài phần tính phí ở UC-31); hóa đơn; đánh giá sau giao dịch (EN-09); thông báo qua email (EN-05); Admin hủy hoặc can thiệp đơn (theo dõi chỉ xem ở Trang quản trị thuộc UC-35, nhóm `09-portal`).
 
 **Liên quan**
 
@@ -484,6 +484,7 @@ Resume: Theo kết quả ở bước 3; Buyer chọn Thanh toán lại thì như
 | ERR-UC31-06 | Cổng thanh toán không khởi tạo được | "Hiện chưa kết nối được cổng thanh toán. Vui lòng thử lại." | Banner | Alt-09 |
 | ERR-UC31-07 | Không tính được phí GHN | "Chưa tính được phí giao hàng GHN. {{fallback}}" ({{fallback}}: "Phí giao được tính theo mức cố định của xưởng." hoặc "Vui lòng chọn phương thức giao khác.") | Inline | Alt-10 |
 | ERR-UC31-08 | Chưa có kết quả thanh toán | "Chưa nhận được kết quả thanh toán. Hệ thống đang kiểm tra; bạn có thể thanh toán lại trong {{minutesLeft}} phút." | Banner | Alt-14 |
+| ERR-UC31-09 | Không thể thanh toán lại đơn mua (quá hạn 15 phút, đã thanh toán hoặc đã hủy) | "Không thể thanh toán lại vì đơn hàng đã quá hạn thanh toán, đã thanh toán hoặc đã bị hủy." | Banner | Alt-03 |
 
 #### Notifications
 
@@ -968,7 +969,7 @@ Resume: Kết thúc.
 |---|---|---|---|
 | 1 | Hệ thống | Hệ thống dùng idempotency key (`payment_id + reason`), tra trạng thái giao dịch tại cổng trước mỗi lần gọi lại và tự thử tối đa 5 lần theo lịch `1p → 5p → 15p → 1h → 6h` khi gặp lỗi tạm thời; đơn vẫn Đã hủy hoặc Bị từ chối và giữ nguyên `payment_state`. | Chống hoàn lặp và không chặn việc hủy. |
 | 2 | Hệ thống | Nếu gặp lỗi vĩnh viễn từ cổng hoặc hết 5 lần thử lại vẫn thất bại: hệ thống dừng retry, chuyển `refunds.state = FAILED` (giữ nguyên `orders.state` và `payment_state`) và tiếp tục ghi nhận đơn trong chỉ số tồn đọng hoàn tiền (`Hoàn tiền thất bại`) tại Trang quản trị (UC-35). | Admin theo dõi và xử lý ngoài hệ thống ở MVP1. |
-| 3 | Frontend | Khi đang retry hiển thị ERR-UC33-06 ("Đang xử lý hoàn tiền"); khi `refunds.state = FAILED` hiển thị ở chi tiết đơn của Buyer: "Hoàn tiền chưa thành công, vui lòng liên hệ Ban quản lý kèm mã đơn". | Buyer biết tình trạng hoàn tiền và cách liên hệ BQL. |
+| 3 | Frontend | Khi đang retry hiển thị ERR-UC33-06 ("Đang xử lý hoàn tiền"); khi `refunds.state = FAILED` hiển thị ERR-UC33-08 ở chi tiết đơn của Buyer ("Hoàn tiền chưa thành công, vui lòng liên hệ Ban quản lý kèm mã đơn") và gửi NT-UC33-11 cho Buyer. | Buyer biết tình trạng hoàn tiền và cách liên hệ BQL. |
 
 Resume: Khi hoàn tiền thành công tiếp tục Alt-08 bước 2.
 
@@ -1064,6 +1065,17 @@ Resume: Sau khi đăng nhập quay lại đúng đơn; người dùng xác nhậ
 
 Resume: Quay lại nhập số lượng trả về.
 
+##### Alt-20 — Hệ thống tự hủy đơn đặt riêng quá hạn đặt cọc (`deposit_due_at`)
+
+- At step: Sau UC-20 bước 8 (hệ thống tự chạy) · Trigger: Quá hạn `deposit_due_at` mà đơn đặt riêng có cọc (> 0%) vẫn ở trạng thái Chờ sản xuất và thanh toán Chưa thanh toán.
+
+| Step | Actor / System | Action | Result |
+|---|---|---|---|
+| 1 | Hệ thống | Hệ thống khóa đơn, kiểm tra lại trạng thái Chờ sản xuất và Chưa thanh toán; chuyển đơn sang Đã hủy (người hủy: hệ thống, lý do: quá hạn đặt cọc) và ghi lịch sử đơn. Không cộng tồn kho sản phẩm mẫu. | Đơn chuyển Đã hủy. |
+| 2 | Hệ thống | Hệ thống gửi NT-UC33-10 cho cả Buyer và Xưởng của đơn. | Hai bên biết đơn đã tự hủy do quá hạn đặt cọc. |
+
+Resume: Kết thúc. Nếu cổng thanh toán báo nhận cọc muộn sau khi đơn đã hủy, xử lý hoàn đủ cọc theo Alt-09 và Alt-08.
+
 #### Data Fields
 
 | Field | Format | Validation | Required | Ghi chú |
@@ -1087,6 +1099,7 @@ Resume: Quay lại nhập số lượng trả về.
 | ERR-UC33-05 | Không có quyền hủy | "Bạn không có quyền hủy đơn hàng này." | Trang lỗi | Alt-17 |
 | ERR-UC33-06 | Hoàn tiền thất bại | "Khoản hoàn {{amount}} đang được xử lý. Chúng tôi sẽ cập nhật khi tiền được hoàn." | Banner | Alt-10 |
 | ERR-UC33-07 | Số lượng trả về không hợp lệ | "Số lượng trả về của {{product}} phải là số nguyên từ 0 đến {{quantity}}." | Inline | Alt-19 |
+| ERR-UC33-08 | Hoàn tiền thất bại vĩnh viễn hoặc hết số lần thử lại (`refunds.state = FAILED`) | "Hoàn tiền chưa thành công, vui lòng liên hệ Ban quản lý kèm mã đơn {{orderCode}}." | Banner | Alt-10 |
 
 #### Notifications
 
@@ -1101,13 +1114,15 @@ Resume: Quay lại nhập số lượng trả về.
 | NT-UC33-07 | Bên còn lại (Buyer hoặc Artisan) | Đơn đặt riêng bị hủy trực tiếp: Buyer hoặc xưởng hủy khi Chờ sản xuất, hoặc xưởng hủy khi Đang sản xuất | "Đơn đặt riêng {{orderCode}} đã bị {{actor}} hủy.{{reasonNote}} {{depositNote}}" ({{actor}}: "người mua" hoặc "xưởng"; {{reasonNote}}: " Lý do: …" khi xưởng hủy; {{depositNote}}: "Khoản cọc sẽ được hoàn lại." hoặc để trống) | In-app | Alt-03, Alt-07 |
 | NT-UC33-08 | Buyer | Hoàn tiền thành công | "Đã hoàn {{amount}} cho đơn hàng {{orderCode}} về nguồn thanh toán ban đầu." | In-app | Alt-08 |
 | NT-UC33-09 | Artisan (xưởng) | Hoàn tiền thành công cho đơn xưởng đã được báo | "Khoản thanh toán {{amount}} của đơn hàng {{orderCode}} đã được hoàn cho người mua." | In-app | Alt-08 |
+| NT-UC33-10 | Buyer và Artisan (xưởng) | Hệ thống tự hủy đơn đặt riêng do quá hạn đặt cọc (`deposit_due_at`) | "Đơn đặt riêng {{orderCode}} đã tự hủy do quá hạn thanh toán đặt cọc." | In-app | Alt-20 |
+| NT-UC33-11 | Buyer | Hoàn tiền thất bại (`refunds.state = FAILED`) sau số lần thử lại tối đa hoặc lỗi vĩnh viễn | "Hoàn tiền cho đơn hàng {{orderCode}} chưa thành công. Vui lòng liên hệ Ban quản lý kèm mã đơn để được hỗ trợ." | In-app | Alt-10 |
 
 #### Business Rules
 
 | ID | Rule | Source |
 |---|---|---|
 | BR-1 | Đơn mua hàng: Chờ xác nhận, Buyer hủy ngay không cần xưởng đồng ý; Đang chuẩn bị, chỉ xưởng hủy và lý do bắt buộc; từ Đang giao không hủy. Hệ thống tự hủy ở Chờ thanh toán (15 phút) và Chờ xác nhận (3 ngày). Buyer hủy ở Chờ thanh toán đã chốt ở G-01. | Overview 3.8, mục 4 |
-| BR-2 | Đơn đặt riêng: Chờ sản xuất, Buyer hoặc xưởng hủy, hoàn đủ cọc; Đang sản xuất, Buyer gửi yêu cầu hủy và xưởng quyết định, xưởng hủy thì hoàn đủ cọc; từ Đang giao không hủy, xử lý qua đổi trả (EN-17, ngoài phạm vi). | Overview 3.8 |
+| BR-2 | Đơn đặt riêng: Chờ sản xuất, Buyer hoặc xưởng hủy (hoàn đủ cọc nếu đã cọc), hoặc hệ thống tự hủy khi quá hạn đặt cọc `deposit_due_at` (chốt G-07 25/11/2026); Đang sản xuất, Buyer gửi yêu cầu hủy và xưởng quyết định, xưởng hủy thì hoàn đủ cọc; từ Đang giao không hủy, xử lý qua đổi trả (EN-17, ngoài phạm vi). | Overview 3.8; Chốt 2026-11-25 (G-07) |
 | BR-3 | Hủy hoặc từ chối đơn mua hàng hoàn số lượng đã giữ về số còn bán của sản phẩm gốc, kể cả khi sản phẩm đã bị Ẩn (G-09). Riêng khi xưởng hủy đơn Đang chuẩn bị, xưởng khai số lượng trả về hàng còn bán của từng món; phần hư hỏng không cộng vào số còn bán và chỉ lưu vết trong lịch sử đơn, để hàng hỏng không bị bán tiếp. Buyer hủy, hệ thống tự hủy và xưởng từ chối đơn (hàng chưa chuẩn bị) luôn trả đủ. Đơn đặt riêng không có số còn bán nên không có bước này. | Overview 3.8; Nhóm đề xuất |
 | BR-4 | Tiền đã thanh toán online được hoàn qua API hoàn tiền của cổng, về nguồn thanh toán ban đầu, theo số đã thanh toán: tổng thanh toán của đơn mua, cọc đã trả của đơn đặt riêng. COD không có tiền để hoàn. | Overview 3.8, mục 5 |
 | BR-5 | Buyer hủy đơn đặt riêng khi Đang sản xuất mà xưởng đồng ý: xưởng giữ cọc để bù nguyên liệu, trừ khi xưởng tự chọn hoàn. Xưởng chủ động hủy thì luôn hoàn đủ cọc. | Overview 3.8; UC-22 BR-3, BR-4 (BRD 04) |
